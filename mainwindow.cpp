@@ -4,7 +4,7 @@
 #include "Random.h"
 #include <QDebug>
 #include <string>
-//https://evileg.com/en/post/306/
+
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->fighters[17] = "vestal";
     ui->statusbar->hide();
     this->setFixedSize(QSize(980, 550));
+    this->ui->doRandom->setStyleSheet("color: #FFFFFF; background-color: #2F4F4F");
+    this->ui->t1Flagellant->setStyleSheet("color: #FFFFFF");
 }
 
 MainWindow::~MainWindow()

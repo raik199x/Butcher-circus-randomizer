@@ -1,4 +1,4 @@
-#Butcher circus randomizer
+# Butcher circus randomizer
 
 Simple randomizer with ui that was written on Qt
 
