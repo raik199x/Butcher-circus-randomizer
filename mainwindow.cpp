@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "description.h"
 #include "ui_mainwindow.h"
 
 #include "Random.h"
@@ -12,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    for(int i = 0; i < 8; i++)
+        hero[i] = "NULL";
     this->fighters[0] = "abomination";
     this->fighters[1] = "antiquarian";
     this->fighters[2] = "arbalest";
@@ -30,10 +33,21 @@ MainWindow::MainWindow(QWidget *parent)
     this->fighters[15] = "plague_doctor";
     this->fighters[16] = "shieldbreaker";
     this->fighters[17] = "vestal";
-    ui->statusbar->hide();
+    this->ui->statusbar->hide();
     this->setFixedSize(QSize(980, 550));
     this->ui->doRandom->setStyleSheet("color: #FFFFFF; background-color: #2F4F4F");
     this->ui->t1Flagellant->setStyleSheet("color: #FFFFFF");
+
+    for(int i = 0; i < 8; i++){
+        QString block = "hero" + QString::number(i+1);
+        QList<QPushButton *> button = this->findChildren<QPushButton *>(block);
+        button[0]->hide();
+        for(int j = 0; j < 4; j++){
+            QString spell = "s" + QString::number(i+1) + "_" + QString::number(j+1);
+            QList<QPushButton *> spellButton = this->findChildren<QPushButton *>(spell);
+            spellButton[0]->hide();
+        }
+    }
 }
 
 MainWindow::~MainWindow()
@@ -111,19 +125,24 @@ void MainWindow::Randoming(int numCommand){
     for(int i = 0; i < 4; i++){
         //heroes
         string temp = "background-image: url(:/heroes/heroes+spells/" + usedFighters[i] + "/hero_"+ usedFighters[i] +")";
-        QString filePath = QString::fromStdString(temp), labelName = "hero" + QString::number(i+(numCommand*4)+1);
-        QList<QLabel *> labels = this->findChildren<QLabel *>(labelName);
-        labels[0]->setStyleSheet(filePath);
+        QString filePath = QString::fromStdString(temp), buttonName = "hero" + QString::number(i+(numCommand*4)+1);
+        QList<QPushButton *> buttons = this->findChildren<QPushButton *>(buttonName);
+        buttons[0]->setStyleSheet(filePath);
+        buttons[0]->setToolTip( QString::fromStdString(usedFighters[i]));
+        buttons[0]->show();
+        hero[i+(numCommand*4)] = QString::fromStdString(usedFighters[i]);
         //abilities
         for(int j = 0; j < 4;j++){
-            labelName = "s" + QString::number(i+(numCommand*4)+1) + "_" + QString::number(j+1);
-            labels =  this->findChildren<QLabel *>(labelName);
+
+            buttonName = "s" + QString::number(i+(numCommand*4)+1) + "_" + QString::number(j+1);
+            buttons =  this->findChildren<QPushButton *>(buttonName);
             temp = "background-image: url(:/heroes/heroes+spells/" + usedFighters[i] + "/"+ to_string(usedSpells[i][j]) +".png)";
             filePath = QString::fromStdString(temp);
             if(usedSpells[i][j] != 0)
-                labels[0]->setStyleSheet(filePath);
+                buttons[0]->setStyleSheet(filePath);
             else
-                labels[0]->setStyleSheet("background-image: url(:/banner/heroes+spells/NA.png)");
+                buttons[0]->setStyleSheet("background-image: url(:/banner/heroes+spells/NA.png)");
+            buttons[0]->show();
         }
     }
 }
@@ -132,5 +151,13 @@ void MainWindow::on_doRandom_clicked()
 {
     Randoming(0);
     Randoming(1);
+}
+
+
+void MainWindow::on_hero1_clicked()
+{
+    Description *window = new Description;
+    window->setModal(true);
+    window->exec();
 }
 
