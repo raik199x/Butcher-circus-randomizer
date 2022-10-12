@@ -5,6 +5,9 @@
 #include "Random.h"
 #include <QDebug>
 #include <string>
+#include <fstream>
+#include <vector>
+#include <QFile>
 
 using namespace std;
 
@@ -34,9 +37,12 @@ MainWindow::MainWindow(QWidget *parent)
     this->fighters[16] = "shieldbreaker";
     this->fighters[17] = "vestal";
     this->ui->statusbar->hide();
-    this->setFixedSize(QSize(980, 550));
-    this->ui->doRandom->setStyleSheet("color: #FFFFFF; background-color: #2F4F4F");
-    this->ui->t1Flagellant->setStyleSheet("color: #FFFFFF");
+    this->setFixedSize(QSize(1192, 665));
+
+    this->setStyleSheet("color: #FFFFFF");
+    this->ui->level1->setMaximum(75);
+    this->ui->level2->setMaximum(75);
+
 
     for(int i = 0; i < 8; i++){
         QString block = "hero" + QString::number(i+1);
@@ -53,6 +59,88 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+/*
+ * mode == 1 -- trinket_name[leper] -> leper
+ * mode == 2 -- trinket_name[leper] -> trinket_name
+ */
+string ParsingTrinket(string line, int mode){
+    string result;
+    if (line.find("[") > 100)
+        return line;
+    if(mode == 1)
+        for(unsigned int i = line.find("[")+1; i < line.size()-1; i++) // obtaining hero name
+            result += line[i];
+    else if (mode == 2)
+        for(unsigned int i = 0; i < line.find("["); i++) // obtaining hero name
+            result += line[i];
+    return result;
+}
+
+QString* GetTrinkets(int lvl, string usedFighters[4]){
+    vector<string> possibleTrinkets;
+    QFile trinketList(":/trinkets/trinkets/list.txt");
+    //std::ifstream trinketList(file.toStdString());
+    if (!trinketList.open(QIODevice::ReadOnly)){
+        qDebug() << "ERROR";
+        std::terminate();
+    }
+    QTextStream in(&trinketList);
+    string stopLine;
+    // guessing stop line
+    if (lvl >= 69)
+        stopLine = "-----";
+    else{
+        stopLine = "--" + to_string(lvl+1);
+        lvl < 10 ? stopLine+="--" : stopLine+="-";
+    }
+    // obtaining possible trinkets for team
+    while(true){
+        QString line = in.readLine();
+        string lineFromFile = line.toStdString();
+        if(lineFromFile == stopLine)
+            break;
+        if(lineFromFile.find("--") < 100)  // skipping level delimeter
+            continue;
+        if(lineFromFile.find("[") < 100){ // means there somewhere symbol '['
+            for(int i = 0; i < 4; i++)
+                if(ParsingTrinket(lineFromFile,1) == usedFighters[i]){
+                    possibleTrinkets.push_back(lineFromFile);
+                    break;
+                }
+        } else
+            possibleTrinkets.push_back(lineFromFile);
+    }
+    QString *trinkets = new QString[8];
+    // randoming
+    while(true){
+        bool escape = true;
+        for(int i = 0; i < 8; i++)
+            if(trinkets[i] == ""){
+                escape = false;
+                break;
+            }
+        if(escape == true) return trinkets;
+        int num = possibleTrinkets.size()-1;
+        num = Random::get(0,num);
+        if(possibleTrinkets[num] == ParsingTrinket(possibleTrinkets[num],1)){
+            for(int i = 0; i < 8; i++)
+                if(trinkets[i] == "" && (((i+1) % 2 == 0 && possibleTrinkets[num] != trinkets[i-1].toStdString()) || (i+1) % 2 != 0)){
+                    trinkets[i] = QString::fromStdString(possibleTrinkets[num]);
+                    break;
+                }
+        } else{
+            for(int i = 0; i < 4; i++)
+                if(ParsingTrinket(possibleTrinkets[num],1) == usedFighters[i]){
+                    if(trinkets[i*2] != "" && trinkets[i*2+1] != "")
+                        break;
+                    trinkets[i*2] == "" ? trinkets[i*2] = QString::fromStdString(ParsingTrinket(possibleTrinkets[num],2)) : trinkets[i*2+1] = QString::fromStdString(ParsingTrinket(possibleTrinkets[num],2));
+                    break;
+                }
+        }
+        possibleTrinkets.erase(possibleTrinkets.cbegin()+num);
+    }
+    return trinkets;
 }
 
 void MainWindow::Randoming(int numCommand){
@@ -121,7 +209,6 @@ void MainWindow::Randoming(int numCommand){
                 break;
             }
     }
-    //now, when team info is ready, placing it in menu
     for(int i = 0; i < 4; i++){
         //heroes
         string temp = "background-image: url(:/heroes/heroes+spells/" + usedFighters[i] + "/hero_"+ usedFighters[i] +")";
@@ -145,6 +232,23 @@ void MainWindow::Randoming(int numCommand){
             buttons[0]->show();
         }
     }
+    QString *trinkets = GetTrinkets(numCommand == 0 ? this->ui->level1->value() : this->ui->level2->value(), usedFighters); // trinket randomization
+    //trinkets
+    for(int i = 0, j = 0; i < 4;i++,j+=2){
+         QString labelName = "t" + QString::number(i+(numCommand*4)+1) + "_1";
+         string tempFP = "background-image: url(:/trinkets/trinkets/" + trinkets[j].toStdString() +".png)";
+         QString filePath = QString::fromStdString(tempFP);
+         QList<QLabel *>trinketName = this->findChildren<QLabel *>(labelName);
+         trinketName[0]->setStyleSheet(filePath);
+
+         labelName = "t" + QString::number(i+(numCommand*4)+1) + "_2";
+         trinketName.clear();
+         trinketName = this->findChildren<QLabel *>(labelName);
+         tempFP = "background-image: url(:/trinkets/trinkets/" + trinkets[j+1].toStdString() +".png)";
+         filePath = QString::fromStdString(tempFP);
+         trinketName[0]->setStyleSheet(filePath);
+    }
+    delete [] trinkets;
 }
 
 void MainWindow::on_doRandom_clicked()
@@ -159,5 +263,26 @@ void MainWindow::on_hero1_clicked()
     Description *window = new Description;
     window->setModal(true);
     window->exec();
+}
+
+
+void MainWindow::on_level1_valueChanged(int arg1)
+{
+    if(this->ui->sameTeamLevel->isChecked())
+        this->ui->level2->setValue(arg1);
+}
+
+
+void MainWindow::on_level2_valueChanged(int arg1)
+{
+    if(this->ui->sameTeamLevel->isChecked())
+        this->ui->level1->setValue(arg1);
+}
+
+
+void MainWindow::on_sameTeamLevel_clicked()
+{
+    if(this->ui->sameTeamLevel->isChecked())
+        this->ui->level2->setValue(this->ui->level1->value());
 }
 

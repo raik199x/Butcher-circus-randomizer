@@ -19,6 +19,12 @@ private slots:
     void on_doRandom_clicked();
     void on_hero1_clicked();
 
+    void on_level1_valueChanged(int arg1);
+
+    void on_level2_valueChanged(int arg1);
+
+    void on_sameTeamLevel_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::string fighters[18];
