@@ -1,9 +1,11 @@
 #include "mainwindow.h"
-#include "description.h"
+#include "heroselection.h"
 #include "ui_mainwindow.h"
 
 #include "Random.h"
+#include "filemanip.h"
 #include <QDebug>
+#include <QMessageBox>
 #include <string>
 #include <fstream>
 #include <vector>
@@ -39,7 +41,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->ui->statusbar->hide();
     this->setFixedSize(QSize(1192, 665));
 
+    // setting colors
     this->setStyleSheet("color: #FFFFFF");
+    this->ui->RandomSettings1->setStyleSheet("background-color: #3F3F3F");
+    this->ui->RandomSettings2->setStyleSheet("background-color: #3F3F3F");
+    this->ui->doRandom->setStyleSheet("background-color: #3F3F3F");
+    this->ui->level1->setStyleSheet("background-color: #242424");
+    this->ui->level2->setStyleSheet("background-color: #242424");
+
     this->ui->level1->setMaximum(75);
     this->ui->level2->setMaximum(75);
 
@@ -80,9 +89,7 @@ string ParsingTrinket(string line, int mode){
 QString* GetTrinkets(int lvl, string usedFighters[4]){
     vector<string> possibleTrinkets;
     QFile trinketList(":/trinkets/trinkets/list.txt");
-    //std::ifstream trinketList(file.toStdString());
     if (!trinketList.open(QIODevice::ReadOnly)){
-        qDebug() << "ERROR";
         std::terminate();
     }
     QTextStream in(&trinketList);
@@ -92,7 +99,7 @@ QString* GetTrinkets(int lvl, string usedFighters[4]){
         stopLine = "-----";
     else{
         stopLine = "--" + to_string(lvl+1);
-        lvl < 10 ? stopLine+="--" : stopLine+="-";
+        lvl + 1 < 10 ? stopLine+="--" : stopLine+="-";
     }
     // obtaining possible trinkets for team
     while(true){
@@ -146,68 +153,55 @@ QString* GetTrinkets(int lvl, string usedFighters[4]){
 void MainWindow::Randoming(int numCommand){
     string usedFighters[4];
     int usedSpells[4][4]; // 0 for NA
-    bool flagellantEnterned = false, shieldbreakerEnterned = false, musketeerEnterned = false;
+    vector<string> possibleHeroes;
+    vector<string> possibleSkills;
+    // opening file
+    string fileName;
+    numCommand == 0 ? fileName = "BCR_T1.txt" : fileName = "BCR_T2.txt";
+    if(!filesystem::exists(fileName) && recreate(fileName,this->fighters)){
+        QMessageBox::critical(this, "Cannot create file", "For some reason BCR cannot create file for team random settings");
+        return;
+    }
+    ifstream file(fileName);
+    if(!file){
+        QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file for reading");
+        return;
+    }
+    // analyzing which heroes and skills we can use for random
+    for(int i = 0; i < 18; i++){
+        string line;
+        file >> line;
+        if(line[line.find(":")+1] == '1'){
+            possibleHeroes.push_back(this->fighters[i]); // saving hero
+            string skills;
+            for(unsigned int i = line.find(":")+2; i < line.size();i++)
+                skills += line[i];
+            possibleSkills.push_back(skills);           // saving his skills
+        }
+    }
     //randoming first team
         //randoming heroes
     for(int i = 0; i < 4; i++){
-        usedFighters[i] = this->fighters[Random::get(0,17)];
-        //setting flag for future check
-        if(usedFighters[i] == "shieldbreaker")
-            shieldbreakerEnterned = true;
-        else if(usedFighters[i] == "flagellant")
-            flagellantEnterned = true;
-        else if(usedFighters[i] == "musketeer")
-            musketeerEnterned = true;
-
+        int index = possibleHeroes.size();              // variable for storing index that has hero skills
+        int numHero = Random::get(0,index-1);          // variable for storing hero index
+        index = numHero;                              // now we know where heroes spells located
+        usedFighters[i] = possibleHeroes[numHero];
         //randoming spells
         if(usedFighters[i] == "abomination"){
             for(int j = 0; j < 4; j++)
                 usedSpells[i][j] = 0;
         } else
             for(int j = 0; j < 4; j++){
-                usedSpells[i][j] = Random::get(1,7);
-                //also checking if such spells already taken
-                for(int z = 0; z < j; z++)
-                    if(usedSpells[i][z] == usedSpells[i][j]){
-                        j--;
-                        break;
-                    }
+                int result = Random::get(1,7);
+                if(possibleSkills[index][result-1] == '0'){
+                    j--;
+                    continue;
+                }
+                possibleSkills[index][result-1] = '0';
+                usedSpells[i][j] = result;
             }
-        //checking if we can paste randomed hero
-        if(numCommand == 0){    //checking for first team
-            if(this->ui->t1Shieldbreaker->isChecked() == false && shieldbreakerEnterned == true){
-                shieldbreakerEnterned = false;
-                i--;
-                continue;
-            } else if(this->ui->t1Musketeer->isChecked() == false && musketeerEnterned == true){
-                musketeerEnterned = false;
-                i--;
-                continue;
-            } else if(this->ui->t1Flagellant->isChecked() == false && flagellantEnterned == true){
-                flagellantEnterned = false;
-                i--;
-                continue;
-            }
-        } else{     //checking for second team
-            if(this->ui->t2Shieldbreaker->isChecked() == false && shieldbreakerEnterned == true){
-                shieldbreakerEnterned = false;
-                i--;
-                continue;
-            } else if(this->ui->t2Musketeer->isChecked() == false && musketeerEnterned == true){
-                musketeerEnterned = false;
-                i--;
-                continue;
-            } else if(this->ui->t2Flagellant->isChecked() == false && flagellantEnterned == true){
-                flagellantEnterned = false;
-                i--;
-                continue;
-            }
-        }
-        for(int j = 0; j < i; j++)
-            if(usedFighters[j] == usedFighters[i]){
-                i--;
-                break;
-            }
+        possibleSkills.erase(possibleSkills.cbegin()+index);
+        possibleHeroes.erase(possibleHeroes.cbegin()+numHero);
     }
     for(int i = 0; i < 4; i++){
         //heroes
@@ -220,7 +214,6 @@ void MainWindow::Randoming(int numCommand){
         hero[i+(numCommand*4)] = QString::fromStdString(usedFighters[i]);
         //abilities
         for(int j = 0; j < 4;j++){
-
             buttonName = "s" + QString::number(i+(numCommand*4)+1) + "_" + QString::number(j+1);
             buttons =  this->findChildren<QPushButton *>(buttonName);
             temp = "background-image: url(:/heroes/heroes+spells/" + usedFighters[i] + "/"+ to_string(usedSpells[i][j]) +".png)";
@@ -257,15 +250,6 @@ void MainWindow::on_doRandom_clicked()
     Randoming(1);
 }
 
-
-void MainWindow::on_hero1_clicked()
-{
-    Description *window = new Description;
-    window->setModal(true);
-    window->exec();
-}
-
-
 void MainWindow::on_level1_valueChanged(int arg1)
 {
     if(this->ui->sameTeamLevel->isChecked())
@@ -284,5 +268,23 @@ void MainWindow::on_sameTeamLevel_clicked()
 {
     if(this->ui->sameTeamLevel->isChecked())
         this->ui->level2->setValue(this->ui->level1->value());
+}
+
+
+void MainWindow::on_RandomSettings1_clicked()
+{
+    HeroSelection *win = new HeroSelection(this,fighters,0);
+    win->setModal(true);
+    win->exec();
+    delete win;
+}
+
+
+void MainWindow::on_RandomSettings2_clicked()
+{
+    HeroSelection *win = new HeroSelection(this,fighters,1);
+    win->setModal(true);
+    win->exec();
+    delete win;
 }
 

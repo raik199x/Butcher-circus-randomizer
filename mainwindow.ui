@@ -272,7 +272,7 @@
      <rect>
       <x>550</x>
       <y>80</y>
-      <width>111</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
@@ -848,114 +848,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>441</width>
-      <height>76</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <item>
-        <widget class="QCheckBox" name="t1Musketeer">
-         <property name="text">
-          <string>Musketeer</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="t1Shieldbreaker">
-         <property name="text">
-          <string>Shieldbreaker</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="t1Flagellant">
-         <property name="text">
-          <string>Flagellant</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="levelInfo1">
-       <item>
-        <widget class="QLabel" name="levelLabel1">
-         <property name="text">
-          <string>level</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="level1"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_4">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>0</y>
-      <width>441</width>
-      <height>76</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_10">
-       <item>
-        <widget class="QCheckBox" name="t2Musketeer">
-         <property name="text">
-          <string>Musketeer</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="t2Shieldbreaker">
-         <property name="text">
-          <string>Shieldbreaker</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="t2Flagellant">
-         <property name="text">
-          <string>Flagellant</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="levelInfo2">
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>level</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="level2"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
    <widget class="QCheckBox" name="sameTeamLevel">
     <property name="geometry">
      <rect>
       <x>540</x>
       <y>110</y>
-      <width>131</width>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
@@ -966,9 +864,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget_6">
     <property name="geometry">
      <rect>
-      <x>748</x>
+      <x>728</x>
       <y>500</y>
-      <width>441</width>
+      <width>461</width>
       <height>101</height>
      </rect>
     </property>
@@ -1279,6 +1177,78 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="RandomSettings1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Random Settings</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="level1">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>40</y>
+      <width>61</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="levelLabel1">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>10</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>level</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="level2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>40</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>10</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>level</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RandomSettings2">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>20</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Random Settings</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1286,7 +1256,7 @@
      <x>0</x>
      <y>0</y>
      <width>1202</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

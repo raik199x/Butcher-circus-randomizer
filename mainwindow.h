@@ -17,13 +17,16 @@ public:
 
 private slots:
     void on_doRandom_clicked();
-    void on_hero1_clicked();
 
     void on_level1_valueChanged(int arg1);
 
     void on_level2_valueChanged(int arg1);
 
     void on_sameTeamLevel_clicked();
+
+    void on_RandomSettings1_clicked();
+
+    void on_RandomSettings2_clicked();
 
 private:
     Ui::MainWindow *ui;
