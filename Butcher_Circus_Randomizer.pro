@@ -9,20 +9,20 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    filemanip.cpp \
-    heroselection.cpp \
-    main.cpp \
-    mainwindow.cpp
+    srcpp/filemanip.cpp \
+    srcpp/heroselection.cpp \
+    srcpp/main.cpp \
+    srcpp/mainwindow.cpp
 
 HEADERS += \
-    Random.h \
-    filemanip.h \
-    heroselection.h \
-    mainwindow.h
+    include/Random.h \
+    include/filemanip.h \
+    include/heroselection.h \
+    include/mainwindow.h
 
 FORMS += \
-    heroselection.ui \
-    mainwindow.ui
+    forms/heroselection.ui \
+    forms/mainwindow.ui
 
 TRANSLATIONS += \
     Butcher_Circus_Randomizer_ru_RU.ts
