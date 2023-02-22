@@ -1,4 +1,4 @@
-#include "filemanip.h"
+#include "../include/filemanip.h"
 
 bool recreate(std::string fileName, std::string *fighters){
     std::ofstream file(fileName);

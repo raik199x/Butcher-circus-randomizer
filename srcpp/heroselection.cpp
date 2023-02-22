@@ -1,7 +1,7 @@
-#include "heroselection.h"
+#include "../include/heroselection.h"
 #include "qboxlayout.h"
 #include "ui_heroselection.h"
-#include "filemanip.h"
+#include "../include/filemanip.h"
 #include <filesystem>
 #include <QMessageBox>
 

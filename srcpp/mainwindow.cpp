@@ -1,9 +1,9 @@
-#include "mainwindow.h"
-#include "heroselection.h"
+#include "../include/mainwindow.h"
+#include "../include/heroselection.h"
 #include "ui_mainwindow.h"
 
-#include "Random.h"
-#include "filemanip.h"
+#include "../include/Random.h"
+#include "../include/filemanip.h"
 #include <QDebug>
 #include <QMessageBox>
 #include <string>
