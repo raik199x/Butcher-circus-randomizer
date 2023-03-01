@@ -1,41 +1,31 @@
 #include "../include/mainwindow.h"
+#include "../forms/ui_mainwindow.h"
 #include "../include/heroselection.h"
-#include "ui_mainwindow.h"
 
-#include "../include/Random.h"
+#include "../include/random.h"
 #include "../include/filemanip.h"
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
 #include <fstream>
+#include <qobject.h>
 #include <string>
 #include <vector>
+
+/*!
+ * \file mainwindow.cpp
+ * \brief MainWindow Interface
+ *
+ * \author raik
+ */
 
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
 		: QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-	for (int i = 0; i < 8; i++)
-		hero[i] = "NULL";
-	this->fighters[0] = "abomination";
-	this->fighters[1] = "antiquarian";
-	this->fighters[2] = "arbalest";
-	this->fighters[3] = "bounty_hunter";
-	this->fighters[4] = "crusader";
-	this->fighters[5] = "flagellant";
-	this->fighters[6] = "grave_robber";
-	this->fighters[7] = "hellion";
-	this->fighters[8] = "highwayman";
-	this->fighters[9] = "houndmaster";
-	this->fighters[10] = "jester";
-	this->fighters[11] = "leper";
-	this->fighters[12] = "man_at_arms";
-	this->fighters[13] = "musketeer";
-	this->fighters[14] = "occultist";
-	this->fighters[15] = "plague_doctor";
-	this->fighters[16] = "shieldbreaker";
-	this->fighters[17] = "vestal";
+	for (int i = 0; i < NUMBER_OF_HEROS; i++)
+		heros[i] = "NULL";
 	this->ui->statusbar->hide();
 	this->setFixedSize(QSize(1192, 665));
 
@@ -50,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 	this->ui->level1->setMaximum(75);
 	this->ui->level2->setMaximum(75);
 
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < NUMBER_OF_HEROS; i++) {
 		QString block = "hero" + QString::number(i + 1);
 		QList<QPushButton *> button = this->findChildren<QPushButton *>(block);
 		button[0]->hide();
@@ -70,8 +60,8 @@ MainWindow::~MainWindow() {
  * @brief Parsing trinket name from string
  *
  * @param line
- * @param mode 1 -- leper[trinket_name] -> trinket_name
- * 			2 -- leper[trinket_name] -> leper
+ * @param mode	1 -- leper[trinket_name] -> trinket_name
+ * 				2 -- leper[trinket_name] -> leper
  * @return string
  */
 string ParsingTrinket(string line, int mode) {
@@ -166,33 +156,16 @@ QString *GetTrinkets(int lvl, string usedFighters[4]) {
  * @return QString*
  */
 QString *MainWindow::GetFighters(int numCommand) {
-	QString *result = new QString[4];
-	vector<string> possibleHeroes;
-
 	// opening file
-	string fileName = numCommand == 0 ? fileName = "BCR_T1.txt" : fileName = "BCR_T2.txt";
-	if (!filesystem::exists(fileName) && recreate(fileName, this->fighters)) {
+	string fileName = numCommand == 0 ? "BCR_T1.txt" : "BCR_T2.txt";
+	if (!filesystem::exists(fileName) && !recreate(fileName)) {
 		QMessageBox::critical(this, "Cannot create file", "For some reason BCR cannot create file for team random settings");
-		delete[] result;
-		return nullptr;
-	}
-	ifstream file(fileName);
-	if (!file) {
-		QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file for reading");
-		delete[] result;
 		return nullptr;
 	}
 
-	// TODO: REDO IN FILEMANIP.H (see in getskills, same thing, but with heroes)
-	// TODO: example abomination:11111111 where abomination - hero, first number after : is for allowances of hero randomization, next 8 numbers is for skills
-	// analyzing which heroes and skills we can use for random
-	for (int i = 0; i < 18; i++) {
-		string line;
-		file >> line;
-		if (line[line.find(":") + 1] == '1')
-			possibleHeroes.push_back(this->fighters[i]); // saving hero
-	}
+	vector<string> possibleHeroes = getPossibleHeroes(fileName);
 
+	QString *result = new QString[4];
 	// randomize first team
 	// randomize heroes
 	for (int i = 0; i < 4; i++) {
@@ -204,43 +177,7 @@ QString *MainWindow::GetFighters(int numCommand) {
 	return result;
 }
 
-/**
- * @brief Get the Skills
- *
- * @param numCommand
- * @param fighters already used fighters
- * @return QString*
- */
-QString *MainWindow::GetSkills(int numCommand, QString *fighters) {
-	vector<string> possibleSkills;
-	QString *badResult = new QString("BAD");
-	QString *result;
-
-	ifstream file(numCommand == 0 ? fileName = "BCR_T1.txt" : fileName = "BCR_T2.txt");
-	if (!file) {
-		QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file for reading");
-		return badResult;
-	}
-	// TODO: REDO IN FILEMANIP.H (need to return skills that might be used for random, heroes located int QString* fighters, files to check are BCR_T1.txt and BCR_T2.txt)
-	// which skills we can use
-	for (int i = 0; i < 18; i++) {
-		string line;
-		file >> line;
-		if (line[line.find(":") + 1] == '1') {
-			possibleHeroes.push_back(this->fighters[i]); // saving hero
-			string skills;
-			for (unsigned int i = line.find(":") + 2; i < line.size(); i++)
-				skills += line[i];
-			possibleSkills.push_back(skills); // saving his skills
-		}
-	}
-	// TODO:----------------------------------------------
-
-	delete[] badResult;
-	return result;
-}
-
-void MainWindow::Randoming(int numCommand) {
+void MainWindow::Randomizing(int numCommand) {
 	string usedFighters[4];
 	int usedSpells[4][4]; // 0 for NA
 	vector<string> possibleHeroes;
@@ -248,7 +185,7 @@ void MainWindow::Randoming(int numCommand) {
 	// opening file
 	string fileName;
 	numCommand == 0 ? fileName = "BCR_T1.txt" : fileName = "BCR_T2.txt";
-	if (!filesystem::exists(fileName) && recreate(fileName, this->fighters)) {
+	if (!filesystem::exists(fileName) && !recreate(fileName)) {
 		QMessageBox::critical(this, "Cannot create file", "For some reason BCR cannot create file for team random settings");
 		return;
 	}
@@ -258,11 +195,11 @@ void MainWindow::Randoming(int numCommand) {
 		return;
 	}
 	// analyzing which heroes and skills we can use for random
-	for (int i = 0; i < 18; i++) {
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		string line;
 		file >> line;
 		if (line[line.find(":") + 1] == '1') {
-			possibleHeroes.push_back(this->fighters[i]); // saving hero
+			possibleHeroes.push_back(fighters[i]); // saving hero
 			string skills;
 			for (unsigned int i = line.find(":") + 2; i < line.size(); i++)
 				skills += line[i];
@@ -301,7 +238,7 @@ void MainWindow::Randoming(int numCommand) {
 		buttons[0]->setStyleSheet(filePath);
 		buttons[0]->setToolTip(QString::fromStdString(usedFighters[i]));
 		buttons[0]->show();
-		hero[i + (numCommand * 4)] = QString::fromStdString(usedFighters[i]);
+		heros[i + (numCommand * 4)] = QString::fromStdString(usedFighters[i]);
 		// abilities
 		for (int j = 0; j < 4; j++) {
 			buttonName = "s" + QString::number(i + (numCommand * 4) + 1) + "_" + QString::number(j + 1);
@@ -335,8 +272,8 @@ void MainWindow::Randoming(int numCommand) {
 }
 
 void MainWindow::on_doRandom_clicked() {
-	Randoming(0);
-	Randoming(1);
+	Randomizing(0);
+	Randomizing(1);
 }
 
 void MainWindow::on_level1_valueChanged(int arg1) {
@@ -355,15 +292,13 @@ void MainWindow::on_sameTeamLevel_clicked() {
 }
 
 void MainWindow::on_RandomSettings1_clicked() {
-	HeroSelection *win = new HeroSelection(this, fighters, 0);
-	win->setModal(true);
-	win->exec();
-	delete win;
+	HeroSelection win(this, 0);
+	win.setModal(true);
+	win.exec();
 }
 
 void MainWindow::on_RandomSettings2_clicked() {
-	HeroSelection *win = new HeroSelection(this, fighters, 1);
-	win->setModal(true);
-	win->exec();
-	delete win;
+	HeroSelection win(this, 1);
+	win.setModal(true);
+	win.exec();
 }

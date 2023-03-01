@@ -1,11 +1,12 @@
-#ifndef FILEMANIP_H
-#define FILEMANIP_H
+#pragma once
+
+#include <QString>
 #include <fstream>
 #include <iostream>
 #include <vector>
 
-bool recreate(std::string fileName, std::string *fighters);																 // recreates file with default settings
-int changeLine(std::string fileName, std::string heroName, int what, int AccesableHeroes); // forbids/allows hero/spell randomizing
-vector<QString> getPossibleHeroes(std::string fileName);																	 // returns list of heroes that can be randomized
-
-#endif // FILEMANIP_H
+bool recreate(std::string fileName);
+//! \note forbids/allows hero/spell randomizing
+int changeLine(std::string fileName, std::string heroName, int what, int AccessibleHeroes);
+QString *getPossibleSkills(int numCommand, QString *fighters);
+std::vector<std::string> getPossibleHeroes(std::string fileName);

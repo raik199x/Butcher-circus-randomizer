@@ -1,4 +1,5 @@
 #include "../include/filemanip.h"
+#include "../include/config.h"
 
 /**
  * @brief Recreates file with default settings
@@ -8,12 +9,12 @@
  * @return true if file was recreated
  * @return false if file wasn't recreated
  */
-bool recreate(std::string fileName, std::string *fighters) {
+bool recreate(std::string fileName) {
 	std::ofstream file(fileName);
 	if (!file)
 		return false;
-	for (int i = 0; i < 18; i++) {
-		std::string line = fighters[i] + ":" + std::string(8, '1') + '\n';
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
+		std::string line = std::string(fighters[i]) + ":" + std::string(8, '1') + '\n';
 		file << line;
 	}
 	file.close();
@@ -26,10 +27,10 @@ bool recreate(std::string fileName, std::string *fighters) {
  * @param fileName
  * @param heroName which specific hero need to be changed
  * @param what which specific spell need to be changed
- * @param AccessableHeroes amount of heroes that can be randomized
+ * @param AccessibleHeroes amount of heroes that can be randomized
  * @return int result code of operation
  */
-int changeLine(std::string fileName, std::string heroName, int what, int AccessableHeroes) {
+int changeLine(std::string fileName, std::string heroName, int what, int AccessibleHeroes) {
 	int returnCode;
 	if (heroName == "abomination" && what != 0)
 		return -4;
@@ -46,7 +47,7 @@ int changeLine(std::string fileName, std::string heroName, int what, int Accessa
 			pos = i - 1;
 	}
 	unsigned int separator_pos = content[pos].find(":") + 1;														 // needs for future
-	if (what == 0 && AccessableHeroes == 4 && content[pos][separator_pos + what] == '1') // need to be at least 4 heroes
+	if (what == 0 && AccessibleHeroes == 4 && content[pos][separator_pos + what] == '1') // need to be at least 4 heroes
 		return -2;
 	else if (what == 0 && content[pos][separator_pos + what] == '1') // setted  0 (need to lower counter)
 		returnCode = 0;
@@ -64,7 +65,7 @@ int changeLine(std::string fileName, std::string heroName, int what, int Accessa
 		return -3;
 	content[pos][separator_pos + what] == '0' ? content[pos][separator_pos + what] = '1' : content[pos][separator_pos + what] = '0';
 
-	// writting changes to a file
+	// writing changes to a file
 	file.close();
 	file.open(fileName);
 	for (i = 0; i < 18; i++)

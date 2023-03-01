@@ -1,13 +1,11 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
+#include "config.h"
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+	class MainWindow;
 }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -31,11 +29,9 @@ private slots:
 
 private:
 	Ui::MainWindow *ui;
-	std::string fighters[18];
-	QString hero[8];
+	QString heros[NUMBER_OF_HEROS];
 
-	void Randoming(int numCommand);
+	void Randomizing(int numCommand);
 	QString *GetFighters(int numCommand);
 	QString *GetSkills(int numCommand, QString *Fighters);
 };
-#endif // MAINWINDOW_H

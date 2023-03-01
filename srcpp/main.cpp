@@ -5,6 +5,21 @@
 #include <QScreen>
 #include <QTranslator>
 
+/*!
+ * \file main.cpp
+ * \brief Entrance point for the app, 主函数
+ *
+ * \author raik, 小白
+ */
+
+/*!
+ * \fn main
+ * \brief The main function of the application.
+ *
+ * \param argc The number of command line arguments
+ * \param argv The array of command line arguments
+ * \return int return code
+ */
 int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 

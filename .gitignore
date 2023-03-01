@@ -1,2 +1,8 @@
 Butcher_Circus_Randomizer.pro.*
 *.yml
+.vscode
+build
+.cache
+CMakeLists.txt.*
+userSettings.json
+BCR*

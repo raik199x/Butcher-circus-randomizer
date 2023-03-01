@@ -1,5 +1,4 @@
-#ifndef RANDOM_HPP
-#define RANDOM_HPP
+#pragma once
 
 #include <random>
 
@@ -61,12 +60,10 @@ protected:
 
 private:
 	std::random_device m_rd; // Random Number Generator
-	std::mt19937 m_mt;			 // Standard random number generator
+	std::mt19937 m_mt;		// Standard random number generator
 
 	Random() : m_mt(m_rd()) {}
 	~Random() {}
 	Random(const Random &) = delete;
 	Random &operator=(const Random &) = delete;
 };
-
-#endif // RANDOM_HPP
