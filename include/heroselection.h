@@ -8,24 +8,23 @@ namespace Ui {
 class HeroSelection;
 }
 
-class HeroSelection : public QDialog
-{
-    Q_OBJECT
+class HeroSelection : public QDialog {
+	Q_OBJECT
 
 public:
-    explicit HeroSelection(QWidget *parent = nullptr, std::string *fighters = nullptr, int numTeam = 0);
-    ~HeroSelection();
+	explicit HeroSelection(QWidget *parent = nullptr, std::string *fighters = nullptr, int numTeam = 0);
+	~HeroSelection();
 
 private:
-    QPushButton ***buttons;
-    Ui::HeroSelection *ui;
-    std::string fighters[18];
-    std::string fileName;
-    int AccessableHeroes;
+	QPushButton ***buttons;
+	Ui::HeroSelection *ui;
+	std::string fighters[18];
+	std::string fileName;
+	int AccessableHeroes;
 
-    bool updateUiLine(int line);
+	bool updateUiLine(int line);
 private slots:
-    void ButtonClicked();
+	void ButtonClicked();
 };
 
 #endif // HEROSELECTION_H
