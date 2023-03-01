@@ -30,8 +30,8 @@ set(PROJECT_SOURCES
 	forms/heroselection.ui
 	forms/mainwindow.ui
 
-	resources.qrc
-	Butcher_Circus_Randomizer_ru_RU.ts
+	assets/resources.qrc
+	assets/Butcher_Circus_Randomizer_ru_RU.ts
 )
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)

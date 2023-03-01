@@ -1,7 +1,7 @@
 # Butcher circus randomize
 
 <p align="center">
-  <img src="preview_icon.png" alt="Preview icon" width="100"/>
+  <img src="assets/preview_icon.png" alt="Preview icon" width="100"/>
 </p>
 
 ## About
