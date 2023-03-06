@@ -96,7 +96,7 @@
  * \brief Get the Possible Heroes function
  *
  * \param fileName The name of the file to be parsed
- * \return std::string* List of all possible heros
+ * \return std::string* List of all possible heroes
  */
 [[nodiscard]] std::vector<std::string> getPossibleHeroes(const std::string& fileName, const bool suppress) {
 	std::ifstream file(fileName);

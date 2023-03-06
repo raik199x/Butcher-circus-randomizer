@@ -1,9 +1,10 @@
 #pragma once
 
-#include <QString>
 #include <fstream>
 #include <iostream>
 #include <vector>
+
+#include <QString>
 
 namespace Errors {
 	enum class ChangeLine {

@@ -138,8 +138,8 @@ MainWindow::MainWindow(QWidget *parent) {
 
 	
 
-	for (int i = 0; i < NUMBER_OF_HEROS; i++)
-		heros[i] = "NULL";
+	for (int i = 0; i < NUMBER_OF_HEROES; i++)
+		heroes[i] = "NULL";
 
 	RefreshLayout();
 }
@@ -350,7 +350,7 @@ string ParsingTrinket(string line, int mode) {
 		QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file for reading");
 		return;
 	}
-	// analyzing which heroes and skills we can use for random
+	// analysing which heroes and skills we can use for random
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		string line;
 		file >> line;
@@ -394,7 +394,7 @@ string ParsingTrinket(string line, int mode) {
 		buttons[0]->setStyleSheet(filePath);
 		buttons[0]->setToolTip(QString::fromStdString(usedFighters[i]));
 		buttons[0]->show();
-		heros[i + (numCommand * 4)] = QString::fromStdString(usedFighters[i]);
+		heroes[i + (numCommand * 4)] = QString::fromStdString(usedFighters[i]);
 		// abilities
 		for (int j = 0; j < 4; j++) {
 			buttonName = "s" + QString::number(i + (numCommand * 4) + 1) + "_" + QString::number(j + 1);

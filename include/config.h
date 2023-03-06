@@ -16,9 +16,9 @@ using std::string;
 constexpr static const size_t NUMBER_OF_FIGHTERS = 18;
 
 /*!
- * \brief Number of heros to be selected from the crowd
+ * \brief Number of heroes to be selected from the crowd
  */
-constexpr static const size_t NUMBER_OF_HEROS = 8;
+constexpr static const size_t NUMBER_OF_HEROES = 8;
 
 /*!
  * \brief The crowd

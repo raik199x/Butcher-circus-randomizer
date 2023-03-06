@@ -43,7 +43,7 @@ private slots:
 	void on_radio3t_clicked();
 
 private:
-	QString heros[NUMBER_OF_HEROS];
+	QString heroes[NUMBER_OF_HEROES];
 
 	QWidget *ui;
 	// Recreating mainwindow.ui

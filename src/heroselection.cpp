@@ -14,7 +14,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 	this->setStyleSheet("background-color: #323232");
 
 	this->fileName = "BCR_T" + std::to_string((uint16_t)numTeam + 1) + ".txt";
-	// we should analyze how many heros accessible for random
+	// we should analyze how many heroes accessible for random
 	if (!std::filesystem::exists(this->fileName)) {
 		if (!recreate(this->fileName)) // if file does not exist and cannot be created
 			std::terminate();
@@ -51,7 +51,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 
 	this->buttons = new QPushButton** [NUMBER_OF_FIGHTERS];
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
-		this->buttons[i] = new QPushButton* [NUMBER_OF_HEROS];
+		this->buttons[i] = new QPushButton* [NUMBER_OF_HEROES];
 
 	// initializing
 	QWidget *wgtMain = new QWidget();
@@ -59,7 +59,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		QWidget *wgtSub = new QWidget();
 		QHBoxLayout *hBoxSub = new QHBoxLayout(wgtSub);
-		for (int j = 0; j < NUMBER_OF_HEROS; j++) {
+		for (int j = 0; j < NUMBER_OF_HEROES; j++) {
 			this->buttons[i][j] = new QPushButton();
 			buttons[i][j]->setFixedSize(QSize(75, 80));
 			hBoxSub->addWidget(buttons[i][j]);
@@ -84,7 +84,7 @@ bool HeroSelection::updateUiLine(const int line) {
 		getline(file, lines);
 	file.close();
 
-	// analyzing and changing
+	// analysing and changing
 	size_t pos = lines.find(":");
 	pos++;
 	std::string color;
@@ -104,7 +104,7 @@ void HeroSelection::ButtonClicked(void) {
 	using namespace Errors;
 	QPushButton *button = (QPushButton *)sender();
 	for (int x = 0; x < NUMBER_OF_FIGHTERS; x++)
-		for (int c = 0; c < NUMBER_OF_HEROS; c++)
+		for (int c = 0; c < NUMBER_OF_HEROES; c++)
 			if (this->buttons[x][c] == button) {
 				switch (changeLine(this->fileName, fighters[x], c, this->AccessibleHeroes)) {
 				case ChangeLine::HeroRemoved:
@@ -124,7 +124,7 @@ void HeroSelection::ButtonClicked(void) {
 					QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
 					break;
 				case ChangeLine::HeroForbidden:
-					QMessageBox::warning(this, "Random settings analyze", "Bruh");
+					QMessageBox::warning(this, "Random settings analyze", "B.r.u.h.");
 					break;
 				case ChangeLine::SkillRemoved: default:
 					break;
