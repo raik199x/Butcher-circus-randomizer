@@ -1,14 +1,25 @@
-#include "../include/mainwindow.h"
-#include "../forms/ui_mainwindow.h"
-#include "../include/heroselection.h"
-
-#include "../include/random.h"
 #include "../include/filemanip.h"
+#include "../include/heroselection.h"
+#include "../include/mainwindow.h"
+#include "../include/random.h"
+
+#include <QClipboard>
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
-#include <fstream>
+#include <QPixmap>
+#include <QScreen>
+#include <QVBoxLayout>
+#include <qboxlayout.h>
+#include <qlabel.h>
+#include <qlayoutitem.h>
 #include <qobject.h>
+#include <QGuiApplication>
+#include <QSpacerItem>
+
+#include <fstream>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
 #include <string>
 #include <vector>
 
@@ -21,39 +32,183 @@
 
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent)
-		: QMainWindow(parent), ui(new Ui::MainWindow) {
-	ui->setupUi(this);
+MainWindow::MainWindow(QWidget *parent) {
+	this->ui = new QWidget(this);
+	setCentralWidget(ui);
+
+	// Setting up own made ui
+	this->setFixedSize(QSize(1192, 665));
+	this->ui->setStyleSheet("color: #FFFFFF");
+
+	// allocating widgets
+	this->RandomSettings = new QPushButton*[2];
+	this->RandomSettings[0] = new QPushButton("Random Settings T1");
+	this->RandomSettings[1] = new QPushButton("Random Settings T2");
+
+	this->level = new QSpinBox*[2];
+	this->level[0] = new QSpinBox();
+	this->level[1] = new QSpinBox();
+
+	this->doRandom = new QPushButton("Randomize");
+	this->screenShot = new QPushButton("Screenshot");
+
+	this->radio1t = new QRadioButton("1 Team");
+	this->radio3t = new QRadioButton("3 Teams");
+
+	this->sameTeamLevel = new QCheckBox("Same Team Level");
+	this->muteAncestor = new QCheckBox("Mute Ancestor");
+
+	this->leftSide = new QVBoxLayout();
+	this->rightSide = new QVBoxLayout();
+
+	// connecting signals
+	connect(this->RandomSettings[0], SIGNAL(clicked()), this, SLOT(on_RandomSettings1_clicked()));
+	connect(this->RandomSettings[1], SIGNAL(clicked()), this, SLOT(on_RandomSettings2_clicked()));
+	connect(this->doRandom, SIGNAL(clicked()), this, SLOT(on_doRandom_clicked()));
+	connect(this->screenShot, SIGNAL(clicked()), this, SLOT(on_screenShot_clicked()));
+	connect(this->radio1t, SIGNAL(clicked()), this, SLOT(on_radio1t_clicked()));
+	connect(this->radio3t, SIGNAL(clicked()), this, SLOT(on_radio3t_clicked()));
+	connect(this->level[0], SIGNAL(valueChanged(int)), this, SLOT(on_level1_valueChanged(int)));
+	connect(this->level[1], SIGNAL(valueChanged(int)), this, SLOT(on_level2_valueChanged(int)));
+	connect(this->sameTeamLevel, SIGNAL(clicked()), this, SLOT(on_sameTeamLevel_clicked()));
+
+	// Designing ui
+	this->RandomSettings[0]->setStyleSheet("background-color: #3F3F3F");
+	this->RandomSettings[0]->setFixedHeight(50);
+	this->RandomSettings[1]->setStyleSheet("background-color: #3F3F3F");
+	this->RandomSettings[1]->setFixedHeight(50);
+
+	this->doRandom->setStyleSheet("background-color: #3F3F3F");
+	this->doRandom->setFixedHeight(50);
+	this->screenShot->setStyleSheet("background-color: #3F3F3F");
+	this->radio1t->setChecked(true);
+
+	this->level[0]->setStyleSheet("background-color: #242424");
+	this->level[1]->setStyleSheet("background-color: #242424");
+	this->level[0]->setMinimum(0);
+	this->level[1]->setMinimum(0);
+	this->level[0]->setMaximum(75);
+	this->level[1]->setMaximum(75);
+
+	// Managing layouts
+	QVBoxLayout *levelSetter1 = new QVBoxLayout();
+	levelSetter1->addWidget(new QLabel("Level"));
+	levelSetter1->addWidget(this->level[0]);
+
+	QVBoxLayout *levelSetter2 = new QVBoxLayout();
+	levelSetter2->addWidget(new QLabel("Level"));
+	levelSetter2->addWidget(this->level[1]);
+
+	QHBoxLayout *topWindow = new QHBoxLayout();
+	topWindow->addWidget(this->RandomSettings[0]);
+	topWindow->addLayout(levelSetter1);
+	topWindow->addSpacerItem(new QSpacerItem(400,1));
+
+	QVBoxLayout *topCenterButtons = new QVBoxLayout();
+	topCenterButtons->addWidget(this->doRandom);
+	topCenterButtons->addWidget(this->screenShot);
+	topWindow->addLayout(topCenterButtons);
+
+	topWindow->addSpacerItem(new QSpacerItem(400,1));
+	topWindow->addLayout(levelSetter2);
+	topWindow->addWidget(this->RandomSettings[1]);
+
+	QVBoxLayout *checkSettings = new QVBoxLayout();
+	checkSettings->addWidget(this->sameTeamLevel);
+	checkSettings->addWidget(this->muteAncestor);
+
+	QVBoxLayout *radioSettings = new QVBoxLayout();
+	radioSettings->addWidget(this->radio1t);
+	radioSettings->addWidget(this->radio3t);
+
+	QHBoxLayout *middle = new QHBoxLayout();
+	middle->addSpacerItem(new QSpacerItem(500,1));
+	middle->addLayout(checkSettings);
+	middle->addLayout(radioSettings);
+	middle->addSpacerItem(new QSpacerItem(500,1));
+
+	QHBoxLayout *bottom = new QHBoxLayout();
+	bottom->addLayout(this->leftSide);
+	bottom->addLayout(this->rightSide);
+
+	this->layout = new QVBoxLayout(this->ui);
+	this->layout->addLayout(topWindow);
+	this->layout->addLayout(middle);
+	this->layout->addLayout(bottom);
+
+	
+
 	for (int i = 0; i < NUMBER_OF_HEROS; i++)
 		heros[i] = "NULL";
-	this->ui->statusbar->hide();
-	this->setFixedSize(QSize(1192, 665));
 
-	// setting colors
-	this->setStyleSheet("color: #FFFFFF");
-	this->ui->RandomSettings1->setStyleSheet("background-color: #3F3F3F");
-	this->ui->RandomSettings2->setStyleSheet("background-color: #3F3F3F");
-	this->ui->doRandom->setStyleSheet("background-color: #3F3F3F");
-	this->ui->level1->setStyleSheet("background-color: #242424");
-	this->ui->level2->setStyleSheet("background-color: #242424");
-
-	this->ui->level1->setMaximum(75);
-	this->ui->level2->setMaximum(75);
-
-	for (int i = 0; i < NUMBER_OF_HEROS; i++) {
-		QString block = "hero" + QString::number(i + 1);
-		QList<QPushButton *> button = this->findChildren<QPushButton *>(block);
-		button[0]->hide();
-		for (int j = 0; j < 4; j++) {
-			QString spell = "s" + QString::number(i + 1) + "_" + QString::number(j + 1);
-			QList<QPushButton *> spellButton = this->findChildren<QPushButton *>(spell);
-			spellButton[0]->hide();
-		}
-	}
+	RefreshLayout();
 }
 
 MainWindow::~MainWindow() {
-	delete ui;
+	delete this->ui;
+}
+
+void MainWindow::RefreshLayout(){
+	// deleting previous elements
+	// we can do this for both, since in there is equal amount of items in leftSide and rightSide
+	/*for(size_t i = 0; i < this->leftSide->count(); i++){
+		QLayoutItem* itemL = leftSide->takeAt(i);
+		QLayoutItem* itemR = rightSide->takeAt(i);
+		if (itemL != nullptr && itemR != nullptr) {
+		    delete itemL->widget();  // delete the widget associated with the item
+		    delete itemL;  // delete the item itself
+
+			delete itemR->widget();
+			delete itemR;
+		}
+	}*/
+	//if(assets)
+	//	delete assets;
+	/*if(this->radio1t){
+		assets = new QLabel*[16];
+
+		for(int i = 0; i < 16; i++)
+			assets[i]->setText(QString::number(i));
+
+		QHBoxLayout *trinketsL = new QHBoxLayout();
+		trinketsL->addWidget(assets[0]);
+		trinketsL->addWidget(assets[1]);
+		this->leftSide->addLayout(trinketsL);
+		this->leftSide->addWidget(assets[2]);
+
+		QHBoxLayout *skillsUpper = new QHBoxLayout(), *skillsLower = new QHBoxLayout();
+		skillsUpper->addWidget(assets[3]);
+		skillsUpper->addWidget(assets[4]);
+		skillsLower->addWidget(assets[5]);
+		skillsLower->addWidget(assets[6]);
+		this->leftSide->addLayout(skillsUpper);
+		this->leftSide->addLayout(skillsLower);
+	}*/
+}
+
+/**
+ * @brief Hide/Unhide assets of ui after changing radio button status
+ *
+ */
+void MainWindow::SwitchedTeamRadioButton() {
+	/*if (this->ui->radio1t->isChecked()) {
+		for (size_t i = 0; i < 6; i++)
+			for (size_t j = 0; j < 7; j++)
+				assets3v3[i][j].hide();
+
+		for (size_t i = 0; i < 2; i++)
+			for (size_t j = 0; j < 7; j++)
+				assets1v1[i][j].show();
+	} else {
+		for (size_t i = 0; i < 6; i++)
+			for (size_t j = 0; j < 7; j++)
+				assets3v3[i][j].show();
+
+		for (size_t i = 0; i < 2; i++)
+			for (size_t j = 0; j < 7; j++)
+				assets1v1[i][j].hide();
+	}*/
+	return;
 }
 
 /**
@@ -84,7 +239,7 @@ string ParsingTrinket(string line, int mode) {
  * @param usedFighters Array of used fighters
  * @return QString*
  */
-QString *GetTrinkets(int lvl, string usedFighters[4]) {
+[[nodiscard]] QString *GetTrinkets(int lvl, string usedFighters[4]) {
 	vector<string> possibleTrinkets;
 	QFile trinketList(":/trinkets/trinkets/list.txt");
 	if (!trinketList.open(QIODevice::ReadOnly)) {
@@ -105,9 +260,9 @@ QString *GetTrinkets(int lvl, string usedFighters[4]) {
 		string lineFromFile = line.toStdString();
 		if (lineFromFile == stopLine)
 			break;
-		if (lineFromFile.find("--") < 100) // skipping level delimeter
+		if (lineFromFile.find("--") != string::npos) // skipping level delimeter
 			continue;
-		if (lineFromFile.find("[") < 100) { // means there somewhere symbol '['
+		if (lineFromFile.find("[") != string::npos) { // means there somewhere symbol '['
 			for (int i = 0; i < 4; i++)
 				if (ParsingTrinket(lineFromFile, 1) == usedFighters[i]) {
 					possibleTrinkets.push_back(lineFromFile);
@@ -153,9 +308,9 @@ QString *GetTrinkets(int lvl, string usedFighters[4]) {
  * @brief Get the Fighters
  *
  * @param numCommand 1 or 2
- * @return QString*
+ * @return QString* or nullptr if error occurred
  */
-QString *MainWindow::GetFighters(int numCommand) {
+[[nodiscard]] QString *MainWindow::GetFighters(int numCommand) {
 	// opening file
 	string fileName = numCommand == 0 ? "BCR_T1.txt" : "BCR_T2.txt";
 	if (!filesystem::exists(fileName) && !recreate(fileName)) {
@@ -177,7 +332,8 @@ QString *MainWindow::GetFighters(int numCommand) {
 	return result;
 }
 
-void MainWindow::Randomizing(int numCommand) {
+/*
+[[deprecated]] void MainWindow::Randomizing(int numCommand) {
 	string usedFighters[4];
 	int usedSpells[4][4]; // 0 for NA
 	vector<string> possibleHeroes;
@@ -269,26 +425,27 @@ void MainWindow::Randomizing(int numCommand) {
 		trinketName[0]->setStyleSheet(filePath);
 	}
 	delete[] trinkets;
-}
+}*/
 
 void MainWindow::on_doRandom_clicked() {
-	Randomizing(0);
-	Randomizing(1);
+	// Randomizing(0);
+	// Randomizing(1);
+	
 }
 
 void MainWindow::on_level1_valueChanged(int arg1) {
-	if (this->ui->sameTeamLevel->isChecked())
-		this->ui->level2->setValue(arg1);
+	if (this->sameTeamLevel->isChecked())
+		this->level[1]->setValue(arg1);
 }
 
 void MainWindow::on_level2_valueChanged(int arg1) {
-	if (this->ui->sameTeamLevel->isChecked())
-		this->ui->level1->setValue(arg1);
+	if (this->sameTeamLevel->isChecked())
+		this->level[0]->setValue(arg1);
 }
 
 void MainWindow::on_sameTeamLevel_clicked() {
-	if (this->ui->sameTeamLevel->isChecked())
-		this->ui->level2->setValue(this->ui->level1->value());
+	if (this->sameTeamLevel->isChecked())
+		this->level[1]->setValue(this->level[0]->value());
 }
 
 void MainWindow::on_RandomSettings1_clicked() {
@@ -301,4 +458,19 @@ void MainWindow::on_RandomSettings2_clicked() {
 	HeroSelection win(this, 1);
 	win.setModal(true);
 	win.exec();
+}
+
+void MainWindow::on_screenShot_clicked() {
+	QPixmap screenshot = this->grab();
+	// Put the screenshot in the clipboard
+	QClipboard *clipboard = QGuiApplication::clipboard();
+	clipboard->setPixmap(screenshot);
+}
+
+void MainWindow::on_radio1t_clicked() {
+	SwitchedTeamRadioButton();
+}
+
+void MainWindow::on_radio3t_clicked() {
+	SwitchedTeamRadioButton();
 }

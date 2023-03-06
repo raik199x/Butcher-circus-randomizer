@@ -1,10 +1,19 @@
 #pragma once
 
-#include <QMainWindow>
 #include "config.h"
+#include <QHBoxLayout>
+#include <QMainWindow>
+#include <QRadioButton>
+#include <QCheckBox>
+#include <qboxlayout.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qspinbox.h>
 
 namespace Ui {
-	class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -27,11 +36,38 @@ private slots:
 
 	void on_RandomSettings2_clicked();
 
+	void on_screenShot_clicked();
+
+	void on_radio1t_clicked();
+
+	void on_radio3t_clicked();
+
 private:
-	Ui::MainWindow *ui;
 	QString heros[NUMBER_OF_HEROS];
+
+	QWidget *ui;
+	// Recreating mainwindow.ui
+	QPushButton **RandomSettings;
+	QPushButton *screenShot;
+	QPushButton *doRandom;
+
+	QCheckBox *sameTeamLevel;
+	QCheckBox *muteAncestor;
+
+	QRadioButton *radio1t;
+	QRadioButton *radio3t;
+	QSpinBox **level;
+
+	QLabel **assets;
+
+	QVBoxLayout *layout;
+	
+	QVBoxLayout *leftSide;
+	QVBoxLayout *rightSide;
 
 	void Randomizing(int numCommand);
 	QString *GetFighters(int numCommand);
 	QString *GetSkills(int numCommand, QString *Fighters);
+	void RefreshLayout();
+	void SwitchedTeamRadioButton();
 };

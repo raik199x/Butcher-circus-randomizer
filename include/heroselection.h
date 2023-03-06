@@ -11,7 +11,7 @@ class HeroSelection : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit HeroSelection(QWidget *parent = nullptr, int numTeam = 0);
+	explicit HeroSelection(QWidget* const parent = nullptr, uint8_t numTeam = 0);
 	~HeroSelection(void);
 
 private:
@@ -20,7 +20,7 @@ private:
 	std::string fileName;
 	int AccessibleHeroes;
 
-	bool updateUiLine(int line);
+	bool updateUiLine(const int line);
 
 private slots:
 	void ButtonClicked(void);

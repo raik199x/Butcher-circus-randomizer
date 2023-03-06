@@ -6,27 +6,27 @@
 #include <QMessageBox>
 #include <filesystem>
 
-HeroSelection::HeroSelection(QWidget *parent, int numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
+HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
 	ui->setupUi(this);
 
 	this->setFixedSize(1065, 342);
 	this->setWindowTitle("Random settings");
 	this->setStyleSheet("background-color: #323232");
 
-	numTeam == 0 ? this->fileName = "BCR_T1.txt" : this->fileName = "BCR_T2.txt";
+	this->fileName = "BCR_T" + std::to_string((uint16_t)numTeam + 1) + ".txt";
 	// we should analyze how many heros accessible for random
 	if (!std::filesystem::exists(this->fileName)) {
 		if (!recreate(this->fileName)) // if file does not exist and cannot be created
 			std::terminate();
-		this->AccessibleHeroes = 18;
+		this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
 	} else { // checking how many heroes enabled
 		this->AccessibleHeroes = 0;
 		std::ifstream file(this->fileName);
 		if (!file) {
-			QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file BCR_T(1,2)");
+			QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file BCR_T(1,2,...)");
 			std::terminate();
 		}
-		for (int i = 0; i < 18; i++) {
+		for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 			std::string line;
 			file >> line;
 			if (line[line.find(":") + 1] == '1')
@@ -36,7 +36,7 @@ HeroSelection::HeroSelection(QWidget *parent, int numTeam) : QDialog(parent), ui
 				if (line[j] == '1')
 					spellsAvailable++;
 			if (spellsAvailable < 4) {
-				this->AccessibleHeroes = 18;
+				this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
 				QMessageBox::warning(this, "Random settings analyze", "One of heroes had less than 4 skills for randomizing, file will be recreated");
 				recreate(this->fileName);
 				break;
@@ -45,21 +45,21 @@ HeroSelection::HeroSelection(QWidget *parent, int numTeam) : QDialog(parent), ui
 		if (this->AccessibleHeroes < 4) {
 			QMessageBox::warning(this, "Random settings analyze", "Less than 4 heroes where set for randomizing, file will be recreated");
 			recreate(this->fileName);
-			this->AccessibleHeroes = 18;
+			this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
 		}
 	}
 
-	this->buttons = new QPushButton **[18];
-	for (int i = 0; i < 18; i++)
-		this->buttons[i] = new QPushButton *[8];
+	this->buttons = new QPushButton** [NUMBER_OF_FIGHTERS];
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
+		this->buttons[i] = new QPushButton* [NUMBER_OF_HEROS];
 
 	// initializing
 	QWidget *wgtMain = new QWidget();
 	QVBoxLayout *vboxMain = new QVBoxLayout(wgtMain);
-	for (int i = 0; i < 18; i++) {
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		QWidget *wgtSub = new QWidget();
 		QHBoxLayout *hBoxSub = new QHBoxLayout(wgtSub);
-		for (int j = 0; j < 8; j++) {
+		for (int j = 0; j < NUMBER_OF_HEROS; j++) {
 			this->buttons[i][j] = new QPushButton();
 			buttons[i][j]->setFixedSize(QSize(75, 80));
 			hBoxSub->addWidget(buttons[i][j]);
@@ -68,12 +68,13 @@ HeroSelection::HeroSelection(QWidget *parent, int numTeam) : QDialog(parent), ui
 		vboxMain->addWidget(wgtSub);
 	}
 	// updating ui
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
 		updateUiLine(i + 1);
 	this->ui->heroes->setWidget(wgtMain);
 }
 
-bool HeroSelection::updateUiLine(int line) {
+bool HeroSelection::updateUiLine(const int line) {
+	//! \todo Check  line's borders (for out of range values)
 	std::ifstream file(this->fileName);
 	if (!file)
 		return false;
@@ -99,34 +100,33 @@ bool HeroSelection::updateUiLine(int line) {
 	return true;
 }
 
-void HeroSelection::ButtonClicked() {
+void HeroSelection::ButtonClicked(void) {
+	using namespace Errors;
 	QPushButton *button = (QPushButton *)sender();
-	for (int x = 0; x < 18; x++)
-		for (int c = 0; c < 8; c++)
+	for (int x = 0; x < NUMBER_OF_FIGHTERS; x++)
+		for (int c = 0; c < NUMBER_OF_HEROS; c++)
 			if (this->buttons[x][c] == button) {
 				switch (changeLine(this->fileName, fighters[x], c, this->AccessibleHeroes)) {
-				case 0:
+				case ChangeLine::HeroRemoved:
 					this->AccessibleHeroes--;
 					break;
-				case 1:
+				case ChangeLine::HeroAdded:
 					this->AccessibleHeroes++;
 					break;
-				case 3:
-					break;
-				case -1:
+				case ChangeLine::NoFile:
 					QMessageBox::critical(this, "File open error", "Could not open file BCR_T(1,2)");
 					std::terminate();
 					break;
-				case -2:
+				case ChangeLine::TooFewHeroes:
 					QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 heroes for randomizing");
 					break;
-				case -3:
+				case ChangeLine::TooFewSpells:
 					QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
 					break;
-				case -4:
+				case ChangeLine::HeroForbidden:
 					QMessageBox::warning(this, "Random settings analyze", "Bruh");
 					break;
-				default:
+				case ChangeLine::SkillRemoved: default:
 					break;
 				}
 				updateUiLine(x + 1);
@@ -134,6 +134,6 @@ void HeroSelection::ButtonClicked() {
 			}
 }
 
-HeroSelection::~HeroSelection() {
+HeroSelection::~HeroSelection(void) {
 	delete ui;
 }
