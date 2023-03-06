@@ -122,7 +122,7 @@
  * @param fighters already randomized fighters
  * @return QString* array of possible skills for heroes in @param fighters or nullptr if something went wrong
  */
-[[nodiscard]] QString *getPossibleSkills(int numCommand, QString *fighters, const bool suppress) {
+[[nodiscard]] QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress) {
 	std::ifstream file(numCommand == 0 ? "BCR_T1.txt" : "BCR_T2.txt");
 	if (!file) {
 		if (!suppress)
@@ -153,6 +153,39 @@
 			if (skills[j] == '1')
 				result[index] += QString::number(j + 1);
 
+		if (++index == 4)
+			break;
+	}
+	return result;
+}
+
+std::array<std::string, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress) {
+	std::array<std::string, 4> result;
+	std::ifstream file(fileName);
+	if (!file) {
+		if (!suppress)
+			QMessageBox::critical(nullptr, "Cannot open file", "For some reason BCR cannot open file for reading");
+		return result;
+	}
+	size_t index = 0;
+	for (int i = 0; i < NUMBER_OF_FIGHTERS; ++i) {
+		string line;
+		file >> line;
+		string heroName = line.substr(0, line.find(":"));
+		bool found = false;
+		for (int j = 0; j < 4; j++)
+			if (heroName == fighters[j]) {
+				found = true;
+				break;
+			}
+		if (!found)
+			continue;
+
+		// getting indexes of available skills
+		string skills = line.substr(line.find(":") + 2);
+		for (size_t j = 0; j < skills.length(); j++)
+			if (skills[j] == '1')
+				result[index] += std::to_string(j+1);
 		if (++index == 4)
 			break;
 	}

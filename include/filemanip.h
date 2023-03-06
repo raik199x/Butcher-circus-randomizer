@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <array>
 
 #include <QString>
 
@@ -29,4 +30,6 @@ Errors::ChangeLine changeLine(const std::string& fileName, const std::string& he
 std::vector<std::string> getPossibleHeroes(const std::string& fileName, const bool suppress = false);
 
 //! \todo Test this function:
-QString *getPossibleSkills(int numCommand, QString *fighters, const bool suppress = false);
+QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress = false);
+
+std::array<std::string, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress = false);
