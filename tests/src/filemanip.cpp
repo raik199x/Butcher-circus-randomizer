@@ -1,12 +1,12 @@
 #include <criterion/criterion.h>
 #include <filesystem>
 
-#include "../include/config.h"
-#include "../include/filemanip.h"
+#include "../../include/config.h"
+#include "../../include/filemanip.h"
 
 using std::string;
 
-Test(FileManip, Unit1, .disabled = false) {
+Test(Filemanip, Unit1, .disabled = false) {
 	constexpr static const auto TEST_FILE = "test1.txt";
 	constexpr static const auto TEST_DIR = "test1_dir";
 	std::filesystem::create_directory(TEST_DIR);
@@ -20,7 +20,7 @@ Test(FileManip, Unit1, .disabled = false) {
 	std::filesystem::remove(TEST_DIR);
 }
 
-Test(FileManip, Unit2, .disabled = false) {
+Test(Filemanip, Unit2, .disabled = false) {
 	constexpr static const auto TEST_FILE = "test2.txt";
 	constexpr static const auto TEST_DIR = "test2_dir";
 	std::filesystem::create_directory(TEST_DIR);
@@ -37,7 +37,7 @@ Test(FileManip, Unit2, .disabled = false) {
 	std::filesystem::remove(TEST_DIR);
 }
 
-Test(FileManip, Unit3, .disabled = false) {
+Test(Filemanip, Unit3, .disabled = false) {
 	constexpr static const auto TEST_FILE = "test3.txt";
 	constexpr static const auto TEST_DIR = "test3_dir";
 	std::filesystem::create_directory(TEST_DIR);
@@ -83,7 +83,7 @@ Test(FileManip, Unit3, .disabled = false) {
 }
 
 
-Test(FileManip, Unit4) {
+Test(Filemanip, Unit4) {
 	constexpr static const auto TEST_FILE = "BCR_T1.txt";
 	constexpr static const auto TEST_DIR = "BCR_T1_dir";
 	cr_expect(recreate(TEST_FILE), "File should be created");
@@ -94,8 +94,11 @@ Test(FileManip, Unit4) {
 
 	auto qt_possibleSkills = d_getPossibleSkills(0, qt_fighters, true);
 	auto std_possibleSkills = getPossibleSkills(TEST_FILE, std_fighters, true);
-	for (auto i : {0, 1, 2, 3})
-		cr_expect(qt_possibleSkills[i].toStdString() == std_possibleSkills[i], "%s should be the same as %s", qt_possibleSkills[i].toStdString(), std_possibleSkills[i]);
+	for (auto i : {0, 1, 2, 3}) {
+		auto skill_depr = qt_possibleSkills[i].toStdString();
+		auto skill_std = std_possibleSkills[i].toStdString();
+		cr_expect(skill_depr == skill_std, "%s should be the same as %s", skill_depr.c_str(), skill_std.c_str());
+	}
 
 	std::filesystem::remove(TEST_FILE);
 	std::filesystem::remove(TEST_DIR);

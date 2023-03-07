@@ -1,10 +1,13 @@
-#include "../include/heroselection.h"
-#include "../forms/ui_heroselection.h"
-#include "../include/filemanip.h"
-#include "../include/config.h"
+#include <filesystem>
+
 #include <QBoxLayout>
 #include <QMessageBox>
-#include <filesystem>
+
+#include "../forms/ui_heroselection.h"
+
+#include "../include/heroselection.h"
+#include "../include/filemanip.h"
+#include "../include/config.h"
 
 HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
 	ui->setupUi(this);

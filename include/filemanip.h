@@ -32,4 +32,4 @@ std::vector<std::string> getPossibleHeroes(const std::string& fileName, const bo
 //! \todo Test this function:
 QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress = false);
 
-std::array<std::string, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress = false);
+std::array<QString, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress = false);

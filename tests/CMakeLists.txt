@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(Butcher_Circus_Test_Kit VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_PREFIX_PATH "/home/raik199x/Qt/6.4.2/gcc_64")
+#set(CMAKE_PREFIX_PATH "/home/raik199x/Qt/6.4.2/gcc_64")
+set(CMAKE_PREFIX_PATH "/opt/Qt/6.4.2/gcc_64")
 find_package(Qt6 COMPONENTS Core REQUIRED)
 
 set(CMAKE_AUTOUIC ON)
@@ -35,7 +36,7 @@ set(PROJECT_SOURCES
 	../assets/Butcher_Circus_Randomizer_ru_RU.ts
 
 	# Test Kit files
-	filemanip.cpp
+	./src/filemanip.cpp
 )
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)

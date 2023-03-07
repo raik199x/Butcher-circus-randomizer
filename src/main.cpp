@@ -1,9 +1,9 @@
-#include "../include/mainwindow.h"
-
 #include <QApplication>
 #include <QLocale>
 #include <QScreen>
 #include <QTranslator>
+
+#include "../include/mainwindow.h"
 
 /*!
  * \file main.cpp

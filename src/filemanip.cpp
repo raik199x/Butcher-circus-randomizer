@@ -1,4 +1,3 @@
-#include <cstddef>
 #include <fstream>
 #include <vector>
 
@@ -159,8 +158,8 @@
 	return result;
 }
 
-std::array<std::string, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress) {
-	std::array<std::string, 4> result;
+std::array<QString, 4> getPossibleSkills(const std::string& fileName, const std::array<std::string, 4> fighters, const bool suppress) {
+	std::array<QString, 4> result;
 	std::ifstream file(fileName);
 	if (!file) {
 		if (!suppress)
@@ -185,7 +184,7 @@ std::array<std::string, 4> getPossibleSkills(const std::string& fileName, const 
 		string skills = line.substr(line.find(":") + 2);
 		for (size_t j = 0; j < skills.length(); j++)
 			if (skills[j] == '1')
-				result[index] += std::to_string(j+1);
+				result[index] += QString::number(j + 1);
 		if (++index == 4)
 			break;
 	}
