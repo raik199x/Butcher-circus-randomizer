@@ -10,19 +10,13 @@ using std::string;
  * \brief File for global configuration and constants
  */
 
-/*!
- * \brief Number of fighters available for selection
- */
+// Number of fighters available for selection
 constexpr static const size_t NUMBER_OF_FIGHTERS = 18;
 
-/*!
- * \brief Number of heroes to be selected from the crowd
- */
+// Number of heroes to be selected from the crowd
 constexpr static const size_t NUMBER_OF_HEROES = 8;
 
-/*!
- * \brief The crowd
- */
+// The crowd of fighters
 const char* const fighters[NUMBER_OF_FIGHTERS] = { "abomination",
 												   "antiquarian",
 								 				   "bounty_hunter",

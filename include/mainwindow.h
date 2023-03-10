@@ -8,6 +8,7 @@
 #include <qboxlayout.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
@@ -58,8 +59,6 @@ private:
 	QRadioButton *radio3t;
 	QSpinBox **level;
 
-	QLabel **assets;
-
 	QVBoxLayout *layout;
 	
 	QVBoxLayout *leftSide;
@@ -67,7 +66,7 @@ private:
 
 	void Randomizing(int numCommand);
 	QString *GetFighters(int numCommand);
-	QString *GetSkills(int numCommand, QString *Fighters);
-	void RefreshLayout();
-	void SwitchedTeamRadioButton();
+    QString *GetSkills(int numCommand, QString *Fighters);
+	QString *GetTrinkets(int lvl, QString *usedFighters);
+	void ClearLayout(QLayout *layout);
 };

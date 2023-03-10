@@ -24,7 +24,7 @@ You can use it for fun evening in [darkest dungeon](https://store.steampowered.c
 ### Windows
 
 1. Unarchive *WindowsInstaller.zip*
-2. *Optional* if you don't have installed before *vcredist_msvc2019_x64.exe* install it now.
+2. *Optional* if you don't have installed before **vcredist_msvc2019_x64.exe** install it now.
 3. Run *InstallerButcher_Circus_Randomizer.exe* and complete through simple installation.
 
 ## Screenshots

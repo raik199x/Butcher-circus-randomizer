@@ -121,7 +121,7 @@
  * @param fighters already randomized fighters
  * @return QString* array of possible skills for heroes in @param fighters or nullptr if something went wrong
  */
-[[nodiscard]] QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress) {
+[[nodiscard, deprecated]] QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress) {
 	std::ifstream file(numCommand == 0 ? "BCR_T1.txt" : "BCR_T2.txt");
 	if (!file) {
 		if (!suppress)
