@@ -1,19 +1,16 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 cmake_minimum_required(VERSION 3.5)
 
-project(Butcher_Circus_Randomizer VERSION 0.1 LANGUAGES CXX)
+project(Butcher_Circus_Randomizer VERSION 3.0 LANGUAGES CXX)
 
 set(CMAKE_PREFIX_PATH "/home/raik199x/Qt/6.4.2/gcc_64")
-find_package(Qt6 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core Multimedia REQUIRED Widgets)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(Qt6 COMPONENTS Core REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
 	src/filemanip.cpp
@@ -26,6 +23,7 @@ set(PROJECT_SOURCES
 	include/heroselection.h
 	include/mainwindow.h
 	include/config.h
+	include/centralwidget.h
 
 	forms/heroselection.ui
 	forms/mainwindow.ui
@@ -57,8 +55,7 @@ else()
 	endif()
 endif()
 
-target_link_libraries(Butcher_Circus_Randomizer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
+target_link_libraries(Butcher_Circus_Randomizer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia)
 set_target_properties(Butcher_Circus_Randomizer PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
 	MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

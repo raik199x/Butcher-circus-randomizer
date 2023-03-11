@@ -38,3 +38,5 @@ You can use it for fun evening in [darkest dungeon](https://store.steampowered.c
 [Milky Cookie](https://github.com/MilkyCookie1to2) with helping porting it on windows
 
 [Maragnarok](https://steamcommunity.com/profiles/76561198809193760) for info about 0-level trinkets
+
+[Some reddit guy that extracted all DD sounds](https://www.reddit.com/r/darkestdungeon/comments/8pv69v/heres_all_of_the_dd_sounds_extracted_as_wav_files/)

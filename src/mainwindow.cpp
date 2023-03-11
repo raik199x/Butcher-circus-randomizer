@@ -1,23 +1,31 @@
 #include "../include/mainwindow.h"
+#include "../include/centralwidget.h"
 #include "../include/filemanip.h"
 #include "../include/heroselection.h"
 #include "../include/random.h"
 
+#include <QAudioOutput>
 #include <QClipboard>
 #include <QDebug>
 #include <QFile>
 #include <QGuiApplication>
+#include <QMediaPlayer>
 #include <QMessageBox>
 #include <QPixmap>
 #include <QScreen>
 #include <QSpacerItem>
+#include <QTimer>
 #include <QVBoxLayout>
-#include <array>
+#include <qbitmap.h>
 #include <qboxlayout.h>
+#include <qdialog.h>
 #include <qlabel.h>
 #include <qlayoutitem.h>
+#include <qmediaplayer.h>
+#include <qnamespace.h>
 #include <qobject.h>
 
+#include <array>
 #include <fstream>
 #include <qpixmap.h>
 #include <qpushbutton.h>
@@ -36,12 +44,13 @@ using namespace std;
 
 // TODO: recolor ui
 MainWindow::MainWindow(QWidget *parent) {
-	this->ui = new QWidget(this);
+	this->ui = new CentralWidget(this);
 	setCentralWidget(ui);
 
+	this->playVoice = true;
 	// Setting up own made ui
 	this->setFixedSize(QSize(1192, 665));
-	this->ui->setStyleSheet("color: #FFFFFF; background-image: url(:/banner/main_menu.png);");
+	this->ui->setStyleSheet("color: #FFFFFF;");
 
 	// allocating widgets
 	this->RandomSettings    = new QPushButton *[2];
@@ -74,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) {
 	connect(this->level[0], SIGNAL(valueChanged(int)), this, SLOT(on_level1_valueChanged(int)));
 	connect(this->level[1], SIGNAL(valueChanged(int)), this, SLOT(on_level2_valueChanged(int)));
 	connect(this->sameTeamLevel, SIGNAL(clicked()), this, SLOT(on_sameTeamLevel_clicked()));
+	connect(this->muteAncestor, SIGNAL(clicked()), this, SLOT(on_muteAncestor_clicked()));
 
 	// Designing ui
 	this->RandomSettings[0]->setStyleSheet("background-color: #3F3F3F;");
@@ -92,8 +102,6 @@ MainWindow::MainWindow(QWidget *parent) {
 	this->level[1]->setMinimum(0);
 	this->level[0]->setMaximum(75);
 	this->level[1]->setMaximum(75);
-
-	this->sameTeamLevel->setStyleSheet("background-color: transparent; background-image: none;");
 
 	// Managing layouts
 	QVBoxLayout *levelSetter1 = new QVBoxLayout();
@@ -323,16 +331,16 @@ QString *MainWindow::GetSkills(int numCommand, QString *Fighters) {
 QVBoxLayout *GenerateTeam(QString *fighters, QString *skillsArray, QString *trinkets, bool radio3t, int numCommand) {
 	QVBoxLayout *result = new QVBoxLayout;
 
-	// TODO: custom sizes depending on radio3t
-	// TODO: add generation for radio3t
-	const size_t heroImageSize  = 60;
-	const size_t skillImageSize = 60;
-	const size_t trinketImageSize[2] = {50, 100};
+	const size_t heroImageSize       = radio3t ? 40 : 60;
+	const size_t skillImageSize      = radio3t ? 40 : 60;
+	const size_t trinketImageSize[2] = {radio3t ? (size_t)35 : 50, radio3t ? (size_t)60 : 100};
+	const size_t positionImageSize   = radio3t ? 30 : 40;
 
-	// generating whole team
+	QHBoxLayout *remember; // needed for radio3t to remember previous team layout
+	// generating whole team (4 heroes with ther trinkets and spells)
 	for (size_t i = 0; i < 4; i++) {
 		QHBoxLayout *team = new QHBoxLayout;
-		// creating trinkets
+		// creating trinkets (equal for radio3t)
 		QHBoxLayout *trinketsLayout = new QHBoxLayout;
 		QLabel *trinket1            = new QLabel;
 		QLabel *trinket2            = new QLabel;
@@ -343,48 +351,123 @@ QVBoxLayout *GenerateTeam(QString *fighters, QString *skillsArray, QString *trin
 		trinketsLayout->addWidget(trinket1);
 		trinketsLayout->addWidget(trinket2);
 
-		// creating heroes
+		// creating hero (this part equal for radio3t)
 		QLabel *hero = new QLabel;
 		hero->setFixedSize(heroImageSize, heroImageSize);
 		QPixmap heroImage(":/heroes/heroes+spells/" + fighters[i] + "/hero_" + fighters[i] + ".png");
 		heroImage = heroImage.scaled(heroImageSize, heroImageSize, Qt::KeepAspectRatio);
-
-		// This we will need for positioning image later
-		QHBoxLayout *heroLayout = new QHBoxLayout;
-		heroLayout->addWidget(hero);
+		if (numCommand != 0) // if we place hero in right side, we rotate image
+			heroImage = heroImage.transformed(QTransform().scale(-1, 1));
+		hero->setPixmap(heroImage);
 
 		// creating skills
-		QHBoxLayout *skillsLayout = new QHBoxLayout;
+		QLabel **skills = new QLabel *[4];
+		// without for loop because of better speed
+		skills[0] = new QLabel;
+		skills[1] = new QLabel;
+		skills[2] = new QLabel;
+		skills[3] = new QLabel;
+		if (radio3t) {                                 // Since we have 3 teams, we need to shrink size of images
+			QVBoxLayout *skillsLayout = new QVBoxLayout; // and place them in vertical layout (for less space)
+			for (size_t j = 0; j < 4; j += 2) {          // we make step 2 because we want to place 2 skills in one row (using horizontal layout)
+				skills[j]->setFixedSize(skillImageSize, skillImageSize);
+				skills[j + 1]->setFixedSize(skillImageSize, skillImageSize);
+
+				if (fighters[i] == "abomination") { // if we have abomination, we place NA images
+					QPixmap pixmap(":/banner/heroes+spells/NA.png");
+					pixmap = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+					skills[j]->setPixmap(pixmap);
+					skills[j + 1]->setPixmap(pixmap);
+				} else {
+					QPixmap pixmap(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j] + ".png");
+					QPixmap pixmap2(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j + 1] + ".png");
+					pixmap  = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+					pixmap2 = pixmap2.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+					skills[j]->setPixmap(pixmap);
+					skills[j + 1]->setPixmap(pixmap2);
+				}
+				// and then placing hero skills together
+				QHBoxLayout *subSkillsLayout = new QHBoxLayout;
+				subSkillsLayout->addWidget(skills[j]);
+				subSkillsLayout->addWidget(skills[j + 1]);
+				skillsLayout->addLayout(subSkillsLayout);
+			}
+			QVBoxLayout *heroLayout = new QVBoxLayout;
+			heroLayout->addWidget(hero);
+			QLabel *posText = new QLabel("Pos " + QString::number(i + 1));
+			posText->setFixedSize(45, 15); // here hard coded numbers since it is only for radio3t
+			heroLayout->addWidget(posText);
+
+			team->addLayout(trinketsLayout);
+			team->addLayout(heroLayout);
+			team->addLayout(skillsLayout);
+
+			if (i % 2 == 0)
+				remember = team; // remember previous team
+			else {
+				// and then put them together in ui (for space saving)
+				QHBoxLayout *connectTeams = new QHBoxLayout;
+				connectTeams->addLayout(remember);
+				connectTeams->addLayout(team);
+				result->addLayout(connectTeams); // saving result
+			}
+
+			continue;
+		}
+		QHBoxLayout *skillsLayout = new QHBoxLayout; // since we have a lot of space we will use another type of layout
 		for (size_t j = 0; j < 4; j++) {
 			QLabel *skill = new QLabel;
 			skill->setFixedSize(skillImageSize, skillImageSize);
-			QPixmap pixmap(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j] + ".png");
+			QPixmap pixmap;
+			if (fighters[i] == "abomination") // still skipping abomination
+				pixmap = QPixmap(":/banner/heroes+spells/NA.png");
+			else
+				pixmap = QPixmap(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j] + ".png");
 			pixmap = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
 			skill->setPixmap(pixmap);
 			skillsLayout->addWidget(skill);
 		}
 
+		QHBoxLayout *heroLayout       = new QHBoxLayout;
 		QVBoxLayout *skillsHeroLayout = new QVBoxLayout;
 		skillsHeroLayout->addLayout(heroLayout);
 		skillsHeroLayout->addLayout(skillsLayout);
 
-		if (numCommand == 0) {
+		if (numCommand == 0) { // if we place hero in left side, we place it normally
+			heroLayout->addWidget(hero);
+			for (size_t j = 0; j < 4; j++) {
+				QLabel *pos = new QLabel;
+				if (i == j) // if hero is in this position, then we need to show full circle
+					pos->setPixmap(QPixmap(":/Position/circles/fullCircle.png").scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
+				else
+					pos->setPixmap(QPixmap(":/Position/circles/emptyCircle.png").scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
+				heroLayout->addWidget(pos);
+			}
+
 			team->addLayout(trinketsLayout);
 			team->addLayout(skillsHeroLayout);
 			heroLayout->setAlignment(Qt::AlignLeft);
+			team->addSpacerItem(new QSpacerItem(50 * (4 - i), 1));
 		} else { // we need to make effect of mirror (right side)
+			for (size_t j = 0; j < 4; j++) {
+				QLabel *pos = new QLabel;
+				if (3 - i == j) // since it is mirror, we need to change order of positions
+					pos->setPixmap(QPixmap(":/Position/circles/fullCircle.png").scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
+				else
+					pos->setPixmap(QPixmap(":/Position/circles/emptyCircle.png").scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
+				heroLayout->addWidget(pos);
+			}
+			heroLayout->addWidget(hero);
+			team->addSpacerItem(new QSpacerItem(50 * (4 - i), 1));
 			team->addLayout(skillsHeroLayout);
 			team->addLayout(trinketsLayout);
 			heroLayout->setAlignment(Qt::AlignRight);
-			heroImage = heroImage.transformed(QTransform().scale(-1, 1));
 		}
-		hero->setPixmap(heroImage);
-
-		team->addSpacerItem(new QSpacerItem(50*(4-i),1));
-
 		result->addLayout(team); // saving result in layout
 	}
-
+	if (radio3t)
+		// if 3t, then we need to add empty space between teams
+		result->addWidget(new QLabel(""));
 	return result;
 }
 
@@ -410,6 +493,16 @@ void MainWindow::on_doRandom_clicked() {
 		delete[] skills;
 		delete[] trinkets;
 	}
+
+	if (!this->muteAncestor->isChecked() && this->playVoice) {
+		QMediaPlayer *player = new QMediaPlayer;
+		QAudioOutput *output = new QAudioOutput;
+		player->setAudioOutput(output);
+		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number(Random::get(1, 10)) + ".wav"));
+		player->play();
+		this->playVoice = false;
+	} else if (!this->muteAncestor->isChecked())
+		this->playVoice = true;
 }
 
 void MainWindow::on_level1_valueChanged(int arg1) {
@@ -440,18 +533,40 @@ void MainWindow::on_RandomSettings2_clicked() {
 }
 
 void MainWindow::on_screenShot_clicked() {
-	QPixmap screenshot = this->grab();
-	// Put the screenshot in the clipboard
+	QPixmap screenshot    = this->grab();
 	QClipboard *clipboard = QGuiApplication::clipboard();
 	clipboard->setPixmap(screenshot);
+
+	QDialog *dialog = new QDialog(this);
+	dialog->setStyleSheet("color: #FFFFFF;");
+	dialog->setFixedSize(230, 40);
+	dialog->setWindowTitle("Screenshot");
+	dialog->setModal(true);
+	QLabel *label = new QLabel("Screenshot was copied to clipboard", dialog);
+	label->setAlignment(Qt::AlignCenter);
+
+	QTimer::singleShot(1000, [=]() {
+		dialog->accept();
+	}); // Clean up dialog after1 seconds
+
+	dialog->show();
 }
 
 void MainWindow::on_radio1t_clicked() {
 	ClearLayout(this->leftSide);
 	ClearLayout(this->rightSide);
+	this->leftSide->addSpacerItem(new QSpacerItem(1, 600));
 }
 
 void MainWindow::on_radio3t_clicked() {
 	ClearLayout(this->leftSide);
 	ClearLayout(this->rightSide);
+	this->leftSide->addSpacerItem(new QSpacerItem(1, 600));
+}
+
+void MainWindow::on_muteAncestor_clicked() {
+	if (this->muteAncestor->isChecked())
+		this->playVoice = false;
+	else
+		this->playVoice = true;
 }

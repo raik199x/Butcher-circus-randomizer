@@ -43,9 +43,12 @@ private slots:
 
 	void on_radio3t_clicked();
 
+	void on_muteAncestor_clicked();
+
 private:
 	QString heroes[NUMBER_OF_HEROES];
 
+	bool playVoice;
 	QWidget *ui;
 	// Recreating mainwindow.ui
 	QPushButton **RandomSettings;

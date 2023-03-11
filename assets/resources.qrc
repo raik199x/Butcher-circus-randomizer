@@ -256,4 +256,20 @@
         <file>trinkets/the_finisher.png</file>
         <file>trinkets/list.txt</file>
     </qresource>
+    <qresource prefix="/Position">
+        <file>circles/emptyCircle.png</file>
+        <file>circles/fullCircle.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>ancestor/1.wav</file>
+        <file>ancestor/2.wav</file>
+        <file>ancestor/3.wav</file>
+        <file>ancestor/4.wav</file>
+        <file>ancestor/5.wav</file>
+        <file>ancestor/6.wav</file>
+        <file>ancestor/7.wav</file>
+        <file>ancestor/8.wav</file>
+        <file>ancestor/9.wav</file>
+        <file>ancestor/10.wav</file>
+    </qresource>
 </RCC>
