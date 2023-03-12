@@ -3,6 +3,13 @@
 #include <QDialog>
 #include <QPushButton>
 
+/**
+ * @file heroselection.h
+ * @author raik
+ * @brief header file for HeroSelection class
+ *
+ */
+
 namespace Ui {
 	class HeroSelection;
 }

@@ -7,9 +7,9 @@
 
 /*!
  * \file main.cpp
- * \brief Entrance point for the app, 主函数
+ * \brief Entrance point for the app
  *
- * \author raik, 小白
+ * \author raik
  */
 
 /*!
@@ -34,10 +34,10 @@ int main(int argc, char *argv[]) {
 	}
 	MainWindow w;
 
-	QScreen *screen = QGuiApplication::primaryScreen();
+	QScreen *screen      = QGuiApplication::primaryScreen();
 	QRect screenGeometry = screen->geometry();
-	int x = (screenGeometry.width() - w.width()) / 2;
-	int y = (screenGeometry.height() - w.height()) / 2;
+	int x                = (screenGeometry.width() - w.width()) / 2;
+	int y                = (screenGeometry.height() - w.height()) / 2;
 	w.move(x, y);
 	w.show();
 	return a.exec();

@@ -42,7 +42,6 @@
 
 using namespace std;
 
-// TODO: recolor ui
 MainWindow::MainWindow(QWidget *parent) {
 	this->ui = new CentralWidget(this);
 	setCentralWidget(ui);
@@ -149,9 +148,6 @@ MainWindow::MainWindow(QWidget *parent) {
 	this->layout->addLayout(topWindow);
 	this->layout->addLayout(middle);
 	this->layout->addLayout(bottom);
-
-	for (int i = 0; i < NUMBER_OF_HEROES; i++)
-		heroes[i] = "NULL";
 }
 
 MainWindow::~MainWindow() {
@@ -331,9 +327,9 @@ QString *MainWindow::GetSkills(int numCommand, QString *Fighters) {
 QVBoxLayout *GenerateTeam(QString *fighters, QString *skillsArray, QString *trinkets, bool radio3t, int numCommand) {
 	QVBoxLayout *result = new QVBoxLayout;
 
-	const size_t heroImageSize       = radio3t ? 40 : 60;
+	const size_t heroImageSize       = radio3t ? 50 : 60;
 	const size_t skillImageSize      = radio3t ? 40 : 60;
-	const size_t trinketImageSize[2] = {radio3t ? (size_t)35 : 50, radio3t ? (size_t)60 : 100};
+	const size_t trinketImageSize[2] = {radio3t ? (size_t)40 : 50, radio3t ? (size_t)70 : 100};
 	const size_t positionImageSize   = radio3t ? 30 : 40;
 
 	QHBoxLayout *remember; // needed for radio3t to remember previous team layout
@@ -493,7 +489,7 @@ void MainWindow::on_doRandom_clicked() {
 		delete[] skills;
 		delete[] trinkets;
 	}
-
+	// TODO: make do not repeat one replic two times in a row
 	if (!this->muteAncestor->isChecked() && this->playVoice) {
 		QMediaPlayer *player = new QMediaPlayer;
 		QAudioOutput *output = new QAudioOutput;

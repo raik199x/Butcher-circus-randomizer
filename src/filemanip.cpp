@@ -9,7 +9,7 @@
 /**
  * @file filemanip.cpp
  * @author raik
- * @brief This file contains the functions for the file manipulation
+ * @brief This file contains the functions for the file manipulation (Linux aimed)
  */
 
 /**

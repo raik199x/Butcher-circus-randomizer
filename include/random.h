@@ -2,6 +2,13 @@
 
 #include <random>
 
+/**
+ * @file random.h
+ * @author some google guy
+ * @brief Class with random number generator
+ *
+ * @note Implementation is deprecated and might be changed in future
+ */
 namespace details {
 /// True if type T is applicable by a std::uniform_int_distribution
 template <class T>

@@ -26,7 +26,6 @@ set(PROJECT_SOURCES
 	include/centralwidget.h
 
 	forms/heroselection.ui
-	forms/mainwindow.ui
 
 	assets/resources.qrc
 	assets/Butcher_Circus_Randomizer_ru_RU.ts

@@ -13,6 +13,12 @@
 #include <qradiobutton.h>
 #include <qspinbox.h>
 
+/**
+ * @file mainwindow.h
+ * @author raik
+ * @brief header file for MainWindow class (Main ui)
+ *
+ */
 namespace Ui {
 class MainWindow;
 }
@@ -46,8 +52,6 @@ private slots:
 	void on_muteAncestor_clicked();
 
 private:
-	QString heroes[NUMBER_OF_HEROES];
-
 	bool playVoice;
 	QWidget *ui;
 	// Recreating mainwindow.ui

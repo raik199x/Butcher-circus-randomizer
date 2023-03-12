@@ -9,6 +9,19 @@
 #include "../include/filemanip.h"
 #include "../include/config.h"
 
+/**
+ * @file heroselection.cpp
+ * @brief Implementation of HeroSelection class
+ * 
+ * @author raik
+ */
+
+/**
+ * @brief Construct a new Hero Selection:: Hero Selection object
+ * 
+ * @param parent 
+ * @param numTeam 
+ */
 HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
 	ui->setupUi(this);
 
@@ -54,7 +67,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 
 	this->buttons = new QPushButton** [NUMBER_OF_FIGHTERS];
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
-		this->buttons[i] = new QPushButton* [NUMBER_OF_HEROES];
+		this->buttons[i] = new QPushButton* [8]; // 7 spells + hero
 
 	// initializing
 	QWidget *wgtMain = new QWidget();
@@ -62,7 +75,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		QWidget *wgtSub = new QWidget();
 		QHBoxLayout *hBoxSub = new QHBoxLayout(wgtSub);
-		for (int j = 0; j < NUMBER_OF_HEROES; j++) {
+		for (int j = 0; j < 8; j++) {
 			this->buttons[i][j] = new QPushButton();
 			buttons[i][j]->setFixedSize(QSize(75, 80));
 			hBoxSub->addWidget(buttons[i][j]);
@@ -107,7 +120,7 @@ void HeroSelection::ButtonClicked(void) {
 	using namespace Errors;
 	QPushButton *button = (QPushButton *)sender();
 	for (int x = 0; x < NUMBER_OF_FIGHTERS; x++)
-		for (int c = 0; c < NUMBER_OF_HEROES; c++)
+		for (int c = 0; c < 8; c++)
 			if (this->buttons[x][c] == button) {
 				switch (changeLine(this->fileName, fighters[x], c, this->AccessibleHeroes)) {
 				case ChangeLine::HeroRemoved:

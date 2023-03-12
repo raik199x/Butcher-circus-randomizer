@@ -7,6 +7,14 @@
 
 #include <QString>
 
+/**
+ * @file filemanip.h
+ * @author raik
+ * @brief Functions for working with files 
+ *
+ * @note This header implementation might be used represented by two different files (filemanip.cpp and filemanip_windows.cpp)
+ */
+
 namespace Errors {
 	enum class ChangeLine {
 		OutOfRange = -7, // internal error, should never happen under normal circumstances

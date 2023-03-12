@@ -2,6 +2,12 @@
 #include "../include/config.h"
 
 /**
+ * @file filemanip_windows.cpp
+ * @author raik
+ * @brief This file contains the functions for the file manipulation (Windows aimed)
+ */
+
+/**
  * @brief Recreates file with default settings
  *
  * @param fileName
