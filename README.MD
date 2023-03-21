@@ -29,13 +29,13 @@ You can use it for fun evening in [darkest dungeon](https://store.steampowered.c
 
 ## Screenshots
 
-![preview](preview.png)
+![preview](assets/preview.gif)
 
 ## Thanks
 
 [1_1sundial](https://www.reddit.com/user/1_1sundial/) for inspiration
 
-[Milky Cookie](https://github.com/MilkyCookie1to2) with helping porting it on windows
+[Milky Cookie](https://github.com/MilkyCookie1to2) with helping porting it on windows (old version)
 
 [Maragnarok](https://steamcommunity.com/profiles/76561198809193760) for info about 0-level trinkets
 

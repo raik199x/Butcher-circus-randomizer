@@ -6,7 +6,3 @@ build
 CMakeLists.txt.*
 userSettings.json
 BCR*
-
-# temporary ignored
-docs/
-Doxyfile

@@ -1,0 +1,7 @@
+<map id="include/filemanip.h" name="include/filemanip.h">
+<area shape="rect" id="node1" title="Functions for working with files." alt="" coords="269,5,399,32"/>
+<area shape="rect" id="node2" href="$filemanip_8cpp.html" title="This file contains the functions for the file manipulation (Linux aimed)" alt="" coords="5,80,127,107"/>
+<area shape="rect" id="node3" href="$filemanip__windows_8cpp.html" title="This file contains the functions for the file manipulation (Windows aimed)" alt="" coords="151,80,330,107"/>
+<area shape="rect" id="node4" href="$heroselection_8cpp.html" title="Implementation of HeroSelection class." alt="" coords="354,80,501,107"/>
+<area shape="rect" id="node5" href="$mainwindow_8cpp.html" title="MainWindow Interface." alt="" coords="525,80,663,107"/>
+</map>
