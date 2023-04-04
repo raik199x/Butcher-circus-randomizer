@@ -38,3 +38,20 @@ namespace Random::Uniform
 		return std::uniform_int_distribution<T>(std::min(min, max), std::max(min, max))(rdev);
 	}
 }
+
+namespace Random::Tricky {
+	template<typename T>
+	inline T integral(const T min, const T max) {
+		static bool first = true;
+		static T last_occurrence = 0;
+
+		if (min == max)
+			return min;
+
+		T random;
+		do random = Random::Uniform::integral<T>(min, max - min + first);
+		while (!first && random == last_occurrence);
+		first = false;
+		return last_occurrence = random;
+	}
+}
