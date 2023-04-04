@@ -33,9 +33,7 @@ public:
 private slots:
 	void on_doRandom_clicked();
 
-	void on_level1_valueChanged(int arg1);
-
-	void on_level2_valueChanged(int arg1);
+	void on_level_valueChanged(int arg1);
 
 	void on_sameTeamLevel_clicked();
 
@@ -45,9 +43,7 @@ private slots:
 
 	void on_screenShot_clicked();
 
-	void on_radio1t_clicked();
-
-	void on_radio3t_clicked();
+	void on_radio_clicked();
 
 	void on_muteAncestor_clicked();
 

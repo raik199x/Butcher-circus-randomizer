@@ -77,10 +77,10 @@ MainWindow::MainWindow(QWidget *parent) {
 	connect(this->RandomSettings[1], SIGNAL(clicked()), this, SLOT(on_RandomSettings2_clicked()));
 	connect(this->doRandom, SIGNAL(clicked()), this, SLOT(on_doRandom_clicked()));
 	connect(this->screenShot, SIGNAL(clicked()), this, SLOT(on_screenShot_clicked()));
-	connect(this->radio1t, SIGNAL(clicked()), this, SLOT(on_radio1t_clicked()));
-	connect(this->radio3t, SIGNAL(clicked()), this, SLOT(on_radio3t_clicked()));
-	connect(this->level[0], SIGNAL(valueChanged(int)), this, SLOT(on_level1_valueChanged(int)));
-	connect(this->level[1], SIGNAL(valueChanged(int)), this, SLOT(on_level2_valueChanged(int)));
+	connect(this->radio1t, SIGNAL(clicked()), this, SLOT(on_radio_clicked()));
+	connect(this->radio3t, SIGNAL(clicked()), this, SLOT(on_radio_clicked()));
+	connect(this->level[0], SIGNAL(valueChanged(int)), this, SLOT(on_level_valueChanged(int)));
+	connect(this->level[1], SIGNAL(valueChanged(int)), this, SLOT(on_level_valueChanged(int)));
 	connect(this->sameTeamLevel, SIGNAL(clicked()), this, SLOT(on_sameTeamLevel_clicked()));
 	connect(this->muteAncestor, SIGNAL(clicked()), this, SLOT(on_muteAncestor_clicked()));
 
@@ -495,20 +495,18 @@ void MainWindow::on_doRandom_clicked() {
 		QAudioOutput *output = new QAudioOutput;
 		player->setAudioOutput(output);
 		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number(Random::get(1, 10)) + ".wav"));
+		output->setVolume(0.4);
 		player->play();
 		this->playVoice = false;
 	} else if (!this->muteAncestor->isChecked())
 		this->playVoice = true;
 }
 
-void MainWindow::on_level1_valueChanged(int arg1) {
-	if (this->sameTeamLevel->isChecked())
-		this->level[1]->setValue(arg1);
-}
-
-void MainWindow::on_level2_valueChanged(int arg1) {
-	if (this->sameTeamLevel->isChecked())
+void MainWindow::on_level_valueChanged(int arg1) {
+	if (this->sameTeamLevel->isChecked()) {
 		this->level[0]->setValue(arg1);
+		this->level[1]->setValue(arg1);
+	}
 }
 
 void MainWindow::on_sameTeamLevel_clicked() {
@@ -529,32 +527,32 @@ void MainWindow::on_RandomSettings2_clicked() {
 }
 
 void MainWindow::on_screenShot_clicked() {
-	QPixmap screenshot    = this->grab();
+	QPixmap screenshot    = this->grab(); // take screenshot
 	QClipboard *clipboard = QGuiApplication::clipboard();
 	clipboard->setPixmap(screenshot);
 
 	QDialog *dialog = new QDialog(this);
-	dialog->setStyleSheet("color: #FFFFFF;");
-	dialog->setFixedSize(230, 40);
-	dialog->setWindowTitle("Screenshot");
-	dialog->setModal(true);
-	QLabel *label = new QLabel("Screenshot was copied to clipboard", dialog);
-	label->setAlignment(Qt::AlignCenter);
 
-	QTimer::singleShot(1000, [=]() {
+	// pasting screenshot into window
+	size_t imageSize        = 700;
+	QLabel *screenshotLabel = new QLabel(dialog);
+	screenshotLabel->setPixmap(screenshot.scaled(imageSize, imageSize, Qt::KeepAspectRatio));
+	QRect screenGeometry = screen()->geometry();
+
+	// setting up window
+	dialog->setStyleSheet("color: #FFFFFF;");
+	dialog->setGeometry(screenGeometry.width(), screenGeometry.height(), screenshotLabel->pixmap().width(), screenshotLabel->pixmap().height());
+	dialog->setWindowTitle("Saved to clipboard");
+	dialog->setModal(true);
+
+	QTimer::singleShot(1500, [=]() {
 		dialog->accept();
 	}); // Clean up dialog after1 seconds
 
 	dialog->show();
 }
 
-void MainWindow::on_radio1t_clicked() {
-	ClearLayout(this->leftSide);
-	ClearLayout(this->rightSide);
-	this->leftSide->addSpacerItem(new QSpacerItem(1, 600));
-}
-
-void MainWindow::on_radio3t_clicked() {
+void MainWindow::on_radio_clicked() {
 	ClearLayout(this->leftSide);
 	ClearLayout(this->rightSide);
 	this->leftSide->addSpacerItem(new QSpacerItem(1, 600));
