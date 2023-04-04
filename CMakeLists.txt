@@ -1,11 +1,10 @@
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 project(Butcher_Circus_Randomizer VERSION 3.0 LANGUAGES CXX)
 
-set(CMAKE_PREFIX_PATH "/home/raik199x/Qt/6.4.2/gcc_64")
 find_package(Qt6 COMPONENTS Core Multimedia REQUIRED Widgets)
 
 set(CMAKE_AUTOUIC ON)

@@ -6,7 +6,7 @@ using std::string;
 
 /*!
  * \file config.h
- * \author Timur Zhuk
+ * \author Timuri Alvarez
  * \brief File for global configuration and constants
  */
 

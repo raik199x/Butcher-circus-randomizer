@@ -2,75 +2,39 @@
 
 #include <random>
 
-/**
- * @file random.h
- * @author some google guy
- * @brief Class with random number generator
- *
- * @note Implementation is deprecated and might be changed in future
+/*!
+ * \file random.h
+ * \author Timuri Alvarez
+ * \brief File for generating random numbers
  */
-namespace details {
-/// True if type T is applicable by a std::uniform_int_distribution
-template <class T>
-struct is_uniform_int {
-	static constexpr bool value =
-			std::is_same<T, short>::value ||
-			std::is_same<T, int>::value ||
-			std::is_same<T, long>::value ||
-			std::is_same<T, long long>::value ||
-			std::is_same<T, unsigned short>::value ||
-			std::is_same<T, unsigned int>::value ||
-			std::is_same<T, unsigned long>::value ||
-			std::is_same<T, unsigned long long>::value;
-};
 
-/// True if type T is applicable by a std::uniform_real_distribution
-template <class T>
-struct is_uniform_real {
-	static constexpr bool value =
-			std::is_same<T, float>::value ||
-			std::is_same<T, double>::value ||
-			std::is_same<T, long double>::value;
-};
-} // namespace details
-
-class Random {
-	template <class T>
-	using IntDist = std::uniform_int_distribution<T>;
-	template <class T>
-	using RealDist = std::uniform_real_distribution<T>;
-
-public:
-	template <class T>
-	static typename std::enable_if<details::is_uniform_int<T>::value, T>::type get(T from = std::numeric_limits<T>::min(), T to = std::numeric_limits<T>::max()) {
-		if (from > to)
-			std::swap(from, to);
-		IntDist<T> dist{from, to};
-		return dist(instance().engine());
+namespace Random::Uniform
+{
+	/*!
+	 * \brief Generates a random integer in the range (min, max)
+	 * 
+	 * \tparam T type of the number
+	 * \param min minimum value of the range (exclusive)
+	 * \param max maximum value of the range (exclusive)
+	 * \return T random number in the range (min, max)
+	 */
+	template<typename T>
+	inline T real(const T min, const T max) {
+		std::random_device rdev;
+		return std::uniform_real_distribution<T>(std::min(min, max), std::max(min, max))(rdev);
 	}
 
-	template <class T>
-	static typename std::enable_if<details::is_uniform_real<T>::value, T>::type get(T from = std::numeric_limits<T>::min(), T to = std::numeric_limits<T>::max()) {
-		if (from > to)
-			std::swap(from, to);
-		RealDist<T> dist{from, to};
-		return dist(instance().engine());
+	/*!
+	 * \brief Generates a random real number in the range [min, max]
+	 * 
+	 * \tparam T type of the number
+	 * \param min minimum value of the range (inclusive)
+	 * \param max maximum value of the range (inclusive)
+	 * \return T random number in the range [min, max]
+	 */
+	template<typename T>
+	inline T integral(const T min, const T max) {
+		std::random_device rdev;
+		return std::uniform_int_distribution<T>(std::min(min, max), std::max(min, max))(rdev);
 	}
-
-	std::mt19937 &engine() { return m_mt; }
-
-protected:
-	static Random &instance() {
-		static Random inst;
-		return inst;
-	}
-
-private:
-	std::random_device m_rd; // Random Number Generator
-	std::mt19937 m_mt;		// Standard random number generator
-
-	Random() : m_mt(m_rd()) {}
-	~Random() {}
-	Random(const Random &) = delete;
-	Random &operator=(const Random &) = delete;
-};
+}

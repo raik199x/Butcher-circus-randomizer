@@ -243,7 +243,7 @@ string ParsingTrinket(string line, int mode) {
 		if (escape == true)
 			return trinkets;
 		int num = possibleTrinkets.size() - 1;
-		num     = Random::get(0, num);
+		num     = Random::Uniform::integral(0, num);
 		if (possibleTrinkets[num] == ParsingTrinket(possibleTrinkets[num], 1)) {
 			for (int i = 0; i < 8; i++)
 				if (trinkets[i] == "" && (((i + 1) % 2 == 0 && possibleTrinkets[num] != trinkets[i - 1].toStdString()) || (i + 1) % 2 != 0)) {
@@ -285,7 +285,7 @@ string ParsingTrinket(string line, int mode) {
 	// randomize heroes
 	for (int i = 0; i < 4; i++) {
 		int index   = possibleHeroes.size();     // variable for storing index that has hero skills
-		int numHero = Random::get(0, index - 1); // variable for storing hero index
+		int numHero = Random::Uniform::integral(0, index - 1); // variable for storing hero index
 		result[i]   = QString::fromStdString(possibleHeroes[numHero]);
 		possibleHeroes.erase(possibleHeroes.cbegin() + numHero);
 	}
@@ -305,7 +305,7 @@ QString *MainWindow::GetSkills(int numCommand, QString *Fighters) {
 
 	for (size_t i = 0; i < 4; i++)
 		for (size_t j = 0; j < 4; j++) {
-			int getNum = Random::get(0, (int)skills[i].size() - 1);
+			int getNum = Random::Uniform::integral(0, (int)skills[i].size() - 1);
 			result[i] += skills[i][getNum];
 			// delete symbol from QString
 			skills[i].remove(getNum, 1);
@@ -489,12 +489,12 @@ void MainWindow::on_doRandom_clicked() {
 		delete[] skills;
 		delete[] trinkets;
 	}
-	// TODO: make do not repeat one replic two times in a row
+	// TODO: make do not repeat one replica two times in a row
 	if (!this->muteAncestor->isChecked() && this->playVoice) {
 		QMediaPlayer *player = new QMediaPlayer;
 		QAudioOutput *output = new QAudioOutput;
 		player->setAudioOutput(output);
-		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number(Random::get(1, 10)) + ".wav"));
+		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number(Random::Uniform::integral(1, 10)) + ".wav"));
 		output->setVolume(0.4);
 		player->play();
 		this->playVoice = false;
