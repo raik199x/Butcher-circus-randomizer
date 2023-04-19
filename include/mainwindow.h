@@ -12,6 +12,7 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
+#include "random.h"
 
 /**
  * @file mainwindow.h
@@ -72,4 +73,7 @@ private:
     QString *GetSkills(int numCommand, QString *Fighters);
 	QString *GetTrinkets(int lvl, QString *usedFighters);
 	void ClearLayout(QLayout *layout);
+
+	//! \note Tricky prng
+	Random::Tricky<uint>* prng;
 };

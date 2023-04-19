@@ -43,6 +43,9 @@
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) {
+	//! \note Create tricky prng
+	this->prng = new Random::Tricky<uint>(1u, 10u);
+
 	this->ui = new CentralWidget(this);
 	setCentralWidget(ui);
 
@@ -152,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent) {
 
 MainWindow::~MainWindow() {
 	delete this->ui;
+	delete this->prng;
 }
 
 /**
@@ -494,7 +498,8 @@ void MainWindow::on_doRandom_clicked() {
 		QMediaPlayer *player = new QMediaPlayer;
 		QAudioOutput *output = new QAudioOutput;
 		player->setAudioOutput(output);
-		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number(Random::Uniform::integral(1, 10)) + ".wav"));
+		//! \note Use Tricky PRNG to generate random number
+		player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number((*prng)()) + ".wav"));
 		output->setVolume(0.4);
 		player->play();
 		this->playVoice = false;
