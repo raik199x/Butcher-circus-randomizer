@@ -1,8 +1,8 @@
-#include "../include/mainwindow.h"
-#include "../include/centralwidget.h"
-#include "../include/filemanip.h"
-#include "../include/heroselection.h"
-#include "../include/random.h"
+#include "mainwindow.h"
+#include "centralwidget.h"
+#include "filemanip.h"
+#include "heroselection.h"
+#include "random.h"
 
 #include <QAudioOutput>
 #include <QClipboard>
@@ -25,8 +25,6 @@
 #include <qnamespace.h>
 #include <qobject.h>
 
-#include <array>
-#include <fstream>
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>

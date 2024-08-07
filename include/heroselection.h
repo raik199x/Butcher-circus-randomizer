@@ -3,13 +3,6 @@
 #include <QDialog>
 #include <QPushButton>
 
-/**
- * @file heroselection.h
- * @author raik
- * @brief header file for HeroSelection class
- *
- */
-
 namespace Ui {
 	class HeroSelection;
 }
@@ -18,8 +11,8 @@ class HeroSelection : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit HeroSelection(QWidget* const parent = nullptr, uint8_t numTeam = 0);
-	~HeroSelection(void);
+	explicit HeroSelection(QWidget*  parent = nullptr, uint8_t numTeam = 0);
+	~HeroSelection() override;
 
 private:
 	QPushButton ***buttons;

@@ -6,3 +6,4 @@ build
 CMakeLists.txt.*
 userSettings.json
 BCR*
+env.cmake

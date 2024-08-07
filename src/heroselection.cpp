@@ -5,16 +5,9 @@
 
 #include "../forms/ui_heroselection.h"
 
-#include "../include/heroselection.h"
-#include "../include/filemanip.h"
-#include "../include/config.h"
-
-/**
- * @file heroselection.cpp
- * @brief Implementation of HeroSelection class
- * 
- * @author raik
- */
+#include "heroselection.h"
+#include "filemanip.h"
+#include "config.h"
 
 /**
  * @brief Construct a new Hero Selection:: Hero Selection object
@@ -150,6 +143,6 @@ void HeroSelection::ButtonClicked(void) {
 			}
 }
 
-HeroSelection::~HeroSelection(void) {
+HeroSelection::~HeroSelection() {
 	delete ui;
 }

@@ -3,7 +3,7 @@
 #include <QScreen>
 #include <QTranslator>
 
-#include "../include/mainwindow.h"
+#include "mainwindow.h"
 
 /*!
  * \file main.cpp

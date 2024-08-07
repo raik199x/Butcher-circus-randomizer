@@ -1,33 +1,30 @@
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-cmake_minimum_required(VERSION 3.5)
-
+cmake_minimum_required(VERSION 3.17)
 project(Butcher_Circus_Randomizer VERSION 3.0 LANGUAGES CXX)
 
-find_package(Qt6 COMPONENTS Core Multimedia REQUIRED Widgets)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# In case of non-standart Qt installation, create env.cmake file and set CMAKE_PREFIX to qt installation
+# example: set(CMAKE_PREFIX_PATH "~/Qt/6.7.2/gcc_64") 
+include(${PROJECT_SOURCE_DIR}/env.cmake OPTIONAL)
+find_package(Qt6 COMPONENTS Core Multimedia Widgets REQUIRED)
+
+# Ensure automatic processing of Qt files
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(PROJECT_SOURCES
-	src/filemanip.cpp
-	src/heroselection.cpp 
-	src/main.cpp 
-	src/mainwindow.cpp
+include_directories(
+	${PROJECT_SOURCE_DIR}/include/
+)
 
-	include/random.h 
-	include/filemanip.h
-	include/heroselection.h
-	include/mainwindow.h
-	include/config.h
-	include/centralwidget.h
-
-	forms/heroselection.ui
-
-	assets/resources.qrc
-	assets/Butcher_Circus_Randomizer_ru_RU.ts
+# Collect all source files
+file(GLOB_RECURSE PROJECT_SOURCES
+    "${PROJECT_SOURCE_DIR}/src/*.cpp"
+    "${PROJECT_SOURCE_DIR}/include/*.h"
+    "${PROJECT_SOURCE_DIR}/forms/*.ui"
+    "${PROJECT_SOURCE_DIR}/assets/*.qrc"
 )
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
@@ -35,17 +32,11 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
 		MANUAL_FINALIZATION
 		${PROJECT_SOURCES}
 	)
-# Define target properties for Android with Qt 6 as:
-#	set_property(TARGET Butcher_Circus_Randomizer APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#				 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
 	if(ANDROID)
 		add_library(Butcher_Circus_Randomizer SHARED
 			${PROJECT_SOURCES}
 		)
-# Define properties for Android with Qt 5 after find_package() calls as:
-#	set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
 	else()
 		add_executable(Butcher_Circus_Randomizer
 			${PROJECT_SOURCES}
@@ -54,6 +45,7 @@ else()
 endif()
 
 target_link_libraries(Butcher_Circus_Randomizer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia)
+
 set_target_properties(Butcher_Circus_Randomizer PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
 	MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
