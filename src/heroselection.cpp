@@ -1,7 +1,9 @@
 #include <filesystem>
+#include <fstream>
 
 #include <QBoxLayout>
 #include <QMessageBox>
+#include <QScrollArea>
 
 #include "heroselection.h"
 #include "filemanip.h"
@@ -18,103 +20,117 @@ HeroSelection::HeroSelection(QWidget *const parent, uint8_t numTeam) : QDialog(p
   this->setWindowTitle("Random settings");
   this->setStyleSheet("background-color: #323232");
 
-  this->fileName = "BCR_T" + std::to_string((uint16_t)numTeam + 1) + ".txt";
+  this->fileName = "BCR_T" + std::to_string(numTeam + 1) + ".txt";
   // we should analyze how many heroes accessible for random
   if (!std::filesystem::exists(this->fileName)) {
-    if (!recreate(this->fileName)) // if file does not exist and cannot be created
+    if (!recreate(this->fileName)) { // if file does not exist and cannot be created
       std::terminate();
-    this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
+    }
+    this->AccessibleHeroes = kTotalNumberOfFighters;
   } else { // checking how many heroes enabled
     this->AccessibleHeroes = 0;
     std::ifstream file(this->fileName);
     if (!file) {
-      QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file BCR_T(1,2,...)");
+      QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file BCR_T(1,2).txt");
       std::terminate();
     }
-    for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
+    for (int i = 0; i < kTotalNumberOfFighters; i++) {
       std::string line;
       file >> line;
-      if (line[line.find(":") + 1] == '1')
+      if (line[line.find(':') + 1] == '1') {
         this->AccessibleHeroes++;
-      int spellsAvailable = 0; // also checking that hero can random 4 spells
-      for (unsigned int j = line.find(":") + 2; j < line.size(); j++)
-        if (line[j] == '1')
-          spellsAvailable++;
-      if (spellsAvailable < 4) {
-        this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
+      }
+      int spells_available = 0; // also checking that hero can random 4 spells
+      for (unsigned int j = line.find(':') + 2; j < line.size(); j++) {
+        if (line[j] == '1') {
+          spells_available++;
+        }
+      }
+      if (spells_available < kRequiredSpellsForFighter) {
+        this->AccessibleHeroes = kTotalNumberOfFighters;
         QMessageBox::warning(this, "Random settings analyze",
                              "One of heroes had less than 4 skills for randomizing, file will be recreated");
         recreate(this->fileName);
         break;
       }
     }
-    if (this->AccessibleHeroes < 4) {
+    if (this->AccessibleHeroes < kRequiredNumberOfFighters) {
       QMessageBox::warning(this, "Random settings analyze",
                            "Less than 4 heroes where set for randomizing, file will be recreated");
       recreate(this->fileName);
-      this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
+      this->AccessibleHeroes = kTotalNumberOfFighters;
     }
   }
 
-  this->buttons = new QPushButton **[NUMBER_OF_FIGHTERS];
-  for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
-    this->buttons[i] = new QPushButton *[8]; // 7 spells + hero
+  this->buttons = new QPushButton **[kTotalNumberOfFighters];
+  for (int i = 0; i < kTotalNumberOfFighters; i++) {
+    this->buttons[i] = new QPushButton *[HeroSelection::kAmountOfButtonsForEachFighter];
+  }
 
-  // initializing
-  QWidget     *wgtMain  = new QWidget(this);
-  QVBoxLayout *vboxMain = new QVBoxLayout(wgtMain);
-  for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
-    QWidget     *wgtSub  = new QWidget();
-    QHBoxLayout *hBoxSub = new QHBoxLayout(wgtSub);
-    for (int j = 0; j < 8; j++) {
+  // Init Window
+  auto *main_v_layout = new QVBoxLayout(this);
+  auto *scroll_area = new QScrollArea();
+  main_v_layout->addWidget(scroll_area);
+
+  auto *widget_with_buttons = new QWidget();
+  auto *layout_for_buttons = new QVBoxLayout(widget_with_buttons);
+
+  for (int i = 0; i < kTotalNumberOfFighters; i++) {
+    auto *h_box_sub = new QHBoxLayout();
+    for (int j = 0; j < HeroSelection::kAmountOfButtonsForEachFighter; j++) {
       this->buttons[i][j] = new QPushButton();
-      buttons[i][j]->setFixedSize(QSize(75, 80));
-      hBoxSub->addWidget(buttons[i][j]);
-      connect(this->buttons[i][j], SIGNAL(clicked()), this, SLOT(ButtonClicked()));
+      buttons[i][j]->setFixedSize(HeroSelection::kIconSize);
+      h_box_sub->addWidget(buttons[i][j]);
+      connect(this->buttons[i][j], SIGNAL(clicked()), this, SLOT(buttonClicked()));
     }
-    vboxMain->addWidget(wgtSub);
+    layout_for_buttons->addLayout(h_box_sub);
   }
+  scroll_area->setWidget(widget_with_buttons);
+
   // updating ui
-  for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
+  for (int i = 0; i < kTotalNumberOfFighters; i++) {
     updateUiLine(i + 1);
+  }
 }
 
 bool HeroSelection::updateUiLine(const int line) {
   //! \todo Check  line's borders (for out of range values)
   std::ifstream file(this->fileName);
-  if (!file)
+  if (!file) {
     return false;
+  }
   // getting statistic line
   std::string lines;
-  for (int i = 0; i < line; i++)
+  for (int i = 0; i < line; i++) {
     getline(file, lines);
+  }
   file.close();
 
-  // analysing and changing
-  size_t pos = lines.find(":");
+  // analyzing and changing
+  size_t pos = lines.find(':');
   pos++;
   std::string color;
   lines[pos] == '0' ? color = "Red;" : color = "Green;";
   std::string style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
-                      fighters[line - 1] + "/hero_" + fighters[line - 1] + ")"; // changing hero frame
+                      kFighters[line - 1] + "/hero_" + kFighters[line - 1] + ")"; // changing hero frame
   buttons[line - 1][0]->setStyleSheet(QString::fromStdString(style));
   pos++;
   for (unsigned int i = pos; i < pos + 7; i++) { // 7 since hero was checked before
     lines[i] == '0' ? color = "Red;" : color = "Green;";
-    style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" + fighters[line - 1] + "/" +
-            std::to_string(i - pos + 1) + ".png)";
+    style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" + kFighters[line - 1] +
+            "/" + std::to_string(i - pos + 1) + ".png)";
     buttons[line - 1][i - pos + 1]->setStyleSheet(QString::fromStdString(style));
   }
   return true;
 }
 
-void HeroSelection::ButtonClicked(void) {
+void HeroSelection::buttonClicked() {
   using namespace Errors;
-  QPushButton *button = (QPushButton *)sender();
-  for (int x = 0; x < NUMBER_OF_FIGHTERS; x++)
-    for (int c = 0; c < 8; c++)
+  auto *button = (QPushButton *)sender();
+  for (int x = 0; x < kTotalNumberOfFighters; x++) {
+    for (int c = 0; c < 8; c++) {
       if (this->buttons[x][c] == button) {
-        switch (changeLine(this->fileName, fighters[x], c, this->AccessibleHeroes)) {
+        switch (changeLine(this->fileName, kFighters[x], c, this->AccessibleHeroes)) {
         case ChangeLine::HeroRemoved:
           this->AccessibleHeroes--;
           break;
@@ -142,6 +158,8 @@ void HeroSelection::ButtonClicked(void) {
         updateUiLine(x + 1);
         return;
       }
+    }
+  }
 }
 
 HeroSelection::~HeroSelection() {

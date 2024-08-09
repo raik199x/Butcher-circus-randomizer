@@ -1,5 +1,6 @@
-#include "../include/filemanip.h"
-#include "../include/config.h"
+#include <fstream>
+
+#include "config.h"
 
 /**
  * @file filemanip_windows.cpp
@@ -15,12 +16,13 @@
  * @return true if file was recreated
  * @return false if file wasn't recreated
  */
-bool recreate(std::string fileName) {
+bool recreate_win(const std::string &fileName) {
   std::ofstream file(fileName);
-  if (!file)
+  if (!file) {
     return false;
-  for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
-    std::string line = std::string(fighters[i]) + ":" + std::string(8, '1') + '\n';
+  }
+  for (const auto *k_fighter : kFighters) {
+    std::string line = std::string(k_fighter) + ":" + std::string(8, '1') + '\n';
     file << line;
   }
   file.close();

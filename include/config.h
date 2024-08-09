@@ -10,11 +10,12 @@ using std::string;
  * \brief File for global configuration and constants
  */
 
-// Number of fighters available for selection
-constexpr static const size_t NUMBER_OF_FIGHTERS = 18;
+constexpr static size_t kTotalNumberOfFighters    = 18;
+constexpr size_t        kRequiredNumberOfFighters = 4;
+constexpr size_t        kRequiredSpellsForFighter = 4;
 
 // The crowd of fighters
-const char *const fighters[NUMBER_OF_FIGHTERS] = {
+const char *const kFighters[kTotalNumberOfFighters] = {
     "abomination",  "antiquarian", "bounty_hunter", "crusader",      "arbalest",      "flagellant",
     "grave_robber", "hellion",     "highwayman",    "houndmaster",   "jester",        "leper",
     "man_at_arms",  "musketeer",   "occultist",     "plague_doctor", "shieldbreaker", "vestal"};

@@ -3,8 +3,8 @@
 
 #include <QMessageBox>
 
-#include "../include/config.h"
-#include "../include/filemanip.h"
+#include "config.h"
+#include "filemanip.h"
 
 /**
  * @file filemanip.cpp
@@ -23,13 +23,14 @@
  */
 [[maybe_unused]] bool recreate(const std::string &fileName) {
   std::ofstream file(fileName);
-  if (!file)
+  if (!file) {
     return false;
-  for (int i = 0; i < 18; i++) {
+}
+  for (const auto *k_fighter : kFighters) {
     //! \note something strange was here:
     //		  std::string line = fighters[i] + ":" + std::string(8,
     //'1')['\n'];
-    file << fighters[i] << ":" << std::string(8, '1') << '\n';
+    file << k_fighter << ":" << std::string(8, '1') << '\n';
   }
   file.close();
   return true;
@@ -112,8 +113,9 @@
   for (int i = 0; i < 18; i++) {
     string line;
     file >> line;
-    if (line[line.find(":") + 1] == '1')
-      possibleHeroes.push_back(fighters[i]);
+    if (line[line.find(":") + 1] == '1') {
+      possibleHeroes.emplace_back(kFighters[i]);
+}
   }
   return possibleHeroes;
 }
@@ -173,7 +175,7 @@ std::array<QString, 4> getPossibleSkills(const std::string &fileName, const std:
     return result;
   }
   size_t index = 0;
-  for (int i = 0; i < NUMBER_OF_FIGHTERS; ++i) {
+  for (int i = 0; i < kTotalNumberOfFighters; ++i) {
     string line;
     file >> line;
     string heroName = line.substr(0, line.find(":"));
