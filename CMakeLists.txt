@@ -11,7 +11,7 @@ include(${PROJECT_SOURCE_DIR}/env.cmake OPTIONAL)
 find_package(Qt6 COMPONENTS Core Multimedia Widgets REQUIRED)
 
 # Ensure automatic processing of Qt files
-set(CMAKE_AUTOUIC ON)
+# set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -23,7 +23,6 @@ include_directories(
 file(GLOB_RECURSE PROJECT_SOURCES
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
     "${PROJECT_SOURCE_DIR}/include/*.h"
-    "${PROJECT_SOURCE_DIR}/forms/*.ui"
     "${PROJECT_SOURCE_DIR}/assets/*.qrc"
 )
 

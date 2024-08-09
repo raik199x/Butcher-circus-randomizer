@@ -3,8 +3,6 @@
 #include <QBoxLayout>
 #include <QMessageBox>
 
-#include "../forms/ui_heroselection.h"
-
 #include "heroselection.h"
 #include "filemanip.h"
 #include "config.h"
@@ -15,10 +13,8 @@
  * @param parent 
  * @param numTeam 
  */
-HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
-	ui->setupUi(this);
-
-	this->setFixedSize(1065, 342);
+HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent) {
+	// this->setFixedSize(1065, 342);
 	this->setWindowTitle("Random settings");
 	this->setStyleSheet("background-color: #323232");
 
@@ -63,7 +59,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 		this->buttons[i] = new QPushButton* [8]; // 7 spells + hero
 
 	// initializing
-	QWidget *wgtMain = new QWidget();
+	QWidget *wgtMain = new QWidget(this);
 	QVBoxLayout *vboxMain = new QVBoxLayout(wgtMain);
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
 		QWidget *wgtSub = new QWidget();
@@ -79,7 +75,7 @@ HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(p
 	// updating ui
 	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
 		updateUiLine(i + 1);
-	this->ui->heroes->setWidget(wgtMain);
+
 }
 
 bool HeroSelection::updateUiLine(const int line) {
@@ -144,5 +140,4 @@ void HeroSelection::ButtonClicked(void) {
 }
 
 HeroSelection::~HeroSelection() {
-	delete ui;
 }

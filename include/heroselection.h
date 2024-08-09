@@ -2,10 +2,8 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QWidget>
 
-namespace Ui {
-	class HeroSelection;
-}
 
 class HeroSelection : public QDialog {
 	Q_OBJECT
@@ -16,7 +14,6 @@ public:
 
 private:
 	QPushButton ***buttons;
-	Ui::HeroSelection *ui;
 	std::string fileName;
 	int AccessibleHeroes;
 
