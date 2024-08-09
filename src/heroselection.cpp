@@ -16,7 +16,6 @@
  * @param numTeam
  */
 HeroSelection::HeroSelection(QWidget *const parent, uint8_t numTeam) : QDialog(parent) {
-  // this->setFixedSize(1065, 342);
   this->setWindowTitle("Random settings");
   this->setStyleSheet("background-color: #323232");
 
@@ -69,11 +68,11 @@ HeroSelection::HeroSelection(QWidget *const parent, uint8_t numTeam) : QDialog(p
 
   // Init Window
   auto *main_v_layout = new QVBoxLayout(this);
-  auto *scroll_area = new QScrollArea();
+  auto *scroll_area   = new QScrollArea();
   main_v_layout->addWidget(scroll_area);
 
   auto *widget_with_buttons = new QWidget();
-  auto *layout_for_buttons = new QVBoxLayout(widget_with_buttons);
+  auto *layout_for_buttons  = new QVBoxLayout(widget_with_buttons);
 
   for (int i = 0; i < kTotalNumberOfFighters; i++) {
     auto *h_box_sub = new QHBoxLayout();
@@ -82,18 +81,27 @@ HeroSelection::HeroSelection(QWidget *const parent, uint8_t numTeam) : QDialog(p
       buttons[i][j]->setFixedSize(HeroSelection::kIconSize);
       h_box_sub->addWidget(buttons[i][j]);
       connect(this->buttons[i][j], SIGNAL(clicked()), this, SLOT(buttonClicked()));
+
+      h_box_sub->addSpacerItem(new QSpacerItem(HeroSelection::kSpacingBetweenIcons, 0));
     }
     layout_for_buttons->addLayout(h_box_sub);
+    layout_for_buttons->addSpacerItem(new QSpacerItem(0, HeroSelection::kSpacingBetweenIcons));
   }
   scroll_area->setWidget(widget_with_buttons);
 
   // updating ui
-  for (int i = 0; i < kTotalNumberOfFighters; i++) {
-    updateUiLine(i + 1);
+  for (uint8_t index_of_fighter = 0; index_of_fighter < kTotalNumberOfFighters; index_of_fighter++) {
+    this->updateUiLine(index_of_fighter + 1);
   }
+
+  // Calculating preferred size for window
+  const size_t window_width = HeroSelection::kAmountOfButtonsForEachFighter * HeroSelection::kIconSize.width() +
+                              HeroSelection::kAmountOfButtonsForEachFighter * HeroSelection::kSpacingBetweenIcons;
+  const size_t window_height = HeroSelection::kIconSize.height() * 3 + 3 * HeroSelection::kSpacingBetweenIcons;
+  this->resize(window_width, window_height);
 }
 
-bool HeroSelection::updateUiLine(const int line) {
+bool HeroSelection::updateUiLine(const uint8_t number_of_fighter) {
   //! \todo Check  line's borders (for out of range values)
   std::ifstream file(this->fileName);
   if (!file) {
@@ -101,7 +109,7 @@ bool HeroSelection::updateUiLine(const int line) {
   }
   // getting statistic line
   std::string lines;
-  for (int i = 0; i < line; i++) {
+  for (int i = 0; i < number_of_fighter; i++) {
     getline(file, lines);
   }
   file.close();
@@ -112,14 +120,15 @@ bool HeroSelection::updateUiLine(const int line) {
   std::string color;
   lines[pos] == '0' ? color = "Red;" : color = "Green;";
   std::string style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
-                      kFighters[line - 1] + "/hero_" + kFighters[line - 1] + ")"; // changing hero frame
-  buttons[line - 1][0]->setStyleSheet(QString::fromStdString(style));
+                      kFighters[number_of_fighter - 1] + "/hero_" + kFighters[number_of_fighter - 1] +
+                      ")"; // changing hero frame
+  buttons[number_of_fighter - 1][0]->setStyleSheet(QString::fromStdString(style));
   pos++;
   for (unsigned int i = pos; i < pos + 7; i++) { // 7 since hero was checked before
     lines[i] == '0' ? color = "Red;" : color = "Green;";
-    style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" + kFighters[line - 1] +
-            "/" + std::to_string(i - pos + 1) + ".png)";
-    buttons[line - 1][i - pos + 1]->setStyleSheet(QString::fromStdString(style));
+    style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
+            kFighters[number_of_fighter - 1] + "/" + std::to_string(i - pos + 1) + ".png)";
+    buttons[number_of_fighter - 1][i - pos + 1]->setStyleSheet(QString::fromStdString(style));
   }
   return true;
 }
