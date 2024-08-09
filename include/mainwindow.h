@@ -25,55 +25,55 @@ class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+  MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
 private slots:
-	void on_doRandom_clicked();
+  void on_doRandom_clicked();
 
-	void on_level_valueChanged(int arg1);
+  void on_level_valueChanged(int arg1);
 
-	void on_sameTeamLevel_clicked();
+  void on_sameTeamLevel_clicked();
 
-	void on_RandomSettings1_clicked();
+  void on_RandomSettings1_clicked();
 
-	void on_RandomSettings2_clicked();
+  void on_RandomSettings2_clicked();
 
-	void on_screenShot_clicked();
+  void on_screenShot_clicked();
 
-	void on_radio_clicked();
+  void on_radio_clicked();
 
-	void on_muteAncestor_clicked();
+  void on_muteAncestor_clicked();
 
 private:
-	bool playVoice;
-	QWidget *ui;
-	// Recreating mainwindow.ui
-	QPushButton **RandomSettings;
-	QPushButton *screenShot;
-	QPushButton *doRandom;
+  bool     playVoice;
+  QWidget *ui;
+  // Recreating mainwindow.ui
+  QPushButton **RandomSettings;
+  QPushButton  *screenShot;
+  QPushButton  *doRandom;
 
-	QCheckBox *sameTeamLevel;
-	QCheckBox *muteAncestor;
+  QCheckBox *sameTeamLevel;
+  QCheckBox *muteAncestor;
 
-	QRadioButton *radio1t;
-	QRadioButton *radio3t;
-	QSpinBox **level;
+  QRadioButton *radio1t;
+  QRadioButton *radio3t;
+  QSpinBox    **level;
 
-	QVBoxLayout *layout;
-	
-	QVBoxLayout *leftSide;
-	QVBoxLayout *rightSide;
+  QVBoxLayout *layout;
 
-	void Randomizing(int numCommand);
-	QString *GetFighters(int numCommand);
-    QString *GetSkills(int numCommand, QString *Fighters);
-	QString *GetTrinkets(int lvl, QString *usedFighters);
-	void ClearLayout(QLayout *layout);
+  QVBoxLayout *leftSide;
+  QVBoxLayout *rightSide;
 
-	//! \note Tricky prng
-	Random::Tricky<uint>* prng;
+  void     Randomizing(int numCommand);
+  QString *GetFighters(int numCommand);
+  QString *GetSkills(int numCommand, QString *Fighters);
+  QString *GetTrinkets(int lvl, QString *usedFighters);
+  void     ClearLayout(QLayout *layout);
+
+  //! \note Tricky prng
+  Random::Tricky<uint> *prng;
 };
