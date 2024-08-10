@@ -19,23 +19,16 @@
 #include <QPushButton>
 #include <QRadioButton>
 
+#include <cstddef>
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "mainwindow.h"
 #include "centralwidget.h"
 #include "filemanip.h"
 #include "heroselection.h"
 #include "random.h"
-
-/*!
- * \file mainwindow.cpp
- * \brief MainWindow Interface
- *
- * \author raik
- */
-
-using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) {
   //! \note Create tricky prng
@@ -101,49 +94,49 @@ MainWindow::MainWindow(QWidget *parent) {
   this->level[1]->setMaximum(75);
 
   // Managing layouts
-  QVBoxLayout *levelSetter1 = new QVBoxLayout();
-  levelSetter1->addWidget(new QLabel("Level"));
-  levelSetter1->addWidget(this->level[0]);
+  auto *level_setter1 = new QVBoxLayout();
+  level_setter1->addWidget(new QLabel("Level"));
+  level_setter1->addWidget(this->level[0]);
 
-  QVBoxLayout *levelSetter2 = new QVBoxLayout();
-  levelSetter2->addWidget(new QLabel("Level"));
-  levelSetter2->addWidget(this->level[1]);
+  auto *level_setter2 = new QVBoxLayout();
+  level_setter2->addWidget(new QLabel("Level"));
+  level_setter2->addWidget(this->level[1]);
 
-  QHBoxLayout *topWindow = new QHBoxLayout();
-  topWindow->addWidget(this->RandomSettings[0]);
-  topWindow->addLayout(levelSetter1);
-  topWindow->addSpacerItem(new QSpacerItem(400, 1));
+  auto *top_window = new QHBoxLayout();
+  top_window->addWidget(this->RandomSettings[0]);
+  top_window->addLayout(level_setter1);
+  top_window->addSpacerItem(new QSpacerItem(400, 1));
 
-  QVBoxLayout *topCenterButtons = new QVBoxLayout();
-  topCenterButtons->addWidget(this->doRandom);
-  topCenterButtons->addWidget(this->screenShot);
-  topWindow->addLayout(topCenterButtons);
+  auto *top_center_buttons = new QVBoxLayout();
+  top_center_buttons->addWidget(this->doRandom);
+  top_center_buttons->addWidget(this->screenShot);
+  top_window->addLayout(top_center_buttons);
 
-  topWindow->addSpacerItem(new QSpacerItem(400, 1));
-  topWindow->addLayout(levelSetter2);
-  topWindow->addWidget(this->RandomSettings[1]);
+  top_window->addSpacerItem(new QSpacerItem(400, 1));
+  top_window->addLayout(level_setter2);
+  top_window->addWidget(this->RandomSettings[1]);
 
-  QVBoxLayout *checkSettings = new QVBoxLayout();
-  checkSettings->addWidget(this->sameTeamLevel);
-  checkSettings->addWidget(this->muteAncestor);
+  auto *check_settings = new QVBoxLayout();
+  check_settings->addWidget(this->sameTeamLevel);
+  check_settings->addWidget(this->muteAncestor);
 
-  QVBoxLayout *radioSettings = new QVBoxLayout();
-  radioSettings->addWidget(this->radio1t);
-  radioSettings->addWidget(this->radio3t);
+  auto *radio_settings = new QVBoxLayout();
+  radio_settings->addWidget(this->radio1t);
+  radio_settings->addWidget(this->radio3t);
 
-  QHBoxLayout *middle = new QHBoxLayout();
+  auto *middle = new QHBoxLayout();
   middle->addSpacerItem(new QSpacerItem(500, 1));
-  middle->addLayout(checkSettings);
-  middle->addLayout(radioSettings);
+  middle->addLayout(check_settings);
+  middle->addLayout(radio_settings);
   middle->addSpacerItem(new QSpacerItem(500, 1));
 
-  QHBoxLayout *bottom = new QHBoxLayout();
+  auto *bottom = new QHBoxLayout();
   this->leftSide->addSpacerItem(new QSpacerItem(1, 600)); // for placing ui parts in the top of screen
   bottom->addLayout(this->leftSide);
   bottom->addLayout(this->rightSide);
 
   this->layout = new QVBoxLayout(this->ui);
-  this->layout->addLayout(topWindow);
+  this->layout->addLayout(top_window);
   this->layout->addLayout(middle);
   this->layout->addLayout(bottom);
 }
@@ -151,6 +144,10 @@ MainWindow::MainWindow(QWidget *parent) {
 MainWindow::~MainWindow() {
   delete this->ui;
   delete this->prng;
+}
+
+std::string MainWindow::getFileNameBasedOnPlayer(const uint8_t player) {
+  return player == MainWindow::kLeftPlayer ? "BCR_T1.txt" : "BCR_T2.txt";
 }
 
 /**
@@ -170,310 +167,325 @@ void MainWindow::ClearLayout(QLayout *layout) {
   }
 }
 
-/**
- * @brief Parsing trinket name from string
- *
- * @param line
- * @param mode	1 -- leper[trinket_name] -> trinket_name
- * 				2 -- leper[trinket_name] -> leper
- * @return string
- */
-string ParsingTrinket(string line, int mode) {
-  string result;
-  if (line.find("[") == string::npos)
+QString parseTrinketName(QString line) {
+  long long open_bracket_pos = line.indexOf('[');
+  if (open_bracket_pos == -1) {
     return line;
-  if (mode == 1)
-    for (unsigned int i = line.find("[") + 1; i < line.size() - 1; i++) // obtaining hero name
-      result += line[i];
-  else if (mode == 2)
-    for (unsigned int i = 0; i < line.find("["); i++) // obtaining hero name
-      result += line[i];
-  return result;
+  }
+  return line.mid(0, open_bracket_pos);
 }
 
-/**
- * @brief Get the Trinkets
- *
- * @param lvl Player level
- * @param usedFighters Array of used fighters
- * @return QString*
- */
-[[nodiscard]] QString *MainWindow::GetTrinkets(int lvl, QString *usedFighters) {
-  vector<string> possibleTrinkets;
-  QFile          trinketList(":/trinkets/trinkets/list.txt");
-  if (!trinketList.open(QIODevice::ReadOnly)) {
+QString parseTrinketHeroLimit(const QString &line) {
+  long long open_bracket_pos = line.indexOf('[');
+  if (open_bracket_pos == -1) {
+    return "NO_HERO_LIMIT"; // TODO(alexander): Remove hardcode
+  }
+  long long closing_bracket_pos = line.indexOf(']');
+  return line.mid(open_bracket_pos + 1, closing_bracket_pos - open_bracket_pos - 1);
+}
+
+std::array<QString, MainWindow::kAmountOfTrinketsForTeam>
+MainWindow::getTrinkets(uint8_t lvl, std::array<QString, kRequiredNumberOfFighters> fighters) {
+  std::vector<QString> possible_trinkets;
+  QFile                trinket_list(":/trinkets/trinkets/list.txt");
+  if (!trinket_list.open(QIODevice::ReadOnly)) {
     std::terminate();
   }
-  QTextStream in(&trinketList);
-  string      stopLine;
+  QTextStream file_stream_read(&trinket_list);
+  QString     stop_line;
+
+  // TODO(alexander): move to filemanip
   // guessing stop line
-  if (lvl >= 69)
-    stopLine = "-----";
-  else {
-    stopLine = "--" + to_string(lvl + 1);
-    lvl + 1 < 10 ? stopLine += "--" : stopLine += "-";
+  if (lvl >= 69) {
+    stop_line = "-----";
+  } else {
+    stop_line = "--" + QString::number(lvl + 1);
+    lvl + 1 < 10 ? stop_line += "--" : stop_line += "-";
   }
+
   // obtaining possible trinkets for team
   while (true) {
-    QString line         = in.readLine();
-    string  lineFromFile = line.toStdString();
-    if (lineFromFile == stopLine)
+    QString line_from_file = file_stream_read.readLine();
+    qDebug() << line_from_file;
+    if (line_from_file == stop_line) {
       break;
-    if (lineFromFile.find("--") != string::npos) // skipping level delimeter
+    }
+    if (line_from_file.indexOf("--") != -1) { // skipping level delimeter
       continue;
-    if (lineFromFile.find("[") != string::npos) { // means there somewhere symbol '['
-      for (int i = 0; i < 4; i++)
-        if (QString::fromStdString(ParsingTrinket(lineFromFile, 1)) == usedFighters[i]) {
-          possibleTrinkets.push_back(lineFromFile);
+    }
+    if (line_from_file.indexOf('[') != -1) { // means there somewhere symbol '['
+      for (int i = 0; i < kRequiredNumberOfFighters; i++) {
+        if (parseTrinketHeroLimit(line_from_file) == fighters[i]) {
+          possible_trinkets.push_back(line_from_file);
           break;
         }
-    } else
-      possibleTrinkets.push_back(lineFromFile);
+      }
+    } else {
+      possible_trinkets.push_back(line_from_file);
+    }
   }
-  QString *trinkets = new QString[8];
+
+  std::array<QString, kAmountOfTrinketsForTeam> trinkets;
+
   // randomize
   while (true) {
     bool escape = true;
-    for (int i = 0; i < 8; i++)
-      if (trinkets[i] == "") {
+    for (uint8_t iter_trinket = 0; iter_trinket < kAmountOfTrinketsForTeam; iter_trinket++) {
+      if (trinkets[iter_trinket].isEmpty()) {
         escape = false;
         break;
       }
-    if (escape == true)
-      return trinkets;
-    int num = possibleTrinkets.size() - 1;
-    num     = Random::Uniform::integral(0, num);
-    if (possibleTrinkets[num] == ParsingTrinket(possibleTrinkets[num], 1)) {
-      for (int i = 0; i < 8; i++)
-        if (trinkets[i] == "" &&
-            (((i + 1) % 2 == 0 && possibleTrinkets[num] != trinkets[i - 1].toStdString()) || (i + 1) % 2 != 0)) {
-          trinkets[i] = QString::fromStdString(possibleTrinkets[num]);
-          break;
-        }
-    } else {
-      for (int i = 0; i < 4; i++)
-        if (QString::fromStdString(ParsingTrinket(possibleTrinkets[num], 1)) == usedFighters[i]) {
-          if (trinkets[i * 2] != "" && trinkets[i * 2 + 1] != "")
-            break;
-          trinkets[i * 2] == ""
-              ? trinkets[i * 2]     = QString::fromStdString(ParsingTrinket(possibleTrinkets[num], 2))
-              : trinkets[i * 2 + 1] = QString::fromStdString(ParsingTrinket(possibleTrinkets[num], 2));
-          break;
-        }
     }
-    possibleTrinkets.erase(possibleTrinkets.cbegin() + num);
+    if (escape) {
+      return trinkets;
+    }
+
+    int random_trinket_number = static_cast<int>(possible_trinkets.size() - 1);
+    random_trinket_number     = Random::Uniform::integral(0, random_trinket_number);
+
+    if (possible_trinkets[random_trinket_number] == parseTrinketHeroLimit(possible_trinkets[random_trinket_number])) {
+      for (int iter_trinket = 0; iter_trinket < kAmountOfTrinketsForTeam; iter_trinket++) {
+        if (trinkets[iter_trinket].isEmpty() &&
+            (((iter_trinket + 1) % 2 == 0 && possible_trinkets[random_trinket_number] != trinkets[iter_trinket - 1]) ||
+             (iter_trinket + 1) % 2 != 0)) {
+          trinkets[iter_trinket] = possible_trinkets[random_trinket_number];
+          break;
+        }
+      }
+    } else {
+      for (long iter_fighters = 0; iter_fighters < kRequiredNumberOfFighters; iter_fighters++) {
+        if (parseTrinketHeroLimit(possible_trinkets[random_trinket_number]) == fighters[iter_fighters]) {
+          // TODO(alexander): if hero have two empty trinket slots?
+          // TODO(alexander): add two variables to store position of both trinkets of current fighter
+          if (trinkets[iter_fighters * 2] != "" && trinkets[iter_fighters * 2 + 1] != "") {
+            break;
+          }
+          trinkets[iter_fighters * 2] == ""
+              ? trinkets[iter_fighters * 2]     = parseTrinketName(possible_trinkets[random_trinket_number])
+              : trinkets[iter_fighters * 2 + 1] = parseTrinketName(possible_trinkets[random_trinket_number]);
+          break;
+        }
+      }
+    }
+    possible_trinkets.erase(possible_trinkets.cbegin() + random_trinket_number);
   }
   return trinkets;
 }
 
 /**
- * @brief Get the Fighters
+ * @brief Get array of randomly selected fighters
  *
- * @param numCommand 0 or 1
- * @return QString* or nullptr if error occurred
+ * @param player Player index (Left or Right)
+ * @return std::optional<std::array<QString, kRequiredNumberOfFighters>> nullopt if fails, array otherwise
  */
-[[nodiscard]] QString *MainWindow::GetFighters(int numCommand) {
+std::optional<std::array<QString, kRequiredNumberOfFighters>> MainWindow::getFighters(uint8_t player) {
   // opening file
-  string fileName = numCommand == 0 ? "BCR_T1.txt" : "BCR_T2.txt";
-  if (!filesystem::exists(fileName) && !recreate(fileName)) {
+  string file_name = this->getFileNameBasedOnPlayer(player);
+  if (!std::filesystem::exists(file_name) && !recreate(file_name)) {
     QMessageBox::critical(this, "Cannot create file",
                           "For some reason BCR cannot create file for team random settings");
-    return nullptr;
+    return std::nullopt;
   }
 
-  vector<string> possibleHeroes = getPossibleHeroes(fileName);
+  std::vector<string>                            possible_heroes = getPossibleHeroes(file_name);
+  std::array<QString, kRequiredNumberOfFighters> result;
 
-  QString *result = new QString[4];
-  // randomize first team
   // randomize heroes
-  for (int i = 0; i < 4; i++) {
-    int index   = possibleHeroes.size();                   // variable for storing index that has hero skills
-    int numHero = Random::Uniform::integral(0, index - 1); // variable for storing hero index
-    result[i]   = QString::fromStdString(possibleHeroes[numHero]);
-    possibleHeroes.erase(possibleHeroes.cbegin() + numHero);
+  for (int iter_getting_hero = 0; iter_getting_hero < kRequiredNumberOfFighters; iter_getting_hero++) {
+    uint8_t index       = static_cast<int>(possible_heroes.size()); // variable for storing index that has hero skills
+    uint8_t hero_number = Random::Uniform::integral(0, index - 1);  // variable for storing hero index
+    result[iter_getting_hero] = QString::fromStdString(possible_heroes[hero_number]);
+    possible_heroes.erase(possible_heroes.cbegin() + hero_number);
   }
+
   return result;
 }
 
 /**
  * @brief Get already randomized QString of skills
  *
- * @param numCommand decide which random settings need to use
  * @param Fighters Already randomized fighters
- * @return QString* (format ex: "1234" "1234" "1234" "1234"")
+ * @return array of QString (format ex: "1234" "1234" "1234" "1234"")
  */
-QString *MainWindow::GetSkills(int numCommand, QString *Fighters) {
-  QString *skills = d_getPossibleSkills(numCommand, Fighters);
-  QString *result = new QString[4]; // skills for each hero
+std::array<QString, kRequiredNumberOfFighters>
+MainWindow::getSkills(uint8_t player, const std::array<QString, kRequiredNumberOfFighters> &fighters) {
+  std::array<QString, kRequiredNumberOfFighters> skills =
+      getPossibleSkills(MainWindow::getFileNameBasedOnPlayer(player), fighters, false);
+  std::array<QString, kRequiredSpellsForFighter> result; // skills for each hero
 
-  for (size_t i = 0; i < 4; i++)
-    for (size_t j = 0; j < 4; j++) {
-      int getNum = Random::Uniform::integral(0, (int)skills[i].size() - 1);
-      result[i] += skills[i][getNum];
+  for (size_t iter_fighters = 0; iter_fighters < kRequiredNumberOfFighters; iter_fighters++) {
+    for (size_t iter_skills = 0; iter_skills < kRequiredSpellsForFighter; iter_skills++) {
+      int get_num = Random::Uniform::integral(0, (int)skills[iter_fighters].size() - 1);
+      result[iter_fighters] += skills[iter_fighters][get_num];
       // delete symbol from QString
-      skills[i].remove(getNum, 1);
+      skills[iter_fighters].remove(get_num, 1);
     }
+  }
 
-  delete[] skills;
   return result;
 }
-/**
- * @brief Generates layout with all heroes layouts (hero + skills + trinkets, 4 heroes, in general whole team)
- *
- * @param fighters Already randomized fighters
- * @param skillsArray Already randomized skills
- * @param trinkets Already randomized trinkets
- * @param radio3t If we have a lot of teams for placing in ui, function will shrink size of images
- * @param numCommand in case of right side (numCommand = 1) will mirror images and positioning
- * @return QVBoxLayout*
- */
-QVBoxLayout *GenerateTeam(QString *fighters, QString *skillsArray, QString *trinkets, bool radio3t, int numCommand) {
-  QVBoxLayout *result = new QVBoxLayout;
 
-  const size_t heroImageSize       = radio3t ? 50 : 60;
-  const size_t skillImageSize      = radio3t ? 40 : 60;
-  const size_t trinketImageSize[2] = {radio3t ? (size_t)40 : 50, radio3t ? (size_t)70 : 100};
-  const size_t positionImageSize   = radio3t ? 30 : 40;
+QVBoxLayout *generateTeam(std::array<QString, kRequiredNumberOfFighters>            fighters,
+                          std::array<QString, kRequiredSpellsForFighter>            skillsArray,
+                          std::array<QString, MainWindow::kAmountOfTrinketsForTeam> trinkets,
+                          bool is_competitive_enabled, uint8_t player) {
+  auto *result = new QVBoxLayout;
+
+  const int hero_image_size  = is_competitive_enabled ? 50 : 60;
+  const int skill_image_size = is_competitive_enabled ? 40 : 60;
+  // TODO(alexander): Add macros for '2' below
+  const int trinket_image_size[2] = {is_competitive_enabled ? 40 : 50, is_competitive_enabled ? 70 : 100};
+  const int position_image_size   = is_competitive_enabled ? 30 : 40;
 
   QHBoxLayout *remember; // needed for radio3t to remember previous team layout
   // generating whole team (4 heroes with ther trinkets and spells)
-  for (size_t i = 0; i < 4; i++) {
-    QHBoxLayout *team = new QHBoxLayout;
+  for (size_t iter_current_fighter = 0; iter_current_fighter < kRequiredNumberOfFighters; iter_current_fighter++) {
+    auto *team = new QHBoxLayout;
     // creating trinkets (equal for radio3t)
-    QHBoxLayout *trinketsLayout = new QHBoxLayout;
-    QLabel      *trinket1       = new QLabel;
-    QLabel      *trinket2       = new QLabel;
-    trinket1->setFixedSize(trinketImageSize[0], trinketImageSize[1]);
-    trinket2->setFixedSize(trinketImageSize[0], trinketImageSize[1]);
-    trinket1->setPixmap(QPixmap(":/trinkets/trinkets/" + trinkets[i * 2] + ".png")
-                            .scaled(trinketImageSize[0], trinketImageSize[1], Qt::KeepAspectRatio));
-    trinket2->setPixmap(QPixmap(":/trinkets/trinkets/" + trinkets[i * 2 + 1] + ".png")
-                            .scaled(trinketImageSize[0], trinketImageSize[1], Qt::KeepAspectRatio));
-    trinketsLayout->addWidget(trinket1);
-    trinketsLayout->addWidget(trinket2);
+    auto *trinkets_layout = new QHBoxLayout;
+    auto *trinket1        = new QLabel;
+    auto *trinket2        = new QLabel;
+
+    trinket1->setFixedSize(trinket_image_size[0], trinket_image_size[1]);
+    trinket2->setFixedSize(trinket_image_size[0], trinket_image_size[1]);
+    trinket1->setPixmap(QPixmap(":/trinkets/trinkets/" + trinkets[iter_current_fighter * 2] + ".png")
+                            .scaled(trinket_image_size[0], trinket_image_size[1], Qt::KeepAspectRatio));
+    trinket2->setPixmap(QPixmap(":/trinkets/trinkets/" + trinkets[iter_current_fighter * 2 + 1] + ".png")
+                            .scaled(trinket_image_size[0], trinket_image_size[1], Qt::KeepAspectRatio));
+    trinkets_layout->addWidget(trinket1);
+    trinkets_layout->addWidget(trinket2);
 
     // creating hero (this part equal for radio3t)
-    QLabel *hero = new QLabel;
-    hero->setFixedSize(heroImageSize, heroImageSize);
-    QPixmap heroImage(":/heroes/heroes+spells/" + fighters[i] + "/hero_" + fighters[i] + ".png");
-    heroImage = heroImage.scaled(heroImageSize, heroImageSize, Qt::KeepAspectRatio);
-    if (numCommand != 0) // if we place hero in right side, we rotate image
-      heroImage = heroImage.transformed(QTransform().scale(-1, 1));
-    hero->setPixmap(heroImage);
+    auto *hero = new QLabel;
+    hero->setFixedSize(hero_image_size, hero_image_size);
+    QPixmap hero_image(":/heroes/heroes+spells/" + fighters[iter_current_fighter] + "/hero_" +
+                       fighters[iter_current_fighter] + ".png");
+    hero_image = hero_image.scaled(hero_image_size, hero_image_size, Qt::KeepAspectRatio);
+    if (player != 0) { // if we place hero in right side, we rotate image
+      hero_image = hero_image.transformed(QTransform().scale(-1, 1));
+    }
+    hero->setPixmap(hero_image);
 
     // creating skills
-    QLabel **skills = new QLabel *[4];
+    auto **skills = new QLabel *[kRequiredSpellsForFighter];
     // without for loop because of better speed
     skills[0] = new QLabel;
     skills[1] = new QLabel;
     skills[2] = new QLabel;
     skills[3] = new QLabel;
-    if (radio3t) {                                 // Since we have 3 teams, we need to shrink size of images
-      QVBoxLayout *skillsLayout = new QVBoxLayout; // and place them in vertical layout (for less space)
-      for (size_t j = 0; j < 4;
+    if (is_competitive_enabled) {            // Since we have 3 teams, we need to shrink size of images
+      auto *skills_layout = new QVBoxLayout; // and place them in vertical layout (for less space)
+      for (long long j = 0; j < 4;
            j += 2) { // we make step 2 because we want to place 2 skills in one row (using horizontal layout)
-        skills[j]->setFixedSize(skillImageSize, skillImageSize);
-        skills[j + 1]->setFixedSize(skillImageSize, skillImageSize);
+        skills[j]->setFixedSize(skill_image_size, skill_image_size);
+        skills[j + 1]->setFixedSize(skill_image_size, skill_image_size);
 
-        if (fighters[i] == "abomination") { // if we have abomination, we place NA images
+        if (fighters[iter_current_fighter] == "abomination") { // if we have abomination, we place NA images
           QPixmap pixmap(":/banner/heroes+spells/NA.png");
-          pixmap = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+          pixmap = pixmap.scaled(skill_image_size, skill_image_size, Qt::KeepAspectRatio);
           skills[j]->setPixmap(pixmap);
           skills[j + 1]->setPixmap(pixmap);
         } else {
-          QPixmap pixmap(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j] + ".png");
-          QPixmap pixmap2(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j + 1] + ".png");
-          pixmap  = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
-          pixmap2 = pixmap2.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+          QPixmap pixmap(":/heroes/heroes+spells/" + fighters[iter_current_fighter] + "/" +
+                         skillsArray[iter_current_fighter][j] + ".png");
+          QPixmap pixmap2(":/heroes/heroes+spells/" + fighters[iter_current_fighter] + "/" +
+                          skillsArray[iter_current_fighter][j + 1] + ".png");
+          pixmap  = pixmap.scaled(skill_image_size, skill_image_size, Qt::KeepAspectRatio);
+          pixmap2 = pixmap2.scaled(skill_image_size, skill_image_size, Qt::KeepAspectRatio);
           skills[j]->setPixmap(pixmap);
           skills[j + 1]->setPixmap(pixmap2);
         }
         // and then placing hero skills together
-        QHBoxLayout *subSkillsLayout = new QHBoxLayout;
-        subSkillsLayout->addWidget(skills[j]);
-        subSkillsLayout->addWidget(skills[j + 1]);
-        skillsLayout->addLayout(subSkillsLayout);
+        auto *sub_skills_layout = new QHBoxLayout;
+        sub_skills_layout->addWidget(skills[j]);
+        sub_skills_layout->addWidget(skills[j + 1]);
+        skills_layout->addLayout(sub_skills_layout);
       }
-      QVBoxLayout *heroLayout = new QVBoxLayout;
-      heroLayout->addWidget(hero);
-      QLabel *posText = new QLabel("Pos " + QString::number(i + 1));
-      posText->setFixedSize(45, 15); // here hard coded numbers since it is only for radio3t
-      heroLayout->addWidget(posText);
+      auto *hero_layout = new QVBoxLayout;
+      hero_layout->addWidget(hero);
+      auto *pos_text = new QLabel("Pos " + QString::number(iter_current_fighter + 1));
+      pos_text->setFixedSize(45, 15); // here hard coded numbers since it is only for radio3t
+      hero_layout->addWidget(pos_text);
 
-      team->addLayout(trinketsLayout);
-      team->addLayout(heroLayout);
-      team->addLayout(skillsLayout);
+      team->addLayout(trinkets_layout);
+      team->addLayout(hero_layout);
+      team->addLayout(skills_layout);
 
-      if (i % 2 == 0)
+      if (iter_current_fighter % 2 == 0) {
         remember = team; // remember previous team
-      else {
+      } else {
         // and then put them together in ui (for space saving)
-        QHBoxLayout *connectTeams = new QHBoxLayout;
-        connectTeams->addLayout(remember);
-        connectTeams->addLayout(team);
-        result->addLayout(connectTeams); // saving result
+        auto *connect_teams = new QHBoxLayout;
+        connect_teams->addLayout(remember);
+        connect_teams->addLayout(team);
+        result->addLayout(connect_teams); // saving result
       }
 
       continue;
     }
-    QHBoxLayout *skillsLayout = new QHBoxLayout; // since we have a lot of space we will use another type of layout
-    for (size_t j = 0; j < 4; j++) {
-      QLabel *skill = new QLabel;
-      skill->setFixedSize(skillImageSize, skillImageSize);
+    auto *skills_layout = new QHBoxLayout; // since we have a lot of space we will use another type of layout
+    for (long long j = 0; j < 4; j++) {
+      auto *skill = new QLabel;
+      skill->setFixedSize(skill_image_size, skill_image_size);
       QPixmap pixmap;
-      if (fighters[i] == "abomination") // still skipping abomination
+      if (fighters[iter_current_fighter] == "abomination") { // still skipping abomination
         pixmap = QPixmap(":/banner/heroes+spells/NA.png");
-      else
-        pixmap = QPixmap(":/heroes/heroes+spells/" + fighters[i] + "/" + skillsArray[i][j] + ".png");
-      pixmap = pixmap.scaled(skillImageSize, skillImageSize, Qt::KeepAspectRatio);
+      } else {
+        pixmap = QPixmap(":/heroes/heroes+spells/" + fighters[iter_current_fighter] + "/" +
+                         skillsArray[iter_current_fighter][j] + ".png");
+      }
+      pixmap = pixmap.scaled(skill_image_size, skill_image_size, Qt::KeepAspectRatio);
       skill->setPixmap(pixmap);
-      skillsLayout->addWidget(skill);
+      skills_layout->addWidget(skill);
     }
 
-    QHBoxLayout *heroLayout       = new QHBoxLayout;
-    QVBoxLayout *skillsHeroLayout = new QVBoxLayout;
-    skillsHeroLayout->addLayout(heroLayout);
-    skillsHeroLayout->addLayout(skillsLayout);
+    auto *hero_layout        = new QHBoxLayout;
+    auto *skills_hero_layout = new QVBoxLayout;
+    skills_hero_layout->addLayout(hero_layout);
+    skills_hero_layout->addLayout(skills_layout);
 
-    if (numCommand == 0) { // if we place hero in left side, we place it normally
-      heroLayout->addWidget(hero);
-      for (size_t j = 0; j < 4; j++) {
-        QLabel *pos = new QLabel;
-        if (i == j) // if hero is in this position, then we need to show full circle
+    if (player == 0) { // if we place hero in left side, we place it normally
+      hero_layout->addWidget(hero);
+      for (long long j = 0; j < 4; j++) {
+        auto *pos = new QLabel;
+        if (iter_current_fighter == j) { // if hero is in this position, then we need to show full circle
           pos->setPixmap(QPixmap(":/Position/circles/fullCircle.png")
-                             .scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
-        else
+                             .scaled(position_image_size, position_image_size, Qt::KeepAspectRatio));
+        } else {
           pos->setPixmap(QPixmap(":/Position/circles/emptyCircle.png")
-                             .scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
-        heroLayout->addWidget(pos);
+                             .scaled(position_image_size, position_image_size, Qt::KeepAspectRatio));
+        }
+        hero_layout->addWidget(pos);
       }
 
-      team->addLayout(trinketsLayout);
-      team->addLayout(skillsHeroLayout);
-      heroLayout->setAlignment(Qt::AlignLeft);
-      team->addSpacerItem(new QSpacerItem(50 * (4 - i), 1));
+      team->addLayout(trinkets_layout);
+      team->addLayout(skills_hero_layout);
+      hero_layout->setAlignment(Qt::AlignLeft);
+      team->addSpacerItem(new QSpacerItem(50 * (4 - iter_current_fighter), 1));
     } else { // we need to make effect of mirror (right side)
       for (size_t j = 0; j < 4; j++) {
         QLabel *pos = new QLabel;
-        if (3 - i == j) // since it is mirror, we need to change order of positions
+        if (3 - iter_current_fighter == j) { // since it is mirror, we need to change order of positions
           pos->setPixmap(QPixmap(":/Position/circles/fullCircle.png")
-                             .scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
-        else
+                             .scaled(position_image_size, position_image_size, Qt::KeepAspectRatio));
+        } else {
           pos->setPixmap(QPixmap(":/Position/circles/emptyCircle.png")
-                             .scaled(positionImageSize, positionImageSize, Qt::KeepAspectRatio));
-        heroLayout->addWidget(pos);
+                             .scaled(position_image_size, position_image_size, Qt::KeepAspectRatio));
+        }
+        hero_layout->addWidget(pos);
       }
-      heroLayout->addWidget(hero);
-      team->addSpacerItem(new QSpacerItem(50 * (4 - i), 1));
-      team->addLayout(skillsHeroLayout);
-      team->addLayout(trinketsLayout);
-      heroLayout->setAlignment(Qt::AlignRight);
+      hero_layout->addWidget(hero);
+      team->addSpacerItem(new QSpacerItem(50 * (4 - iter_current_fighter), 1));
+      team->addLayout(skills_hero_layout);
+      team->addLayout(trinkets_layout);
+      hero_layout->setAlignment(Qt::AlignRight);
     }
     result->addLayout(team); // saving result in layout
   }
-  if (radio3t)
+  if (is_competitive_enabled) {
     // if 3t, then we need to add empty space between teams
     result->addWidget(new QLabel(""));
+  }
   return result;
 }
 
@@ -481,38 +493,43 @@ void MainWindow::on_doRandom_clicked() {
   ClearLayout(this->leftSide);
   ClearLayout(this->rightSide);
 
-  size_t needToGenerate = 0;
-  if (this->radio3t->isChecked())
-    needToGenerate = 6;
-  else
-    needToGenerate = 2;
-
-  for (size_t i = 0; i < needToGenerate; i++) {
-    int      numCommand = i % 2 == 0 ? 0 : 1;
-    QString *fighters   = GetFighters(numCommand);
-    QString *skills     = GetSkills(numCommand, fighters);
-    QString *trinkets   = GetTrinkets(numCommand == 0 ? this->level[0]->value() : this->level[1]->value(), fighters);
-
-    numCommand == 0
-        ? this->leftSide->addLayout(GenerateTeam(fighters, skills, trinkets, this->radio3t->isChecked(), numCommand))
-        : this->rightSide->addLayout(GenerateTeam(fighters, skills, trinkets, this->radio3t->isChecked(), numCommand));
-
-    delete[] fighters;
-    delete[] skills;
-    delete[] trinkets;
+  size_t amount_of_teams_to_generate = 0;
+  if (this->radio3t->isChecked()) {
+    amount_of_teams_to_generate = MainWindow::kCompetitiveModeAmountOfTeams;
+  } else {
+    amount_of_teams_to_generate = MainWindow::kStandardModeAmountOfTeams;
   }
-  // TODO: make do not repeat one replica two times in a row
+
+  for (size_t iter_generate_team = 0; iter_generate_team < amount_of_teams_to_generate; iter_generate_team++) {
+    uint8_t current_player = iter_generate_team % 2 == 0 ? MainWindow::kLeftPlayer : MainWindow::kRightPlayer;
+
+    auto fighters = getFighters(current_player).value_or(std::array<QString, kRequiredNumberOfFighters>{"Fail"});
+    if (fighters[0] == "Fail") {
+      return;
+    }
+    auto skills   = getSkills(current_player, fighters);
+    auto trinkets = getTrinkets(current_player == 0 ? this->level[0]->value() : this->level[1]->value(), fighters);
+
+    current_player == kLeftPlayer ? this->leftSide->addLayout(generateTeam(fighters, skills, trinkets,
+                                                                           this->radio3t->isChecked(), current_player))
+                                  : this->rightSide->addLayout(generateTeam(
+                                        fighters, skills, trinkets, this->radio3t->isChecked(), current_player));
+  }
+  // TODO(alexander): make do not repeat one replica two times in a row
   if (!this->muteAncestor->isChecked() && this->playVoice) {
-    QMediaPlayer *player = new QMediaPlayer;
-    QAudioOutput *output = new QAudioOutput;
-    player->setAudioOutput(output);
+    std::unique_ptr<QMediaPlayer> media_player = std::make_unique<QMediaPlayer>(new QMediaPlayer);
+    std::unique_ptr<QAudioOutput> audio_output = std::make_unique<QAudioOutput>(new QAudioOutput);
+    media_player->setAudioOutput(audio_output.get());
+
     //! \note Use Tricky PRNG to generate random number
-    player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number((*prng)()) + ".wav"));
-    output->setVolume(0.4);
-    player->play();
+    constexpr float kAudioVolume = 0.4; //! Hardcoded
+    media_player->setSource(QUrl("qrc:/sounds/ancestor/" + QString::number((*prng)()) + ".wav"));
+    audio_output->setVolume(kAudioVolume);
+    media_player->play();
     this->playVoice = false;
-  } else if (!this->muteAncestor->isChecked())
+  } else if (!this->muteAncestor->isChecked()) {
     this->playVoice = true;
+  }
 }
 
 void MainWindow::on_level_valueChanged(int arg1) {

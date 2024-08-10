@@ -1,6 +1,5 @@
 #pragma once
 
-#include "config.h"
 #include <QHBoxLayout>
 #include <QMainWindow>
 #include <QRadioButton>
@@ -12,24 +11,16 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
+
+#include "config.h"
 #include "random.h"
 
-/**
- * @file mainwindow.h
- * @author raik
- * @brief header file for MainWindow class (Main ui)
- *
- */
 namespace Ui {
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
-
-public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
 
 private slots:
   void on_doRandom_clicked();
@@ -48,9 +39,20 @@ private slots:
 
   void on_muteAncestor_clicked();
 
+public:
+  explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
+
+  static constexpr uint8_t kStandardModeAmountOfTeams    = 2;
+  static constexpr uint8_t kCompetitiveModeAmountOfTeams = 6;
+  static constexpr uint8_t kAmountOfTrinketsForTeam      = 8;
+  static constexpr uint8_t kLeftPlayer                   = 0;
+  static constexpr uint8_t kRightPlayer                  = 1;
+
 private:
   bool     playVoice;
   QWidget *ui;
+
   // Recreating mainwindow.ui
   QPushButton **RandomSettings;
   QPushButton  *screenShot;
@@ -68,11 +70,19 @@ private:
   QVBoxLayout *leftSide;
   QVBoxLayout *rightSide;
 
-  void     Randomizing(int numCommand);
-  QString *GetFighters(int numCommand);
-  QString *GetSkills(int numCommand, QString *Fighters);
-  QString *GetTrinkets(int lvl, QString *usedFighters);
-  void     ClearLayout(QLayout *layout);
+  void Randomizing(int numCommand);
+
+  std::optional<std::array<QString, kRequiredNumberOfFighters>> getFighters(uint8_t player);
+
+  static std::array<QString, kRequiredNumberOfFighters>
+  getSkills(uint8_t player, const std::array<QString, kRequiredNumberOfFighters> &Fighters);
+
+  std::array<QString, MainWindow::kAmountOfTrinketsForTeam>
+  getTrinkets(uint8_t lvl, std::array<QString, kRequiredNumberOfFighters> fighters);
+
+  void ClearLayout(QLayout *layout);
+
+  static std::string getFileNameBasedOnPlayer(uint8_t player);
 
   //! \note Tricky prng
   Random::Tricky<uint> *prng;

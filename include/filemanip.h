@@ -5,14 +5,7 @@
 
 #include <QString>
 
-/**
- * @file filemanip.h
- * @author raik
- * @brief Functions for working with files
- *
- * @note This header implementation might be used represented by two different files (filemanip.cpp and
- * filemanip_windows.cpp)
- */
+#include "config.h"
 
 namespace Errors {
 enum class ChangeLine {
@@ -29,16 +22,11 @@ enum class ChangeLine {
 };
 }
 
-//! \note Tested as FileManip::Unit1
-bool recreate(const std::string &fileName);
-//! \note Tested as FileManip::Unit3
-Errors::ChangeLine changeLine(const std::string &fileName, const std::string &heroName, uint8_t what,
-                              size_t AccessibleHeroes);
-//! \note Tested as FileManip::Unit2
-std::vector<std::string> getPossibleHeroes(const std::string &fileName, const bool suppress = false);
+bool                     recreate(const std::string &fileName);
+Errors::ChangeLine       changeLine(const std::string &fileName, const std::string &heroName,const uint8_t &button_index,
+                                    size_t AccessibleHeroes);
+std::vector<std::string> getPossibleHeroes(const std::string &fileName, bool suppress = false);
 
-//! \todo Test this function:
-QString *d_getPossibleSkills(int numCommand, QString *fighters, const bool suppress = false);
-
-std::array<QString, 4> getPossibleSkills(const std::string &fileName, const std::array<std::string, 4> fighters,
-                                         const bool suppress = false);
+std::array<QString, kRequiredNumberOfFighters>
+getPossibleSkills(const std::string &fileName, const std::array<QString, kRequiredNumberOfFighters> &fighters,
+                  bool suppress = false);
