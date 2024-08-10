@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 
@@ -95,9 +96,11 @@ HeroSelection::HeroSelection(QWidget *const parent, uint8_t numTeam) : QDialog(p
   }
 
   // Calculating preferred size for window
-  const size_t window_width = HeroSelection::kAmountOfButtonsForEachFighter * HeroSelection::kIconSize.width() +
-                              HeroSelection::kAmountOfButtonsForEachFighter * HeroSelection::kSpacingBetweenIcons;
-  const size_t window_height = HeroSelection::kIconSize.height() * 3 + 3 * HeroSelection::kSpacingBetweenIcons;
+  // +1 since does not show one button without it
+  const size_t window_width = (HeroSelection::kAmountOfButtonsForEachFighter + 1) * HeroSelection::kIconSize.width() +
+                              (HeroSelection::kAmountOfButtonsForEachFighter + 1) * HeroSelection::kSpacingBetweenIcons;
+  // +4 to show 3 line
+  const size_t window_height = static_cast<long>(HeroSelection::kIconSize.height()) * 4;
   this->resize(window_width, window_height);
 }
 
@@ -115,60 +118,64 @@ bool HeroSelection::updateUiLine(const uint8_t number_of_fighter) {
   file.close();
 
   // analyzing and changing
-  size_t pos = lines.find(':');
-  pos++;
-  std::string color;
-  lines[pos] == '0' ? color = "Red;" : color = "Green;";
-  std::string style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
-                      kFighters[number_of_fighter - 1] + "/hero_" + kFighters[number_of_fighter - 1] +
-                      ")"; // changing hero frame
-  buttons[number_of_fighter - 1][0]->setStyleSheet(QString::fromStdString(style));
-  pos++;
-  for (unsigned int i = pos; i < pos + 7; i++) { // 7 since hero was checked before
-    lines[i] == '0' ? color = "Red;" : color = "Green;";
+  size_t  pos   = lines.find(':') + 1;
+  QString color = lines[pos] == HeroSelection::kStateDisabled ? "Red;" : "Green;";
+  QString style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
+                  kFighters[number_of_fighter - 1] + "/hero_" + kFighters[number_of_fighter - 1] +
+                  ")"; // changing hero frame
+  buttons[number_of_fighter - 1][0]->setStyleSheet(style);
+
+  for (unsigned int i = ++pos; i < pos + HeroSelection::kAmountOfButtonsForEachFighter - 1;
+       i++) { // -1 since hero was checked before
+    lines[i] == HeroSelection::kStateDisabled ? color = "Red;" : color = "Green;";
     style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
-            kFighters[number_of_fighter - 1] + "/" + std::to_string(i - pos + 1) + ".png)";
-    buttons[number_of_fighter - 1][i - pos + 1]->setStyleSheet(QString::fromStdString(style));
+            kFighters[number_of_fighter - 1] + "/" + QString::number(i - pos + 1) + ".png)";
+    buttons[number_of_fighter - 1][i - pos + 1]->setStyleSheet(style);
   }
+
   return true;
 }
 
 void HeroSelection::buttonClicked() {
-  using namespace Errors;
-  auto *button = (QPushButton *)sender();
-  for (int x = 0; x < kTotalNumberOfFighters; x++) {
-    for (int c = 0; c < 8; c++) {
-      if (this->buttons[x][c] == button) {
-        switch (changeLine(this->fileName, kFighters[x], c, this->AccessibleHeroes)) {
-        case ChangeLine::HeroRemoved:
-          this->AccessibleHeroes--;
-          break;
-        case ChangeLine::HeroAdded:
-          this->AccessibleHeroes++;
-          break;
-        case ChangeLine::NoFile:
-          QMessageBox::critical(this, "File open error", "Could not open file BCR_T(1,2)");
-          std::terminate();
-          break;
-        case ChangeLine::TooFewHeroes:
-          QMessageBox::warning(this, "Random settings analyze",
-                               "You are trying to set less than 4 heroes for randomizing");
-          break;
-        case ChangeLine::TooFewSpells:
-          QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
-          break;
-        case ChangeLine::HeroForbidden:
-          QMessageBox::warning(this, "Random settings analyze", "B.r.u.h.");
-          break;
-        case ChangeLine::SkillRemoved:
-        default:
-          break;
-        }
-        updateUiLine(x + 1);
-        return;
+  auto   *button                     = (QPushButton *)sender();
+  uint8_t searched_number_of_fighter = UINT8_MAX;
+  uint8_t searched_number_of_button  = UINT8_MAX;
+  for (int number_of_fighter = 0; number_of_fighter < kTotalNumberOfFighters; number_of_fighter++) {
+    for (int fighter_button = 0; fighter_button < HeroSelection::kAmountOfButtonsForEachFighter; fighter_button++) {
+      if (this->buttons[number_of_fighter][fighter_button] != button) {
+        continue;
       }
+      searched_number_of_fighter = number_of_fighter;
+      searched_number_of_button  = fighter_button;
     }
   }
+  const auto operation_result = changeLine(this->fileName, kFighters[searched_number_of_fighter],
+                                           searched_number_of_button, this->AccessibleHeroes);
+  switch (operation_result) {
+  case Errors::ChangeLine::HeroRemoved:
+    this->AccessibleHeroes--;
+    break;
+  case Errors::ChangeLine::HeroAdded:
+    this->AccessibleHeroes++;
+    break;
+  case Errors::ChangeLine::NoFile:
+    QMessageBox::critical(this, "File open error", "Could not open file BCR_T(1,2)");
+    std::terminate();
+    break;
+  case Errors::ChangeLine::TooFewHeroes:
+    QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 heroes for randomizing");
+    break;
+  case Errors::ChangeLine::TooFewSpells:
+    QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
+    break;
+  case Errors::ChangeLine::HeroForbidden:
+    QMessageBox::warning(this, "Random settings analyze", "Abomination has all abilities");
+    break;
+  case Errors::ChangeLine::SkillRemoved:
+  default:
+    break;
+  }
+  this->updateUiLine(searched_number_of_fighter + 1);
 }
 
 HeroSelection::~HeroSelection() {

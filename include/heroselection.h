@@ -22,6 +22,8 @@ private:
   static constexpr size_t kAmountOfButtonsForEachFighter = 8; // 7 spells + 1 hero
   static constexpr QSize  kIconSize                      = QSize(75, 80);
   static constexpr size_t kSpacingBetweenIcons           = 10;
+  static constexpr char   kStateEnable                   = '1';
+  static constexpr char   kStateDisabled                 = '0';
 
   bool updateUiLine(uint8_t number_of_fighter);
 };
