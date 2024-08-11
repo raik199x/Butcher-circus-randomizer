@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(Butcher_Circus_Randomizer VERSION 3.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -10,8 +10,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(${PROJECT_SOURCE_DIR}/env.cmake OPTIONAL)
 find_package(Qt6 COMPONENTS Core Multimedia Widgets REQUIRED)
 
+find_package(GTest CONFIG)
+if(GTest_FOUND)
+	enable_testing()
+	add_subdirectory(test)
+else()
+	message(STATUS "Gtest not found. Tests will not be build.")
+endif()
+
 # Ensure automatic processing of Qt files
-# set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -43,7 +50,10 @@ else()
 	endif()
 endif()
 
-target_link_libraries(Butcher_Circus_Randomizer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia)
+target_link_libraries(Butcher_Circus_Randomizer PRIVATE
+	Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia
+#	GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
+)
 
 set_target_properties(Butcher_Circus_Randomizer PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
