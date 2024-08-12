@@ -16,6 +16,7 @@ target_link_libraries(test_butcher_circus PRIVATE
 
 target_include_directories(test_butcher_circus PRIVATE
     ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src
 )
 
 add_test(
