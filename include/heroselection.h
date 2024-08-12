@@ -14,11 +14,13 @@ public:
   explicit HeroSelection(QWidget *parent = nullptr, uint8_t numTeam = 0);
   ~HeroSelection() override;
 
-  static constexpr size_t kAmountOfButtonsForEachFighter = 8; // 7 spells + 1 hero
-  static constexpr QSize  kIconSize                      = QSize(75, 80);
-  static constexpr size_t kSpacingBetweenIcons           = 10;
-  static constexpr char   kStateEnable                   = '1';
-  static constexpr char   kStateDisabled                 = '0';
+  static constexpr size_t  kAmountOfButtonsForEachFighter = 8; // 7 spells + 1 hero
+  static constexpr uint8_t kHeroStatusSwitcherButtonIndex = 0;
+  static constexpr QSize   kIconSize                      = QSize(75, 80);
+  static constexpr size_t  kSpacingBetweenIcons           = 10;
+  static constexpr char    kStateEnable                   = '1';
+  static constexpr char    kStateDisabled                 = '0';
+  static constexpr auto    kHeroWithAllSkills             = "abomination";
 
 private:
   QPushButton ***buttons;

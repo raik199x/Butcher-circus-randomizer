@@ -52,7 +52,6 @@ endif()
 
 target_link_libraries(Butcher_Circus_Randomizer PRIVATE
 	Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia
-#	GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
 )
 
 set_target_properties(Butcher_Circus_Randomizer PROPERTIES

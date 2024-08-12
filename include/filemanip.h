@@ -22,9 +22,10 @@ enum class ChangeLine {
 };
 }
 
-bool                     recreate(const std::string &fileName);
-Errors::ChangeLine       changeLine(const std::string &fileName, const std::string &heroName,const uint8_t &button_index,
-                                    size_t AccessibleHeroes);
+std::string        getBaseFileContent();
+bool               recreate(const std::string &fileName);
+Errors::ChangeLine changeLine(const std::string &fileName, const std::string &heroName, const uint8_t &button_index,
+                              uint8_t accessible_heroes);
 std::vector<std::string> getPossibleHeroes(const std::string &fileName, bool suppress = false);
 
 std::array<QString, kRequiredNumberOfFighters>

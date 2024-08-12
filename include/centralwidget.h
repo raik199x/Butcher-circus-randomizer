@@ -11,11 +11,11 @@
 
 class CentralWidget : public QWidget {
 public:
-  CentralWidget(QWidget *parent = nullptr) : QWidget(parent) {
+  explicit CentralWidget(QWidget *parent = nullptr) : QWidget(parent) {
   }
 
 protected:
-  void paintEvent(QPaintEvent *event) override {
+  void paintEvent(QPaintEvent * /*event*/) override {
     QPainter painter(this);
     QPixmap  pixmap(":/banner/main_menu.png");
     painter.drawPixmap(rect(), pixmap);

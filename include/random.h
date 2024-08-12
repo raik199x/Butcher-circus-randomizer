@@ -42,7 +42,7 @@ inline T integral(const T min, const T max) {
 } // namespace Random::Uniform
 
 namespace Random {
-template <typename T, const size_t BARRIER = 1lu>
+template <typename T, const size_t BARRIER = 1LU>
 class Tricky;
 }
 
@@ -68,29 +68,32 @@ public:
   //! \brief Tricky PRNG constructor (min and max are inclusive)
   Tricky(const T min, const T max) : min(std::min(min, max)), max(std::max(min, max)) {
     //! \note initialize chances vector
-    chances.resize(max - min + 1lu);
+    chances.resize(max - min + 1LU);
     //! \note set all chances to BARRIER + 1, required for prng to work properly and not stuck in an infinite loop
-    for (auto &chance : chances)
-      chance = BARRIER + 1lu;
+    for (auto &chance : chances) {
+      chance = BARRIER + 1LU;
+    }
   }
 
   //! \brief Tricky PRNG operator, aka "generate a random number"
-  T operator()(void) {
+  T operator()() {
     //! \note calculate the sum of all chances
-    const size_t sum = std::accumulate(chances.begin(), chances.end(), 0lu);
+    const size_t sum = std::accumulate(chances.begin(), chances.end(), 0LU);
     while (true) {
       //! \note generate a random number in the range [0, sum - 1]
-      size_t random = Uniform::integral<size_t>(0lu, sum - 1lu);
+      auto random = Uniform::integral<size_t>(0LU, sum - 1LU);
       //! \note get the index of the number in chances vector that corresponds to the given random number
       size_t index = index_of(random);
       // If the number was chosen BARRIER times ago, then skip it
-      if (chances[index] <= BARRIER)
+      if (chances[index] <= BARRIER) {
         continue;
+      }
       // Increment all chances
-      for (auto &chance : chances)
+      for (auto &chance : chances) {
         ++chance;
+      }
       // Set to zero the chance of the number that was chosen
-      chances[index] = 0lu;
+      chances[index] = 0LU;
       // Return the number
       return min + index;
     }
@@ -104,12 +107,13 @@ private:
 
   //! \brief Returns the index of the number in chances vector that corresponds to the given random number
   size_t index_of(size_t random) {
-    size_t index = 0lu;
+    size_t index = 0LU;
     //! \note iterate over chances to find the index of the random number
     for (const auto chance : chances) {
       //! \note number was found, return the index
-      if (random < chance)
+      if (random < chance) {
         break;
+      }
       //! \note decrement random by the chance of the current number
       random -= chance;
       //! \note increment index

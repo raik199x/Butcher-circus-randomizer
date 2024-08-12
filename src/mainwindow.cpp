@@ -280,14 +280,14 @@ MainWindow::getTrinkets(uint8_t lvl, std::array<QString, kRequiredNumberOfFighte
  */
 std::optional<std::array<QString, kRequiredNumberOfFighters>> MainWindow::getFighters(uint8_t player) {
   // opening file
-  string file_name = this->getFileNameBasedOnPlayer(player);
+  std::string file_name = MainWindow::getFileNameBasedOnPlayer(player);
   if (!std::filesystem::exists(file_name) && !recreate(file_name)) {
     QMessageBox::critical(this, "Cannot create file",
                           "For some reason BCR cannot create file for team random settings");
     return std::nullopt;
   }
 
-  std::vector<string>                            possible_heroes = getPossibleHeroes(file_name);
+  std::vector<std::string>                       possible_heroes = getPossibleHeroes(file_name);
   std::array<QString, kRequiredNumberOfFighters> result;
 
   // randomize heroes

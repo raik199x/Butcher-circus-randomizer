@@ -7,10 +7,25 @@
 #include "filemanip.h"
 
 /**
+ * @brief Get the Base File Content object
+ *
+ * @return std::string
+ */
+std::string getBaseFileContent() {
+  std::string result;
+
+  for (const auto &k_fighter : kFighters) {
+    result += std::string(k_fighter) + ':' +
+              std::string(HeroSelection::kAmountOfButtonsForEachFighter, HeroSelection::kStateEnable) + '\n';
+  }
+
+  return result;
+}
+
+/**
  * @brief Recreates file with default settings
  *
- * @param fileName
- * @param fighters Default list of heroes
+ * @param fileName Path to file
  * @return true if file was recreated
  * @return false if file wasn't recreated
  */
@@ -19,11 +34,7 @@ bool recreate(const std::string &fileName) {
   if (!file) {
     return false;
   }
-
-  for (const auto &k_fighter : kFighters) {
-    file << k_fighter << ':' << std::string(HeroSelection::kAmountOfButtonsForEachFighter, HeroSelection::kStateEnable)
-         << '\n';
-  }
+  file << getBaseFileContent();
   file.close();
 
   return true;
@@ -36,18 +47,18 @@ bool recreate(const std::string &fileName) {
  * @param heroName which specific hero need to be changed
  * @param button_index which specific argument need to be changed (numeration begins
  * from 0)
- * @param AccessibleHeroes amount of heroes that can be randomized
+ * @param accessible_heroes amount of heroes that not banned for randomizing
  * @return int result code of operation
  */
 Errors::ChangeLine changeLine(const std::string &fileName, const std::string &heroName, const uint8_t &button_index,
-                              size_t AccessibleHeroes) {
+                              const uint8_t accessible_heroes) {
   if (button_index > HeroSelection::kAmountOfButtonsForEachFighter - 1) {
     return Errors::ChangeLine::OutOfRange;
   }
-  if (AccessibleHeroes < kRequiredNumberOfFighters) {
+  if (accessible_heroes < kRequiredNumberOfFighters) {
     return Errors::ChangeLine::InvalidHeroesAmount;
   }
-  if (heroName == "abomination" && button_index != 0) {
+  if (heroName == HeroSelection::kHeroWithAllSkills && button_index != HeroSelection::kHeroStatusSwitcherButtonIndex) {
     return Errors::ChangeLine::HeroForbidden;
   }
 
@@ -72,12 +83,14 @@ Errors::ChangeLine changeLine(const std::string &fileName, const std::string &he
     pos_start++;
   }
   pos_start++;
-  if (button_index == 0 && AccessibleHeroes == 4 && line[pos_start + button_index] == '1') {
+  if (button_index == HeroSelection::kHeroStatusSwitcherButtonIndex && accessible_heroes <= kRequiredNumberOfFighters &&
+      line[pos_start + button_index] == HeroSelection::kStateEnable) {
     return Errors::ChangeLine::TooFewHeroes;
   }
-  if (button_index == 0 && line[pos_start + button_index] == '1') {
+  if (button_index == HeroSelection::kHeroStatusSwitcherButtonIndex &&
+      line[pos_start + button_index] == HeroSelection::kStateEnable) {
     return_code = Errors::ChangeLine::HeroRemoved;
-  } else if (button_index == 0 && line[pos_start + button_index] == '0') {
+  } else if (button_index == 0 && line[pos_start + button_index] == HeroSelection::kStateDisabled) {
     return_code = Errors::ChangeLine::HeroAdded;
   } else {
     return_code = Errors::ChangeLine::SkillRemoved;
@@ -114,9 +127,9 @@ std::vector<std::string> getPossibleHeroes(const std::string &fileName, const bo
     QMessageBox::critical(nullptr, "Cannot open file", "For some reason BCR cannot open file for reading");
     return {};
   }
-  std::vector<string> possible_heroes;
+  std::vector<std::string> possible_heroes;
   for (const auto &k_fighter : kFighters) {
-    string line;
+    std::string line;
     file >> line;
     if (line[line.find(':') + 1] == HeroSelection::kStateEnable) {
       possible_heroes.emplace_back(k_fighter);
@@ -147,7 +160,7 @@ getPossibleSkills(const std::string &fileName, const std::array<QString, kRequir
   uint8_t index = 0;
   for (uint8_t iter_all_fighters = 0; iter_all_fighters < kTotalNumberOfFighters && index != kRequiredNumberOfFighters;
        ++iter_all_fighters) {
-    string line;
+    std::string line;
     file >> line;
     std::string hero_name(line.substr(0, line.find(':')));
     bool        is_required = false;
@@ -164,7 +177,7 @@ getPossibleSkills(const std::string &fileName, const std::array<QString, kRequir
     }
 
     // getting indexes of available skills
-    string skills = line.substr(line.find(':') + 2); // 1 to skip ':' and 1 to skip index of enabled hero
+    std::string skills = line.substr(line.find(':') + 2); // 1 to skip ':' and 1 to skip index of enabled hero
     for (size_t j = 0; j < skills.length(); j++) {
       if (skills[j] == HeroSelection::kStateEnable) {
         result[index] += QString::number(j + 1);

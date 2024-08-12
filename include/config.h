@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include <cstdint>
 
 /*!
  * \file config.h
@@ -10,9 +8,9 @@ using std::string;
  * \brief File for global configuration and constants
  */
 
-constexpr static size_t kTotalNumberOfFighters    = 18;
-constexpr size_t        kRequiredNumberOfFighters = 4;
-constexpr size_t        kRequiredSpellsForFighter = 4;
+constexpr uint8_t kTotalNumberOfFighters    = 18;
+constexpr uint8_t kRequiredNumberOfFighters = 4;
+constexpr uint8_t kRequiredSpellsForFighter = 4;
 
 // The crowd of fighters
 const char *const kFighters[kTotalNumberOfFighters] = {
