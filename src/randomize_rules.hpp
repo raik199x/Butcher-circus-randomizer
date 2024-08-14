@@ -3,10 +3,13 @@
 #include <string>
 #include <array>
 #include <map>
+#include <vector>
 
 #include "config.h"
 
-enum class ChangeRuleReturnCode {
+using FighterSpellsStateArray_t = std::array<bool, kTotalFighterSpells>;
+
+enum class RandomizeRulesReturnCodes {
   kOutOfRange,
   kInvalidHeroesAmount,
   kNoHero,
@@ -17,10 +20,20 @@ enum class ChangeRuleReturnCode {
 };
 
 struct FighterRandomizeRules {
-  bool                                  is_participates;
-  std::string                           fighter_name;
-  uint8_t                               skills_enabled;
-  std::array<bool, kTotalFighterSpells> skills;
+  bool                      is_participates;
+  std::string               fighter_name;
+  uint8_t                   skills_enabled;
+  FighterSpellsStateArray_t skills;
+};
+
+struct GetterSpellsResult {
+  RandomizeRulesReturnCodes code;
+  FighterSpellsStateArray_t requestedFighterSpellsStates;
+};
+
+struct GetterFighterResult {
+  RandomizeRulesReturnCodes code;
+  FighterRandomizeRules     fighter;
 };
 
 class RandomizeRules {
@@ -32,14 +45,17 @@ public:
   RandomizeRules(const RandomizeRules &other)  = delete;
   RandomizeRules(const RandomizeRules &&other) = delete;
 
-  [[nodiscard]] uint8_t getAmountParticipates() const;
-  int                   getAmountOfEnabledSkills(const std::string &fighter_name);
+  [[nodiscard]] uint8_t                            getAmountParticipates() const;
+  [[nodiscard]] int                                getAmountOfEnabledSkills(const std::string &fighter_name);
+  [[nodiscard]] GetterSpellsResult                 getHeroSpellsStates(const std::string &fighter_name);
+  [[nodiscard]] GetterFighterResult                getFighter(const std::string &fighter_name);
+  [[nodiscard]] std::vector<FighterRandomizeRules> getAllParticipates();
 
-  ChangeRuleReturnCode reverseFighterRule(const std::string &fighter_name);
-  ChangeRuleReturnCode setFighterRule(const std::string &fighter_name, bool new_state);
+  RandomizeRulesReturnCodes reverseFighterRule(const std::string &fighter_name);
+  RandomizeRulesReturnCodes setFighterRule(const std::string &fighter_name, bool new_state);
 
-  ChangeRuleReturnCode reverseSkillRule(const std::string &fighter_name, uint8_t skill_index);
-  ChangeRuleReturnCode setSkillRule(const std::string &fighter_name, uint8_t skill_index, bool new_state);
+  RandomizeRulesReturnCodes reverseSkillRule(const std::string &fighter_name, uint8_t skill_index);
+  RandomizeRulesReturnCodes setSkillRule(const std::string &fighter_name, uint8_t skill_index, bool new_state);
 
 private:
   uint8_t                                      amount_participates;
