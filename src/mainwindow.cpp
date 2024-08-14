@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   this->setFixedSize(QSize(1192, 665));
   this->ui->setStyleSheet("color: #FFFFFF;");
 
+  this->players_randomize_rules[kLeftPlayer]  = std::make_shared<RandomizeRules>();
+  this->players_randomize_rules[kRightPlayer] = std::make_shared<RandomizeRules>();
+
   // allocating widgets
   this->RandomSettings    = new QPushButton *[2];
   this->RandomSettings[0] = new QPushButton("Random Settings T1");
@@ -303,6 +306,7 @@ std::array<QString, kRequiredNumberOfFighters>
 MainWindow::getSkills(uint8_t player, const std::array<QString, kRequiredNumberOfFighters> &fighters) {
   std::array<QString, kRequiredNumberOfFighters> skills;
 
+  uint8_t current_fighter = 0; // TODO(alexander): instead for each loop make indexed for loop
   for (const auto &fighter : fighters) {
     GetterSkillsResult result = this->players_randomize_rules[player]->getHeroSkillsStates(fighter.toStdString());
 
@@ -317,6 +321,8 @@ MainWindow::getSkills(uint8_t player, const std::array<QString, kRequiredNumberO
         skill_indexes += QString::number(iter_states + 1);
       }
     }
+
+    skills[current_fighter++] = skill_indexes;
   }
 
   std::array<QString, kRequiredSkillsForFighter> result; // skills for each hero
@@ -471,7 +477,7 @@ QVBoxLayout *generateTeam(std::array<QString, kRequiredNumberOfFighters>        
       team->addSpacerItem(new QSpacerItem(50 * (4 - iter_current_fighter), 1));
     } else { // we need to make effect of mirror (right side)
       for (size_t j = 0; j < 4; j++) {
-        QLabel *pos = new QLabel;
+        auto *pos = new QLabel;
         if (3 - iter_current_fighter == j) { // since it is mirror, we need to change order of positions
           pos->setPixmap(QPixmap(":/Position/circles/fullCircle.png")
                              .scaled(position_image_size, position_image_size, Qt::KeepAspectRatio));

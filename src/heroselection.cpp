@@ -79,7 +79,7 @@ bool HeroSelection::updateUiLine(const uint8_t index_of_fighter) {
     color = getter_result.fighter.skills[iter_skills_state] ? kColorEnabled : kColorDisabled;
     style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
             kFighters[index_of_fighter] + "/" + QString::number(iter_skills_state + 1) + ".png)";
-    buttons_grid[index_of_fighter][button_index]->setStyleSheet(style);
+    buttons_grid[index_of_fighter][button_index++]->setStyleSheet(style);
   }
 
   return true;
@@ -114,13 +114,18 @@ void HeroSelection::buttonClicked() {
 
   switch (result_code) {
   case RandomizeRulesReturnCodes::kTooFewHeroes:
-    QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 heroes for randomizing");
+    QMessageBox::warning(this, "Random settings analyze",
+                         "You are trying to set less than " + QString::number(kRequiredNumberOfFighters) +
+                             " heroes for randomizing");
     break;
   case RandomizeRulesReturnCodes::kTooFewSpells:
-    QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
+    QMessageBox::warning(this, "Random settings analyze",
+                         "You are trying to set less than " + QString::number(kRequiredSkillsForFighter) +
+                             " spells for hero");
     break;
   case RandomizeRulesReturnCodes::kForbiddenStateChange:
-    QMessageBox::warning(this, "Random settings analyze", "Abomination has all abilities");
+    QMessageBox::warning(this, "Random settings analyze",
+                         QString(RandomizeRules::kHeroWithAllSkills) + " has all abilities");
     break;
   case RandomizeRulesReturnCodes::kNoHero: /*fallthrough*/
   default:

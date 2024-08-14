@@ -23,7 +23,7 @@ public:
 
 private:
   const QString kColorEnabled  = "Green;";
-  const QString kColorDisabled = "Red";
+  const QString kColorDisabled = "Red;";
 
   std::array<std::array<std::unique_ptr<QPushButton>, kAmountOfButtonsForEachFighter>, kTotalNumberOfFighters>
       buttons_grid;
