@@ -7,13 +7,14 @@
 
 #include "config.h"
 
-using FighterSpellsStateArray_t = std::array<bool, kTotalFighterSpells>;
+using FighterSkillsStateArray_t = std::array<bool, kTotalFighterSpells>;
 
 enum class RandomizeRulesReturnCodes {
+  kDefaultValue,
   kOutOfRange,
   kInvalidHeroesAmount,
   kNoHero,
-  kHeroForbidden,
+  kForbiddenStateChange,
   kTooFewSpells,
   kTooFewHeroes,
   kNoError = 0
@@ -23,12 +24,12 @@ struct FighterRandomizeRules {
   bool                      is_participates;
   std::string               fighter_name;
   uint8_t                   skills_enabled;
-  FighterSpellsStateArray_t skills;
+  FighterSkillsStateArray_t skills;
 };
 
-struct GetterSpellsResult {
+struct GetterSkillsResult {
   RandomizeRulesReturnCodes code;
-  FighterSpellsStateArray_t requestedFighterSpellsStates;
+  FighterSkillsStateArray_t requestedFighterSpellsStates;
 };
 
 struct GetterFighterResult {
@@ -45,9 +46,11 @@ public:
   RandomizeRules(const RandomizeRules &other)  = delete;
   RandomizeRules(const RandomizeRules &&other) = delete;
 
+  static constexpr auto kHeroWithAllSkills = "abomination";
+
   [[nodiscard]] uint8_t                            getAmountParticipates() const;
   [[nodiscard]] int                                getAmountOfEnabledSkills(const std::string &fighter_name);
-  [[nodiscard]] GetterSpellsResult                 getHeroSpellsStates(const std::string &fighter_name);
+  [[nodiscard]] GetterSkillsResult                 getHeroSkillsStates(const std::string &fighter_name);
   [[nodiscard]] GetterFighterResult                getFighter(const std::string &fighter_name);
   [[nodiscard]] std::vector<FighterRandomizeRules> getAllParticipates();
 

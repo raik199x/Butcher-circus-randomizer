@@ -11,7 +11,7 @@
 constexpr uint8_t kTotalNumberOfFighters    = 18;
 constexpr uint8_t kTotalFighterSpells       = 7;
 constexpr uint8_t kRequiredNumberOfFighters = 4;
-constexpr uint8_t kRequiredSpellsForFighter = 4;
+constexpr uint8_t kRequiredSkillsForFighter = 4;
 
 // The crowd of fighters
 const char *const kFighters[kTotalNumberOfFighters] = {

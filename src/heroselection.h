@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QWidget>
 
+#include "randomize_rules.hpp"
+
 class HeroSelection : public QDialog {
   Q_OBJECT
 
@@ -11,21 +13,22 @@ private slots:
   void buttonClicked();
 
 public:
-  explicit HeroSelection(QWidget *parent = nullptr, uint8_t numTeam = 0);
+  explicit HeroSelection(QWidget *parent, std::shared_ptr<RandomizeRules> player_rules);
   ~HeroSelection() override;
 
   static constexpr size_t  kAmountOfButtonsForEachFighter = 8; // 7 spells + 1 hero
   static constexpr uint8_t kHeroStatusSwitcherButtonIndex = 0;
   static constexpr QSize   kIconSize                      = QSize(75, 80);
   static constexpr size_t  kSpacingBetweenIcons           = 10;
-  static constexpr char    kStateEnable                   = '1';
-  static constexpr char    kStateDisabled                 = '0';
-  static constexpr auto    kHeroWithAllSkills             = "abomination";
 
 private:
-  QPushButton ***buttons;
-  std::string    fileName;
-  int            AccessibleHeroes;
+  const QString kColorEnabled  = "Green;";
+  const QString kColorDisabled = "Red";
 
-  bool updateUiLine(uint8_t number_of_fighter);
+  std::array<std::array<std::unique_ptr<QPushButton>, kAmountOfButtonsForEachFighter>, kTotalNumberOfFighters>
+      buttons_grid;
+  //  QPushButton                  ***buttons;
+  std::shared_ptr<RandomizeRules> rules;
+
+  bool updateUiLine(uint8_t index_of_fighter);
 };

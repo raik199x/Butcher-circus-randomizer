@@ -22,17 +22,15 @@
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <optional>
 
 #include "mainwindow.h"
 #include "centralwidget.h"
-#include "filemanip.h"
 #include "heroselection.h"
 #include "random.h"
 
-MainWindow::MainWindow(QWidget *parent) {
+MainWindow::MainWindow(QWidget * /*parent*/) {
   //! \note Create tricky prng
-  this->prng = new Random::Tricky<uint>(1u, 10u);
+  this->prng = new Random::Tricky<uint>(1U, 10U);
 
   this->ui = new CentralWidget(this);
   setCentralWidget(ui);
@@ -157,7 +155,7 @@ std::string MainWindow::getFileNameBasedOnPlayer(const uint8_t player) {
  */
 void MainWindow::ClearLayout(QLayout *layout) {
   QLayoutItem *item;
-  while ((item = layout->takeAt(0))) {
+  while ((item = layout->takeAt(0)) != nullptr) {
     if (QWidget *widget = item->widget()) {
       delete widget;
     } else if (QLayout *sublayout = item->layout()) {
@@ -168,7 +166,7 @@ void MainWindow::ClearLayout(QLayout *layout) {
 }
 
 QString parseTrinketName(QString line) {
-  long long open_bracket_pos = line.indexOf('[');
+  qint64 open_bracket_pos = line.indexOf('[');
   if (open_bracket_pos == -1) {
     return line;
   }
@@ -176,11 +174,11 @@ QString parseTrinketName(QString line) {
 }
 
 QString parseTrinketHeroLimit(const QString &line) {
-  long long open_bracket_pos = line.indexOf('[');
+  qint64 open_bracket_pos = line.indexOf('[');
   if (open_bracket_pos == -1) {
     return "NO_HERO_LIMIT"; // TODO(alexander): Remove hardcode
   }
-  long long closing_bracket_pos = line.indexOf(']');
+  qint64 closing_bracket_pos = line.indexOf(']');
   return line.mid(open_bracket_pos + 1, closing_bracket_pos - open_bracket_pos - 1);
 }
 
@@ -276,26 +274,20 @@ MainWindow::getTrinkets(uint8_t lvl, std::array<QString, kRequiredNumberOfFighte
  * @brief Get array of randomly selected fighters
  *
  * @param player Player index (Left or Right)
- * @return std::optional<std::array<QString, kRequiredNumberOfFighters>> nullopt if fails, array otherwise
+ * @return array of randomized fighters
  */
-std::optional<std::array<QString, kRequiredNumberOfFighters>> MainWindow::getFighters(uint8_t player) {
+std::array<QString, kRequiredNumberOfFighters> MainWindow::getFighters(const uint8_t player) {
   // opening file
   std::string file_name = MainWindow::getFileNameBasedOnPlayer(player);
-  if (!std::filesystem::exists(file_name) && !recreate(file_name)) {
-    QMessageBox::critical(this, "Cannot create file",
-                          "For some reason BCR cannot create file for team random settings");
-    return std::nullopt;
-  }
 
-  std::vector<std::string>                       possible_heroes = getPossibleHeroes(file_name);
+  std::vector<FighterRandomizeRules> participators = this->players_randomize_rules[player]->getAllParticipates();
   std::array<QString, kRequiredNumberOfFighters> result;
 
   // randomize heroes
   for (int iter_getting_hero = 0; iter_getting_hero < kRequiredNumberOfFighters; iter_getting_hero++) {
-    uint8_t index       = static_cast<int>(possible_heroes.size()); // variable for storing index that has hero skills
-    uint8_t hero_number = Random::Uniform::integral(0, index - 1);  // variable for storing hero index
-    result[iter_getting_hero] = QString::fromStdString(possible_heroes[hero_number]);
-    possible_heroes.erase(possible_heroes.cbegin() + hero_number);
+    uint8_t random_value      = Random::Uniform::integral(0, static_cast<int>(participators.size() - 1));
+    result[iter_getting_hero] = QString::fromStdString(participators[random_value].fighter_name);
+    participators.erase(participators.cbegin() + random_value);
   }
 
   return result;
@@ -304,17 +296,32 @@ std::optional<std::array<QString, kRequiredNumberOfFighters>> MainWindow::getFig
 /**
  * @brief Get already randomized QString of skills
  *
- * @param Fighters Already randomized fighters
+ * @param Fighters Names of fighters
  * @return array of QString (format ex: "1234" "1234" "1234" "1234"")
  */
 std::array<QString, kRequiredNumberOfFighters>
 MainWindow::getSkills(uint8_t player, const std::array<QString, kRequiredNumberOfFighters> &fighters) {
-  std::array<QString, kRequiredNumberOfFighters> skills =
-      getPossibleSkills(MainWindow::getFileNameBasedOnPlayer(player), fighters, false);
-  std::array<QString, kRequiredSpellsForFighter> result; // skills for each hero
+  std::array<QString, kRequiredNumberOfFighters> skills;
 
-  for (size_t iter_fighters = 0; iter_fighters < kRequiredNumberOfFighters; iter_fighters++) {
-    for (size_t iter_skills = 0; iter_skills < kRequiredSpellsForFighter; iter_skills++) {
+  for (const auto &fighter : fighters) {
+    GetterSkillsResult result = this->players_randomize_rules[player]->getHeroSkillsStates(fighter.toStdString());
+
+    if (result.code != RandomizeRulesReturnCodes::kNoError) {
+      // TODO(alexander): make it safe
+      //! DO SOMETHING
+    }
+
+    QString skill_indexes = "";
+    for (size_t iter_states = 0; iter_states < result.requestedFighterSpellsStates.size(); iter_states++) {
+      if (result.requestedFighterSpellsStates[iter_states]) {
+        skill_indexes += QString::number(iter_states + 1);
+      }
+    }
+  }
+
+  std::array<QString, kRequiredSkillsForFighter> result; // skills for each hero
+  for (size_t iter_fighters = 0; iter_fighters < fighters.size(); iter_fighters++) {
+    for (size_t iter_skills = 0; iter_skills < kRequiredSkillsForFighter; iter_skills++) {
       int get_num = Random::Uniform::integral(0, (int)skills[iter_fighters].size() - 1);
       result[iter_fighters] += skills[iter_fighters][get_num];
       // delete symbol from QString
@@ -326,7 +333,7 @@ MainWindow::getSkills(uint8_t player, const std::array<QString, kRequiredNumberO
 }
 
 QVBoxLayout *generateTeam(std::array<QString, kRequiredNumberOfFighters>            fighters,
-                          std::array<QString, kRequiredSpellsForFighter>            skillsArray,
+                          std::array<QString, kRequiredSkillsForFighter>            skillsArray,
                           std::array<QString, MainWindow::kAmountOfTrinketsForTeam> trinkets,
                           bool is_competitive_enabled, uint8_t player) {
   auto *result = new QVBoxLayout;
@@ -367,7 +374,7 @@ QVBoxLayout *generateTeam(std::array<QString, kRequiredNumberOfFighters>        
     hero->setPixmap(hero_image);
 
     // creating skills
-    auto **skills = new QLabel *[kRequiredSpellsForFighter];
+    auto **skills = new QLabel *[kRequiredSkillsForFighter];
     // without for loop because of better speed
     skills[0] = new QLabel;
     skills[1] = new QLabel;
@@ -503,10 +510,7 @@ void MainWindow::on_doRandom_clicked() {
   for (size_t iter_generate_team = 0; iter_generate_team < amount_of_teams_to_generate; iter_generate_team++) {
     uint8_t current_player = iter_generate_team % 2 == 0 ? MainWindow::kLeftPlayer : MainWindow::kRightPlayer;
 
-    auto fighters = getFighters(current_player).value_or(std::array<QString, kRequiredNumberOfFighters>{"Fail"});
-    if (fighters[0] == "Fail") {
-      return;
-    }
+    auto fighters = getFighters(current_player);
     auto skills   = getSkills(current_player, fighters);
     auto trinkets = getTrinkets(current_player == 0 ? this->level[0]->value() : this->level[1]->value(), fighters);
 
@@ -540,18 +544,19 @@ void MainWindow::on_level_valueChanged(int arg1) {
 }
 
 void MainWindow::on_sameTeamLevel_clicked() {
-  if (this->sameTeamLevel->isChecked())
+  if (this->sameTeamLevel->isChecked()) {
     this->level[1]->setValue(this->level[0]->value());
+  }
 }
 
 void MainWindow::on_RandomSettings1_clicked() {
-  HeroSelection win(this, 0);
+  HeroSelection win(this, this->players_randomize_rules[kLeftPlayer]);
   win.setModal(true);
   win.exec();
 }
 
 void MainWindow::on_RandomSettings2_clicked() {
-  HeroSelection win(this, 1);
+  HeroSelection win(this, this->players_randomize_rules[kRightPlayer]);
   win.setModal(true);
   win.exec();
 }
@@ -564,15 +569,15 @@ void MainWindow::on_screenShot_clicked() {
   QDialog *dialog = new QDialog(this);
 
   // pasting screenshot into window
-  size_t  imageSize       = 700;
-  QLabel *screenshotLabel = new QLabel(dialog);
-  screenshotLabel->setPixmap(screenshot.scaled(imageSize, imageSize, Qt::KeepAspectRatio));
-  QRect screenGeometry = screen()->geometry();
+  size_t imageSize        = 700;
+  auto  *screenshot_label = new QLabel(dialog);
+  screenshot_label->setPixmap(screenshot.scaled(imageSize, imageSize, Qt::KeepAspectRatio));
+  QRect screen_geometry = screen()->geometry();
 
   // setting up window
   dialog->setStyleSheet("color: #FFFFFF;");
-  dialog->setGeometry(screenGeometry.width(), screenGeometry.height(), screenshotLabel->pixmap().width(),
-                      screenshotLabel->pixmap().height());
+  dialog->setGeometry(screen_geometry.width(), screen_geometry.height(), screenshot_label->pixmap().width(),
+                      screenshot_label->pixmap().height());
   dialog->setWindowTitle("Saved to clipboard");
   dialog->setModal(true);
 
@@ -588,8 +593,5 @@ void MainWindow::on_radio_clicked() {
 }
 
 void MainWindow::on_muteAncestor_clicked() {
-  if (this->muteAncestor->isChecked())
-    this->playVoice = false;
-  else
-    this->playVoice = true;
+  this->playVoice = !this->muteAncestor->isChecked();
 }

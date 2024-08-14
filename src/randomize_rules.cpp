@@ -29,7 +29,7 @@ bool RandomizeRules::canReduceParticipants() const {
 }
 
 bool RandomizeRules::canReduceSkills(const uint8_t skills_enabled) {
-  return skills_enabled > kRequiredSpellsForFighter;
+  return skills_enabled > kRequiredSkillsForFighter;
 }
 
 uint8_t RandomizeRules::getAmountParticipates() const {
@@ -45,8 +45,8 @@ int RandomizeRules::getAmountOfEnabledSkills(const std::string &fighter_name) {
   return map_iter->second.skills_enabled;
 }
 
-GetterSpellsResult RandomizeRules::getHeroSpellsStates(const std::string &fighter_name) {
-  GetterSpellsResult result;
+GetterSkillsResult RandomizeRules::getHeroSkillsStates(const std::string &fighter_name) {
+  GetterSkillsResult result;
   auto               map_iter = this->fighters_map.find(fighter_name);
   if (map_iter == this->fighters_map.cend()) {
     result.code = RandomizeRulesReturnCodes::kNoHero;
@@ -127,6 +127,10 @@ RandomizeRulesReturnCodes RandomizeRules::reverseSkillRule(const std::string &fi
     return RandomizeRulesReturnCodes::kNoHero;
   }
 
+  if (map_iter->second.fighter_name == RandomizeRules::kHeroWithAllSkills) {
+    return RandomizeRulesReturnCodes::kForbiddenStateChange;
+  }
+
   if (skill_index >= kTotalFighterSpells) {
     return RandomizeRulesReturnCodes::kOutOfRange;
   }
@@ -147,6 +151,10 @@ RandomizeRulesReturnCodes RandomizeRules::setSkillRule(const std::string &fighte
   auto map_iter = this->fighters_map.find(fighter_name);
   if (map_iter == this->fighters_map.cend()) {
     return RandomizeRulesReturnCodes::kNoHero;
+  }
+
+  if (map_iter->second.fighter_name == RandomizeRules::kHeroWithAllSkills) {
+    return RandomizeRulesReturnCodes::kForbiddenStateChange;
   }
 
   if (skill_index >= kTotalFighterSpells) {

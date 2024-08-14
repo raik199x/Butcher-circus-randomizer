@@ -19,12 +19,18 @@ TEST_F(RandomizeRulesTest, reverseSkillRuleOutOfRange) {
   EXPECT_EQ(RandomizeRulesReturnCodes::kOutOfRange, test_subject.reverseSkillRule(kTestHeroName, kTotalFighterSpells));
 }
 
+TEST_F(RandomizeRulesTest, reverseSkillRuleForbidden) {
+  RandomizeRules test_subject;
+  const auto     return_val = test_subject.reverseSkillRule(RandomizeRules::kHeroWithAllSkills, 0);
+  EXPECT_EQ(return_val, RandomizeRulesReturnCodes::kForbiddenStateChange);
+}
+
 TEST_F(RandomizeRulesTest, reverseSkillRuleReversingSkills) {
   RandomizeRules test_subject;
 
   // removing skills
   const uint8_t start_value_removing = test_subject.getAmountOfEnabledSkills(kTestHeroName);
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     auto result = test_subject.reverseSkillRule(kTestHeroName, iter_skills++);
     EXPECT_EQ(RandomizeRulesReturnCodes::kNoError, result);
     EXPECT_EQ(start_value_removing - iter_skills, test_subject.getAmountOfEnabledSkills(kTestHeroName));
@@ -32,7 +38,7 @@ TEST_F(RandomizeRulesTest, reverseSkillRuleReversingSkills) {
 
   // enabling skills
   const uint8_t start_value_enabling = test_subject.getAmountOfEnabledSkills(kTestHeroName);
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     auto result = test_subject.reverseSkillRule(kTestHeroName, iter_skills++);
     EXPECT_EQ(RandomizeRulesReturnCodes::kNoError, result);
     EXPECT_EQ(start_value_enabling + iter_skills, test_subject.getAmountOfEnabledSkills(kTestHeroName));
@@ -41,7 +47,7 @@ TEST_F(RandomizeRulesTest, reverseSkillRuleReversingSkills) {
 
 TEST_F(RandomizeRulesTest, reverseSkillRuleLimitReached) {
   RandomizeRules test_subject;
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     test_subject.reverseSkillRule(kTestHeroName, iter_skills++);
   }
 
@@ -61,12 +67,18 @@ TEST_F(RandomizeRulesTest, setSkillRuleOutOfRange) {
             test_subject.setSkillRule(kTestHeroName, kTotalFighterSpells, true));
 }
 
+TEST_F(RandomizeRulesTest, setSkillRuleForbidden) {
+  RandomizeRules test_subject;
+  const auto     return_val = test_subject.setSkillRule(RandomizeRules::kHeroWithAllSkills, 0, false);
+  EXPECT_EQ(return_val, RandomizeRulesReturnCodes::kForbiddenStateChange);
+}
+
 TEST_F(RandomizeRulesTest, setSkillRuleSettingSkills) {
   RandomizeRules test_subject;
 
   // removing skills
   const uint8_t start_value_removing = test_subject.getAmountOfEnabledSkills(kTestHeroName);
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     auto result = test_subject.setSkillRule(kTestHeroName, iter_skills++, false);
     EXPECT_EQ(RandomizeRulesReturnCodes::kNoError, result);
     EXPECT_EQ(start_value_removing - iter_skills, test_subject.getAmountOfEnabledSkills(kTestHeroName));
@@ -74,7 +86,7 @@ TEST_F(RandomizeRulesTest, setSkillRuleSettingSkills) {
 
   // enabling skills
   const uint8_t start_value_enabling = test_subject.getAmountOfEnabledSkills(kTestHeroName);
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     auto result = test_subject.setSkillRule(kTestHeroName, iter_skills++, true);
     EXPECT_EQ(RandomizeRulesReturnCodes::kNoError, result);
     EXPECT_EQ(start_value_enabling + iter_skills, test_subject.getAmountOfEnabledSkills(kTestHeroName));
@@ -83,7 +95,7 @@ TEST_F(RandomizeRulesTest, setSkillRuleSettingSkills) {
 
 TEST_F(RandomizeRulesTest, setSkillRuleLimitReached) {
   RandomizeRules test_subject;
-  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSpellsForFighter;) {
+  for (uint8_t iter_skills = 0; iter_skills < kTotalFighterSpells - kRequiredSkillsForFighter;) {
     test_subject.setSkillRule(kTestHeroName, iter_skills++, false);
   }
 
@@ -166,16 +178,16 @@ TEST_F(RandomizeRulesTest, setFighterRuleLimitReached) {
 
 TEST_F(RandomizeRulesTest, getterSpellsNoFighter) {
   RandomizeRules     test_subject;
-  GetterSpellsResult return_value = test_subject.getHeroSpellsStates(kStubString);
+  GetterSkillsResult return_value = test_subject.getHeroSkillsStates(kStubString);
   EXPECT_EQ(return_value.code, RandomizeRulesReturnCodes::kNoHero);
 }
 
 TEST_F(RandomizeRulesTest, getterSpellsNoError) {
   RandomizeRules            test_subject;
-  FighterSpellsStateArray_t array;
+  FighterSkillsStateArray_t array;
   array.fill(true);
 
-  GetterSpellsResult return_value = test_subject.getHeroSpellsStates(kTestHeroName);
+  GetterSkillsResult return_value = test_subject.getHeroSkillsStates(kTestHeroName);
   EXPECT_EQ(return_value.code, RandomizeRulesReturnCodes::kNoError);
   EXPECT_EQ(array, return_value.requestedFighterSpellsStates);
 }
@@ -188,7 +200,7 @@ TEST_F(RandomizeRulesTest, getterFighterNoFighter) {
 
 TEST_F(RandomizeRulesTest, getterFighterNoError) {
   RandomizeRules     test_subject;
-  GetterSpellsResult return_value = test_subject.getHeroSpellsStates(kTestHeroName);
+  GetterSkillsResult return_value = test_subject.getHeroSkillsStates(kTestHeroName);
   EXPECT_EQ(return_value.code, RandomizeRulesReturnCodes::kNoError);
 }
 
