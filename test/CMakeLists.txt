@@ -11,7 +11,7 @@ add_dependencies(test_butcher_circus Butcher_Circus_Randomizer)
 target_link_libraries(test_butcher_circus PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
 	GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
-    ${PROJECT_SOURCE_DIR}/build/CMakeFiles/Butcher_Circus_Randomizer.dir/src/filemanip.cpp.o
+    ${PROJECT_SOURCE_DIR}/build/CMakeFiles/Butcher_Circus_Randomizer.dir/src/randomize_rules.cpp.o
 )
 
 target_include_directories(test_butcher_circus PRIVATE

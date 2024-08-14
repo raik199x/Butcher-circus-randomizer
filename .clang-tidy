@@ -3,7 +3,6 @@
 # Disabled:
 #  -google-readability-namespace-comments the *_CLIENT_NS is a macro, and
 #   clang-tidy fails to match it against the initial value.
-#  -google-runtime-int Finds uses of short, long and long long and suggest replacing them with u?intXX(_t)?
 
 Checks: >
   -*,
@@ -13,7 +12,6 @@ Checks: >
   google-*,
   -google-readability-casting,
   -google-readability-namespace-comments,
-  -google-runtime-int,
 
   misc-*,
   -misc-non-private-member-variables-in-classes,
