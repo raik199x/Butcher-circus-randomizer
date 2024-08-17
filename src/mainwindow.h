@@ -8,13 +8,13 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qpushbutton.h>
+#include <QPushButton>
 #include <qradiobutton.h>
 #include <qspinbox.h>
 
-#include "config.h"
 #include "random.h"
 #include "randomize_rules.hpp"
+#include "random_master.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -46,7 +46,6 @@ public:
 
   static constexpr uint8_t kStandardModeAmountOfTeams    = 2;
   static constexpr uint8_t kCompetitiveModeAmountOfTeams = 6;
-  static constexpr uint8_t kAmountOfTrinketsForTeam      = 8;
 
   static constexpr uint8_t kTotalPlayers = 2;
   static constexpr uint8_t kLeftPlayer   = 0;
@@ -54,6 +53,7 @@ public:
 
 private:
   std::array<std::shared_ptr<RandomizeRules>, kTotalPlayers> players_randomize_rules;
+  RandomMaster                                               master_of_random;
 
   bool     playVoice;
   QWidget *ui;
@@ -74,16 +74,6 @@ private:
 
   QVBoxLayout *leftSide;
   QVBoxLayout *rightSide;
-
-  void Randomizing(int numCommand);
-
-  std::array<QString, kRequiredNumberOfFighters> getFighters(uint8_t player);
-
-  std::array<QString, kRequiredNumberOfFighters>
-  getSkills(uint8_t player, const std::array<QString, kRequiredNumberOfFighters> &Fighters);
-
-  std::array<QString, MainWindow::kAmountOfTrinketsForTeam>
-  getTrinkets(uint8_t lvl, std::array<QString, kRequiredNumberOfFighters> fighters);
 
   void ClearLayout(QLayout *layout);
 

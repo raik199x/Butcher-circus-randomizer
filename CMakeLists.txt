@@ -29,6 +29,7 @@ include_directories(
 # Collect all source files
 file(GLOB_RECURSE PROJECT_SOURCES
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
+    "${PROJECT_SOURCE_DIR}/src/*.hpp"
     "${PROJECT_SOURCE_DIR}/include/*.h"
     "${PROJECT_SOURCE_DIR}/assets/*.qrc"
 )

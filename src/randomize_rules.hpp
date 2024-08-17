@@ -43,8 +43,11 @@ public:
   virtual ~RandomizeRules();
 
   // Deleted since unimplemented
-  RandomizeRules(const RandomizeRules &other)  = delete;
-  RandomizeRules(const RandomizeRules &&other) = delete;
+  // TODO(alexander): implement all
+  RandomizeRules &operator=(const RandomizeRules &)  = delete;
+  RandomizeRules &operator=(const RandomizeRules &&) = delete;
+  RandomizeRules(const RandomizeRules &other)        = delete;
+  RandomizeRules(const RandomizeRules &&other)       = delete;
 
   static constexpr auto kHeroWithAllSkills = "abomination";
 

@@ -16,7 +16,7 @@ public:
   explicit HeroSelection(QWidget *parent, std::shared_ptr<RandomizeRules> player_rules);
   ~HeroSelection() override;
 
-  static constexpr size_t  kAmountOfButtonsForEachFighter = 8; // 7 spells + 1 hero
+  static constexpr size_t  kAmountOfButtonsForEachFighter = kTotalFighterSpells + 1; // hero
   static constexpr uint8_t kHeroStatusSwitcherButtonIndex = 0;
   static constexpr QSize   kIconSize                      = QSize(75, 80);
   static constexpr size_t  kSpacingBetweenIcons           = 10;
