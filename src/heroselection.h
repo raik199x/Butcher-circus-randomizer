@@ -26,8 +26,7 @@ private:
   const QString kColorDisabled = "Red;";
 
   std::array<std::array<std::unique_ptr<QPushButton>, kAmountOfButtonsForEachFighter>, kTotalNumberOfFighters>
-      buttons_grid;
-  //  QPushButton                  ***buttons;
+                                  buttons_grid;
   std::shared_ptr<RandomizeRules> rules;
 
   bool updateUiLine(uint8_t index_of_fighter);

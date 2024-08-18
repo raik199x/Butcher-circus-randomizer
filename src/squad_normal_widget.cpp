@@ -21,13 +21,11 @@ SquadNormalWidget::SquadNormalWidget(const Fighter &fighter, const bool mirrorin
   }
 
   // init trinkets
-  // TODO(alexander): make an array
-  QPixmap trinket1_pixmap = QPixmap(kQtAssetTrinketList + fighter.trinket1 + kQtAssetImageTypePostfix);
-  QPixmap trinket2_pixmap = QPixmap(kQtAssetTrinketList + fighter.trinket2 + kQtAssetImageTypePostfix);
-  this->trinket_labels[0].setPixmap(trinket1_pixmap);
-  this->trinket_labels[1].setPixmap(trinket2_pixmap);
-  this->trinkets_layout.addWidget(this->trinket_labels.data());
-  this->trinkets_layout.addWidget(&this->trinket_labels[1]);
+  for (size_t trinket_iter = 0; trinket_iter < fighter.trinkets.size(); trinket_iter++) {
+    QPixmap trinket_pixmap = QPixmap(kQtAssetTrinketIndex + fighter.trinkets[trinket_iter] + kQtAssetImageTypePostfix);
+    this->trinket_labels[trinket_iter].setPixmap(trinket_pixmap);
+    this->trinkets_layout.addWidget(&this->trinket_labels[trinket_iter]);
+  }
 
   // init position
   int start     = mirroring_required ? kRequiredNumberOfFighters - 1 : 0;

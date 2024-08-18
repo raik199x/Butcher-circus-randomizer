@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "random_master.hpp"
 #include "random.h"
 
@@ -49,6 +51,10 @@ RandomMaster::getSkills(const std::array<FighterRandomizeRules, kRequiredNumberO
   std::array<QString, kRequiredSkillsForFighter> result; // skills for each hero
   for (size_t iter_fighters = 0; iter_fighters < fighters.size(); iter_fighters++) {
     result[iter_fighters] = "";
+    if (fighters[iter_fighters].fighter_name == RandomizeRules::kHeroWithAllSkills) {
+      continue;
+    }
+
     for (size_t iter_skills = 0; iter_skills < kRequiredSkillsForFighter; iter_skills++) {
       int get_num = Random::Uniform::integral(0, (int)skills[iter_fighters].size() -
                                                      1);       // TODO(alexander): return -1 if skills empty
@@ -94,25 +100,37 @@ squad RandomMaster::getAndEquipTrinkets(const uint8_t lvl, squad fighters) {
 
     TrinketInfo randomized_trinket = possible_trinkets[random_trinket_number];
     // Searching for fighter to equip trinket
-    for (auto &iter_squad : fighters) {
-      // if already equipped
-      if (!iter_squad.trinket1.isEmpty() && !iter_squad.trinket2.isEmpty()) {
+    for (auto &iter_fighter : fighters) {
+      // if fighter already has all trinkets
+      if (std::all_of(iter_fighter.trinkets.cbegin(), iter_fighter.trinkets.cend(),
+                      [](const QString &trinket) { return !trinket.isEmpty(); })) {
         continue;
       }
 
       if (randomized_trinket.hero_restriction != manager.kTrinketWithoutHeroLimit &&
-          randomized_trinket.hero_restriction != iter_squad.name) {
+          randomized_trinket.hero_restriction != iter_fighter.name) {
         continue;
       }
 
-      // Giving trinket
-      if (iter_squad.trinket1.isEmpty()) {
-        iter_squad.trinket1 = randomized_trinket.name;
-      } else if (iter_squad.trinket2.isEmpty() && randomized_trinket.name != iter_squad.trinket1) {
-        iter_squad.trinket2 = randomized_trinket.name;
+      // trying to give trinket to a fighter
+      bool is_trinket_given = false;
+      for (auto &trinket : iter_fighter.trinkets) {
+        if (trinket.isEmpty()) {
+          trinket          = randomized_trinket.name;
+          is_trinket_given = true;
+          break;
+        }
+
+        if (trinket == randomized_trinket.name) {
+          break;
+        }
       }
 
-      trinkets_randomized++;
+      if (is_trinket_given) {
+        trinkets_randomized++;
+        break; // Start random of next trinket
+      }
+      // If in did not gave trinket, we should check if other heroes can take this trinket
     }
 
     // Removing used trinket
@@ -142,7 +160,7 @@ squad RandomMaster::equipSKills(squad fighters, const std::array<QString, kRequi
 squad RandomMaster::getFullRandomizedSquad(const std::shared_ptr<RandomizeRules> &rules, const uint8_t lvl) {
   squad result;
 
-  std::array<FighterRandomizeRules, kRequiredNumberOfFighters> randomized_fighters = this->getFighters(rules);
+  std::array<FighterRandomizeRules, kRequiredNumberOfFighters> randomized_fighters = RandomMaster::getFighters(rules);
   result = RandomMaster::equipFighters(result, randomized_fighters);
 
   std::array<QString, kRequiredNumberOfFighters> randomized_skills = RandomMaster::getSkills(randomized_fighters);

@@ -7,10 +7,9 @@
 #include "asset_manager.hpp"
 
 struct Fighter {
-  QString name;
-  QString skills;
-  QString trinket1;
-  QString trinket2;
+  QString                                          name;
+  QString                                          skills;
+  std::array<QString, kMaxTrinketAmountForFighter> trinkets;
 };
 
 using squad = std::array<Fighter, kRequiredNumberOfFighters>;
@@ -28,7 +27,7 @@ public:
 
   static std::vector<TrinketInfo> parseLevelRestriction(const std::vector<TrinketInfo> &trinkets, uint8_t lvl);
 
-  std::array<FighterRandomizeRules, kRequiredNumberOfFighters>
+  static std::array<FighterRandomizeRules, kRequiredNumberOfFighters>
   getFighters(const std::shared_ptr<RandomizeRules> &rules);
 
   static std::array<QString, kRequiredNumberOfFighters>
@@ -40,7 +39,7 @@ public:
   static squad equipFighters(squad                                                               fighters,
                              const std::array<FighterRandomizeRules, kRequiredNumberOfFighters> &fighters_rules);
   static squad equipSKills(squad fighters, const std::array<QString, kRequiredNumberOfFighters> &skills);
-  squad        getFullRandomizedSquad(const std::shared_ptr<RandomizeRules> &rules, uint8_t lvl);
+  static squad getFullRandomizedSquad(const std::shared_ptr<RandomizeRules> &rules, uint8_t lvl);
 
 private:
 };

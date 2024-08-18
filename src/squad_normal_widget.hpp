@@ -9,6 +9,8 @@
 
 #include "random_master.hpp"
 
+//TODO(alexander): Create new abstract class (follow fabric pattern)
+//TODO(alexander): Convert to fabric pattern
 class SquadNormalWidget : public QWidget {
   Q_OBJECT
 private slots:
