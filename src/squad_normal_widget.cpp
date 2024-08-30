@@ -1,9 +1,13 @@
 #include "squad_normal_widget.hpp"
 
-SquadNormalWidget::SquadNormalWidget(const Fighter &fighter, const uint8_t position, const bool mirrored)
+SquadNormalWidget::SquadNormalWidget(const Fighter &fighter, uint8_t position, const bool mirrored)
     : SquadAbstractWidget(fighter) {
+  if(mirrored){
+    position = this->fighter_position_labels.size() + 1 - position;
+  }
   this->setFighterPosition(position);
   this->resizePixmapInitLayouts();
+
   mirrored ? this->mirroredLayoutItems() : this->layoutItems();
 }
 

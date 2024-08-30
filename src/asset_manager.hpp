@@ -21,7 +21,7 @@ const QString kQtAssetPositionFullCircle    = ":/Position/circles/fullCircle.png
 const QString kQtAssetTrinketIndex          = ":/trinkets/trinkets/";
 const QString kQtAssetTrinketList           = kQtAssetTrinketIndex + "list.txt";
 const QString kQtAssetHeroesWithSpellsIndex = ":/heroes/heroes+spells/";
-const QString kQtAssetNAImage               = kQtAssetHeroesWithSpellsIndex + "NA.png";
+const QString kQtAssetNAImage               = ":/banner/heroes+spells/NA.png";
 const QString kQtAssetHeroPrefix            = "/hero_";
 const QString kQtAssetImageTypePostfix      = ".png";
 
