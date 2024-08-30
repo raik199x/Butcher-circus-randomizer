@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
 
   this->playVoice = true;
   // Setting up own made ui
-  // this->setFixedSize(QSize(1192, 665));
+  this->setFixedSize(QSize(1192, 700));
   this->ui->setStyleSheet("color: #FFFFFF;");
 
   this->players_randomize_rules[kLeftPlayer]  = std::make_shared<RandomizeRules>();
@@ -75,22 +75,23 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   connect(this->muteAncestor, SIGNAL(clicked()), this, SLOT(on_muteAncestor_clicked()));
 
   // Designing ui
-  this->RandomSettings[0]->setStyleSheet("background-color: #3F3F3F;");
-  this->RandomSettings[0]->setFixedHeight(50);
-  this->RandomSettings[1]->setStyleSheet("background-color: #3F3F3F; background-image: none;");
-  this->RandomSettings[1]->setFixedHeight(50);
+  this->RandomSettings[kLeftPlayer]->setStyleSheet("background-color: #3F3F3F;");
+  this->RandomSettings[kLeftPlayer]->setFixedHeight(50);
+  this->RandomSettings[kRightPlayer]->setStyleSheet("background-color: #3F3F3F; background-image: none;");
+  this->RandomSettings[kRightPlayer]->setFixedHeight(50);
 
   this->doRandom->setStyleSheet("background-color: #3F3F3F; background-image: none;");
   // this->doRandom->setFixedHeight(50);
   this->screenShot->setStyleSheet("background-color: #3F3F3F; background-image: none;");
   this->radio1t->setChecked(true);
 
-  this->level[0]->setStyleSheet("background-color: #242424; background-image: none;");
-  this->level[1]->setStyleSheet("background-color: #242424; background-image: none;");
-  this->level[0]->setMinimum(0);
-  this->level[1]->setMinimum(0);
-  this->level[0]->setMaximum(75);
-  this->level[1]->setMaximum(75);
+  this->level[kLeftPlayer]->setStyleSheet("background-color: #242424; background-image: none;");
+  this->level[kLeftPlayer]->setMinimum(0);
+  this->level[kLeftPlayer]->setMaximum(kMaximumAccountLevel);
+
+  this->level[kRightPlayer]->setStyleSheet("background-color: #242424; background-image: none;");
+  this->level[kRightPlayer]->setMinimum(0);
+  this->level[kRightPlayer]->setMaximum(kMaximumAccountLevel);
 
   // Managing layouts
   auto *level_setter1 = new QVBoxLayout();
@@ -132,6 +133,7 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   auto *bottom = new QHBoxLayout();
   this->leftSide->addSpacerItem(new QSpacerItem(1, 600)); // for placing ui parts in the top of screen
   bottom->addLayout(this->leftSide);
+  bottom->addSpacerItem(new QSpacerItem(300, 1));
   bottom->addLayout(this->rightSide);
 
   this->layout = new QVBoxLayout(this->ui);
@@ -208,14 +210,14 @@ void MainWindow::on_doRandom_clicked() {
 
 void MainWindow::on_level_valueChanged(int arg1) {
   if (this->sameTeamLevel->isChecked()) {
-    this->level[0]->setValue(arg1);
-    this->level[1]->setValue(arg1);
+    this->level[kLeftPlayer]->setValue(arg1);
+    this->level[kRightPlayer]->setValue(arg1);
   }
 }
 
 void MainWindow::on_sameTeamLevel_clicked() {
   if (this->sameTeamLevel->isChecked()) {
-    this->level[1]->setValue(this->level[0]->value());
+    this->level[kRightPlayer]->setValue(this->level[kLeftPlayer]->value());
   }
 }
 
@@ -239,9 +241,9 @@ void MainWindow::on_screenShot_clicked() {
   auto *dialog = new QDialog(this);
 
   // pasting screenshot into window
-  size_t imageSize        = 700;
-  auto  *screenshot_label = new QLabel(dialog);
-  screenshot_label->setPixmap(screenshot.scaled(imageSize, imageSize, Qt::KeepAspectRatio));
+  constexpr size_t kImageSize       = 700;
+  auto            *screenshot_label = new QLabel(dialog);
+  screenshot_label->setPixmap(screenshot.scaled(kImageSize, kImageSize, Qt::KeepAspectRatio));
   QRect screen_geometry = screen()->geometry();
 
   // setting up window

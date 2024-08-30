@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+constexpr uint8_t kMaximumAccountLevel        = 75;
 constexpr uint8_t kTotalNumberOfFighters      = 18;
 constexpr uint8_t kTotalFighterSpells         = 7;
 constexpr uint8_t kRequiredNumberOfFighters   = 4;

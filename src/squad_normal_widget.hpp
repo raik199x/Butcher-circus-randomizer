@@ -40,7 +40,7 @@ private:
   std::array<QLabel, kRequiredNumberOfFighters> fighter_position_labels;
 
   // sizes
-  const QSize kFighterImageSize  = QSize(60, 60);
-  const QSize kSkillImageSize = QSize(60, 60);
-  const QSize kTrinketSize    = QSize(50, 100);
+  const QSize kFighterImageSize = QSize(55, 55);
+  const QSize kSkillImageSize   = QSize(60, 60);
+  const QSize kTrinketSize      = QSize(50, 100);
 };
