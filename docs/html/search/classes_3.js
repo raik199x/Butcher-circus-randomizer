@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['mainwindow_33',['MainWindow',['../classMainWindow.html',1,'']]]
+  ['getterfighterresult_182',['GetterFighterResult',['../structGetterFighterResult.html',1,'']]],
+  ['getterskillsresult_183',['GetterSkillsResult',['../structGetterSkillsResult.html',1,'']]]
 ];

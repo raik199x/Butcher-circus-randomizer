@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -74,17 +74,14 @@ $(function() {
 <div class="title">config.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>File for global configuration and constants.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for config.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="config_8h__incl.png" border="0" usemap="#ainclude_2config_8h" alt=""/></div>
 <map name="ainclude_2config_8h" id="ainclude_2config_8h">
-<area shape="rect" title="File for global configuration and constants." alt="" coords="5,5,119,32"/>
-<area shape="rect" title=" " alt="" coords="35,80,89,107"/>
+<area shape="rect" title=" " alt="" coords="5,5,119,32"/>
+<area shape="rect" title=" " alt="" coords="31,80,93,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -92,13 +89,20 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="config_8h__dep__incl.png" border="0" usemap="#ainclude_2config_8hdep" alt=""/></div>
 <map name="ainclude_2config_8hdep" id="ainclude_2config_8hdep">
-<area shape="rect" title="File for global configuration and constants." alt="" coords="313,5,427,32"/>
-<area shape="rect" href="mainwindow_8h.html" title="header file for MainWindow class (Main ui)" alt="" coords="51,80,199,107"/>
-<area shape="rect" href="filemanip_8cpp.html" title="This file contains the functions for the file manipulation (Linux aimed)" alt="" coords="223,80,344,107"/>
-<area shape="rect" href="filemanip__windows_8cpp.html" title="This file contains the functions for the file manipulation (Windows aimed)" alt="" coords="369,80,547,107"/>
-<area shape="rect" href="heroselection_8cpp.html" title="Implementation of HeroSelection class." alt="" coords="571,80,718,107"/>
-<area shape="rect" href="main_8cpp.html" title="Entrance point for the app." alt="" coords="5,155,103,181"/>
-<area shape="rect" href="mainwindow_8cpp.html" title="MainWindow Interface." alt="" coords="127,155,266,181"/>
+<area shape="rect" title=" " alt="" coords="443,5,557,32"/>
+<area shape="rect" href="heroselection_8cpp.html" title=" " alt="" coords="5,237,152,263"/>
+<area shape="rect" href="random__master_8hpp.html" title=" " alt="" coords="514,155,673,181"/>
+<area shape="rect" href="squad__abstract__factory_8hpp.html" title=" " alt="" coords="829,229,963,271"/>
+<area shape="rect" href="randomize__rules_8hpp.html" title=" " alt="" coords="326,80,490,107"/>
+<area shape="rect" href="mainwindow_8cpp.html" title=" " alt="" coords="320,326,459,353"/>
+<area shape="rect" href="mainwindow_8h.html" title=" " alt="" coords="227,237,352,263"/>
+<area shape="rect" href="random__master_8cpp.html" title=" " alt="" coords="427,237,586,263"/>
+<area shape="rect" href="squad__normal__widget_8hpp.html" title=" " alt="" coords="611,237,805,263"/>
+<area shape="rect" href="main_8cpp.html" title="Entrance point for the app." alt="" coords="198,326,295,353"/>
+<area shape="rect" href="squad__abstract__factory_8cpp.html" title=" " alt="" coords="829,319,963,360"/>
+<area shape="rect" href="squad__normal__widget_8cpp.html" title=" " alt="" coords="611,326,805,353"/>
+<area shape="rect" href="heroselection_8h.html" title=" " alt="" coords="118,155,250,181"/>
+<area shape="rect" href="randomize__rules_8cpp.html" title=" " alt="" coords="326,155,490,181"/>
 </map>
 </div>
 </div>
@@ -106,43 +110,146 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a9a1825a6c7b9e2d3ff06da2a44a9a8f6"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><b>fighters</b> [kTotalNumberOfFighters]</td></tr>
-<tr class="separator:a9a1825a6c7b9e2d3ff06da2a44a9a8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a399b85ac890c11ceeac47ddd36f8f79d"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a> = 18</td></tr>
+<tr class="separator:a399b85ac890c11ceeac47ddd36f8f79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f6a1518a10da8530100e8a40770787"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a> = 7</td></tr>
+<tr class="separator:ac6f6a1518a10da8530100e8a40770787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a70e58163b517bbcbb6b71b8989c853"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a> = 4</td></tr>
+<tr class="separator:a5a70e58163b517bbcbb6b71b8989c853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9830596dd3d3afc8b940062816c1a8be"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a9830596dd3d3afc8b940062816c1a8be">kRequiredSkillsForFighter</a> = 4</td></tr>
+<tr class="separator:a9830596dd3d3afc8b940062816c1a8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac07545fefc5b701f796c035047fd43ea"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#ac07545fefc5b701f796c035047fd43ea">kMaxTrinketAmountForFighter</a> = 2</td></tr>
+<tr class="separator:ac07545fefc5b701f796c035047fd43ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cec6b5ab2dd9eecb4694b17e8f4feae"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a4cec6b5ab2dd9eecb4694b17e8f4feae">kFighters</a> [<a class="el" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>]</td></tr>
+<tr class="separator:a4cec6b5ab2dd9eecb4694b17e8f4feae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>File for global configuration and constants. </p>
-<dl class="section author"><dt>Author</dt><dd>Timur Zhuk </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a9a1825a6c7b9e2d3ff06da2a44a9a8f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a1825a6c7b9e2d3ff06da2a44a9a8f6">&#9670;&nbsp;</a></span>fighters</h2>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a4cec6b5ab2dd9eecb4694b17e8f4feae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cec6b5ab2dd9eecb4694b17e8f4feae">&#9670;&nbsp;</a></span>kFighters</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char* const fighters[kTotalNumberOfFighters]</td>
+          <td class="memname">const char* const kFighters[<a class="el" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= { <span class="stringliteral">&quot;abomination&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;antiquarian&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;bounty_hunter&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;crusader&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;arbalest&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;flagellant&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;grave_robber&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;hellion&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;highwayman&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;houndmaster&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;jester&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;leper&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;man_at_arms&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;musketeer&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;occultist&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;plague_doctor&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;shieldbreaker&quot;</span>,</div>
-<div class="line">                                                   <span class="stringliteral">&quot;vestal&quot;</span> }</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;abomination&quot;</span>,  <span class="stringliteral">&quot;antiquarian&quot;</span>, <span class="stringliteral">&quot;bounty_hunter&quot;</span>, <span class="stringliteral">&quot;crusader&quot;</span>,      <span class="stringliteral">&quot;arbalest&quot;</span>,      <span class="stringliteral">&quot;flagellant&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;grave_robber&quot;</span>, <span class="stringliteral">&quot;hellion&quot;</span>,     <span class="stringliteral">&quot;highwayman&quot;</span>,    <span class="stringliteral">&quot;houndmaster&quot;</span>,   <span class="stringliteral">&quot;jester&quot;</span>,        <span class="stringliteral">&quot;leper&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;man_at_arms&quot;</span>,  <span class="stringliteral">&quot;musketeer&quot;</span>,   <span class="stringliteral">&quot;occultist&quot;</span>,     <span class="stringliteral">&quot;plague_doctor&quot;</span>, <span class="stringliteral">&quot;shieldbreaker&quot;</span>, <span class="stringliteral">&quot;vestal&quot;</span>}</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ac07545fefc5b701f796c035047fd43ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac07545fefc5b701f796c035047fd43ea">&#9670;&nbsp;</a></span>kMaxTrinketAmountForFighter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t kMaxTrinketAmountForFighter = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a70e58163b517bbcbb6b71b8989c853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a70e58163b517bbcbb6b71b8989c853">&#9670;&nbsp;</a></span>kRequiredNumberOfFighters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t kRequiredNumberOfFighters = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9830596dd3d3afc8b940062816c1a8be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9830596dd3d3afc8b940062816c1a8be">&#9670;&nbsp;</a></span>kRequiredSkillsForFighter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t kRequiredSkillsForFighter = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6f6a1518a10da8530100e8a40770787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f6a1518a10da8530100e8a40770787">&#9670;&nbsp;</a></span>kTotalFighterSpells</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t kTotalFighterSpells = 7</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a399b85ac890c11ceeac47ddd36f8f79d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399b85ac890c11ceeac47ddd36f8f79d">&#9670;&nbsp;</a></span>kTotalNumberOfFighters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t kTotalNumberOfFighters = 18</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 </div>
 </div>
 </div><!-- contents -->

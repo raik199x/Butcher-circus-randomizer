@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -69,22 +69,26 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">random.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Class with random number generator.  
+<p>File for generating random numbers.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;random&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for random.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="random_8h__incl.png" border="0" usemap="#ainclude_2random_8h" alt=""/></div>
 <map name="ainclude_2random_8h" id="ainclude_2random_8h">
-<area shape="rect" title="Class with random number generator." alt="" coords="5,5,127,32"/>
-<area shape="rect" title=" " alt="" coords="33,80,99,107"/>
+<area shape="rect" title="File for generating random numbers." alt="" coords="20,5,141,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,71,107"/>
+<area shape="rect" title=" " alt="" coords="95,80,154,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -92,8 +96,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="random_8h__dep__incl.png" border="0" usemap="#ainclude_2random_8hdep" alt=""/></div>
 <map name="ainclude_2random_8hdep" id="ainclude_2random_8hdep">
-<area shape="rect" title="Class with random number generator." alt="" coords="14,5,135,32"/>
-<area shape="rect" href="mainwindow_8cpp.html" title="MainWindow Interface." alt="" coords="5,80,144,107"/>
+<area shape="rect" title="File for generating random numbers." alt="" coords="147,5,268,32"/>
+<area shape="rect" href="mainwindow_8h.html" title=" " alt="" coords="62,80,187,107"/>
+<area shape="rect" href="random__master_8cpp.html" title=" " alt="" coords="212,80,371,107"/>
+<area shape="rect" href="main_8cpp.html" title="Entrance point for the app." alt="" coords="5,155,103,181"/>
+<area shape="rect" href="mainwindow_8cpp.html" title=" " alt="" coords="127,155,266,181"/>
 </map>
 </div>
 </div>
@@ -101,19 +108,30 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1is__uniform__int.html">details::is_uniform_int&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if type T is applicable by a std::uniform_int_distribution.  <a href="structdetails_1_1is__uniform__int.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandom_1_1Tricky.html">Random::Tricky&lt; T, BARRIER &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1is__uniform__real.html">details::is_uniform_real&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if type T is applicable by a std::uniform_real_distribution.  <a href="structdetails_1_1is__uniform__real.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceRandom"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRandom.html">Random</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandom.html">Random</a></td></tr>
+<tr class="memitem:namespaceRandom_1_1Uniform"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceRandom_1_1Uniform.html">Random::Uniform</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1642edbce5dbf43b6b99f7e24f7383d6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1642edbce5dbf43b6b99f7e24f7383d6"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRandom_1_1Uniform.html#a1642edbce5dbf43b6b99f7e24f7383d6">Random::Uniform::real</a> (const T min, const T max)</td></tr>
+<tr class="memdesc:a1642edbce5dbf43b6b99f7e24f7383d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random integer in the range (min, max)  <a href="namespaceRandom_1_1Uniform.html#a1642edbce5dbf43b6b99f7e24f7383d6">More...</a><br /></td></tr>
+<tr class="separator:a1642edbce5dbf43b6b99f7e24f7383d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ba73c7e2e80efd5a7fad461d15c971"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a97ba73c7e2e80efd5a7fad461d15c971"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRandom_1_1Uniform.html#a97ba73c7e2e80efd5a7fad461d15c971">Random::Uniform::integral</a> (const T min, const T max)</td></tr>
+<tr class="memdesc:a97ba73c7e2e80efd5a7fad461d15c971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random real number in the range [min, max].  <a href="namespaceRandom_1_1Uniform.html#a97ba73c7e2e80efd5a7fad461d15c971">More...</a><br /></td></tr>
+<tr class="separator:a97ba73c7e2e80efd5a7fad461d15c971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Class with random number generator. </p>
-<dl class="section author"><dt>Author</dt><dd>some google guy</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Implementation is deprecated and might be changed in future </dd></dl>
+<div class="textblock"><p>File for generating random numbers. </p>
+<dl class="section author"><dt>Author</dt><dd>Timuri Alvarez </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
