@@ -51,7 +51,7 @@ RandomMaster::getSkills(const std::array<FighterRandomizeRules, kRequiredNumberO
   std::array<QString, kRequiredSkillsForFighter> result; // skills for each hero
   for (size_t iter_fighters = 0; iter_fighters < fighters.size(); iter_fighters++) {
     result[iter_fighters] = "";
-    if (fighters[iter_fighters].fighter_name == RandomizeRules::kHeroWithAllSkills) {
+    if (fighters[iter_fighters].fighter_name == kFighterWithAllSkills) {
       continue;
     }
 
@@ -113,6 +113,7 @@ squad RandomMaster::getAndEquipTrinkets(const uint8_t lvl, squad fighters) {
       }
 
       // trying to give trinket to a fighter
+      // TODO(alexander): move to separate function
       bool is_trinket_given = false;
       for (auto &trinket : iter_fighter.trinkets) {
         if (trinket.isEmpty()) {

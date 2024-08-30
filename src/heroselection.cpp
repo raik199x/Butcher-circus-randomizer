@@ -124,8 +124,7 @@ void HeroSelection::buttonClicked() {
                              " spells for hero");
     break;
   case RandomizeRulesReturnCodes::kForbiddenStateChange:
-    QMessageBox::warning(this, "Random settings analyze",
-                         QString(RandomizeRules::kHeroWithAllSkills) + " has all abilities");
+    QMessageBox::warning(this, "Random settings analyze", QString(kFighterWithAllSkills) + " has all abilities");
     break;
   case RandomizeRulesReturnCodes::kNoHero: /*fallthrough*/
   default:

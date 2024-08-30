@@ -1,9 +1,14 @@
 #pragma once
 
 #include <QString>
-#include <QRegularExpression>
 
 #include <vector>
+
+/**
+ * @file asset_manager.hpp
+ * @brief Class for manipulating assets that indexed by Qt
+ *
+ */
 
 struct TrinketInfo {
   QString name;
@@ -16,6 +21,7 @@ const QString kQtAssetPositionFullCircle    = ":/Position/circles/fullCircle.png
 const QString kQtAssetTrinketIndex          = ":/trinkets/trinkets/";
 const QString kQtAssetTrinketList           = kQtAssetTrinketIndex + "list.txt";
 const QString kQtAssetHeroesWithSpellsIndex = ":/heroes/heroes+spells/";
+const QString kQtAssetNAImage               = kQtAssetHeroesWithSpellsIndex + "NA.png";
 const QString kQtAssetHeroPrefix            = "/hero_";
 const QString kQtAssetImageTypePostfix      = ".png";
 

@@ -7,6 +7,7 @@ constexpr uint8_t kTotalFighterSpells         = 7;
 constexpr uint8_t kRequiredNumberOfFighters   = 4;
 constexpr uint8_t kRequiredSkillsForFighter   = 4;
 constexpr uint8_t kMaxTrinketAmountForFighter = 2;
+constexpr auto    kFighterWithAllSkills       = "abomination";
 
 // The crowd of fighters
 const char *const kFighters[kTotalNumberOfFighters] = {

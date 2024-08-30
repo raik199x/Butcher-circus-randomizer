@@ -49,8 +49,6 @@ public:
   RandomizeRules(const RandomizeRules &other)        = delete;
   RandomizeRules(const RandomizeRules &&other)       = delete;
 
-  static constexpr auto kHeroWithAllSkills = "abomination";
-
   [[nodiscard]] uint8_t                            getAmountParticipates() const;
   [[nodiscard]] int                                getAmountOfEnabledSkills(const std::string &fighter_name);
   [[nodiscard]] GetterSkillsResult                 getHeroSkillsStates(const std::string &fighter_name);

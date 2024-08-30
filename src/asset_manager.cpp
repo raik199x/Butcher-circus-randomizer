@@ -3,6 +3,12 @@
 
 #include "asset_manager.hpp"
 
+/**
+ * @file asset_manager.cpp
+ * @brief Class for manipulating assets that indexed by Qt
+ *
+ */
+
 AssetManagerSingletone &AssetManagerSingletone::getInstance() {
   static AssetManagerSingletone instance;
   return instance;

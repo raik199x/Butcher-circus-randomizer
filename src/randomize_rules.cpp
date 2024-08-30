@@ -127,7 +127,7 @@ RandomizeRulesReturnCodes RandomizeRules::reverseSkillRule(const std::string &fi
     return RandomizeRulesReturnCodes::kNoHero;
   }
 
-  if (map_iter->second.fighter_name == RandomizeRules::kHeroWithAllSkills) {
+  if (map_iter->second.fighter_name == kFighterWithAllSkills) {
     return RandomizeRulesReturnCodes::kForbiddenStateChange;
   }
 
@@ -153,7 +153,7 @@ RandomizeRulesReturnCodes RandomizeRules::setSkillRule(const std::string &fighte
     return RandomizeRulesReturnCodes::kNoHero;
   }
 
-  if (map_iter->second.fighter_name == RandomizeRules::kHeroWithAllSkills) {
+  if (map_iter->second.fighter_name == kFighterWithAllSkills) {
     return RandomizeRulesReturnCodes::kForbiddenStateChange;
   }
 

@@ -5,6 +5,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Check if the source and binary directories are the same
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+    message(FATAL_ERROR
+        "In-source builds are not allowed. "
+        "Please create a separate build directory and run CMake from there.\n"
+    )
+endif()
+
+
 # In case of non-standart Qt installation, create env.cmake file and set CMAKE_PREFIX to qt installation
 # example: set(CMAKE_PREFIX_PATH "~/Qt/6.7.2/gcc_64") 
 include(${PROJECT_SOURCE_DIR}/env.cmake OPTIONAL)

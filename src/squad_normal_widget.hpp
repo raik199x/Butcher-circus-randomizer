@@ -1,30 +1,32 @@
 #pragma once
 
-#include <array>
+#include <QBoxLayout>
 
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
+#include "squad_abstract_widget.hpp"
+#include "config.h"
 
-#include "random_master.hpp"
-
-//TODO(alexander): Create new abstract class (follow fabric pattern)
-//TODO(alexander): Convert to fabric pattern
-class SquadNormalWidget : public QWidget {
+class SquadNormalWidget : public SquadAbstractWidget {
   Q_OBJECT
 private slots:
 
 public:
-  explicit SquadNormalWidget(const Fighter &fighter, bool mirroring_required = false, uint8_t position = 1);
-  ~SquadNormalWidget();
+  SquadNormalWidget(const Fighter &fighter, uint8_t position, bool mirrored);
+  virtual ~SquadNormalWidget() = default;
 
-  SquadNormalWidget(const SquadNormalWidget &other)            = delete;
-  SquadNormalWidget &operator=(const SquadNormalWidget &other) = delete;
-  SquadNormalWidget(SquadNormalWidget &&other)                 = delete;
-  SquadNormalWidget &operator=(SquadNormalWidget &&other)      = delete;
+  SquadNormalWidget(const SquadNormalWidget &other)             = delete;
+  SquadNormalWidget &operator=(const SquadNormalWidget &other)  = delete;
+  SquadNormalWidget(const SquadNormalWidget &&other)            = delete;
+  SquadNormalWidget &operator=(const SquadNormalWidget &&other) = delete;
 
 private:
+  void resizePixmapInitLayouts();
+
+  void layoutItems();
+  void mirroredLayoutItems();
+
+  void setFighterPosition(uint8_t position);
+
+  // Layouts
   QHBoxLayout main_layout;
 
   QVBoxLayout skills_hero_pos_layout;
@@ -34,12 +36,11 @@ private:
   QHBoxLayout skills_layout;
   QHBoxLayout position_layout;
 
-  std::array<QLabel, kMaxTrinketAmountForFighter> trinket_labels;
-  std::array<QLabel, kRequiredNumberOfFighters>   fighter_position_labels;
-  std::array<QLabel, kRequiredSkillsForFighter>   skill_label;
-  QLabel                                          fighter_label;
+  // Widgets
+  std::array<QLabel, kRequiredNumberOfFighters> fighter_position_labels;
 
-  const QSize kHeroImageSize  = QSize(60, 60);
+  // sizes
+  const QSize kFighterImageSize  = QSize(60, 60);
   const QSize kSkillImageSize = QSize(60, 60);
-  const QSize trinket_size    = QSize(50, 100);
+  const QSize kTrinketSize    = QSize(50, 100);
 };

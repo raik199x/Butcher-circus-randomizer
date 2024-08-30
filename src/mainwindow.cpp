@@ -176,14 +176,15 @@ void MainWindow::on_doRandom_clicked() {
   for (size_t iter_generate_team = 0; iter_generate_team < amount_of_teams_to_generate; iter_generate_team++) {
     uint8_t current_player = iter_generate_team % 2 == 0 ? MainWindow::kLeftPlayer : MainWindow::kRightPlayer;
 
-    squad generated_squad = RandomMaster().getFullRandomizedSquad(this->players_randomize_rules[current_player],
-                                                                  this->level[current_player]->value());
+    squad generated_squad = RandomMaster::getFullRandomizedSquad(this->players_randomize_rules[current_player],
+                                                                 this->level[current_player]->value());
+
     for (size_t squad_iter = 0; squad_iter < generated_squad.size(); squad_iter++) {
       if (current_player == MainWindow::kLeftPlayer) {
         // TODO(alexander): rewrite function so no need in +1
-        this->leftSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], false, squad_iter + 1));
+        this->leftSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], squad_iter + 1, false));
       } else {
-        this->rightSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], true, squad_iter + 1));
+        this->rightSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], squad_iter + 1, true));
       }
     }
   }

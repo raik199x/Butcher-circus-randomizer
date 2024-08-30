@@ -21,7 +21,7 @@ TEST_F(RandomizeRulesTest, reverseSkillRuleOutOfRange) {
 
 TEST_F(RandomizeRulesTest, reverseSkillRuleForbidden) {
   RandomizeRules test_subject;
-  const auto     return_val = test_subject.reverseSkillRule(RandomizeRules::kHeroWithAllSkills, 0);
+  const auto     return_val = test_subject.reverseSkillRule(kFighterWithAllSkills, 0);
   EXPECT_EQ(return_val, RandomizeRulesReturnCodes::kForbiddenStateChange);
 }
 
@@ -69,7 +69,7 @@ TEST_F(RandomizeRulesTest, setSkillRuleOutOfRange) {
 
 TEST_F(RandomizeRulesTest, setSkillRuleForbidden) {
   RandomizeRules test_subject;
-  const auto     return_val = test_subject.setSkillRule(RandomizeRules::kHeroWithAllSkills, 0, false);
+  const auto     return_val = test_subject.setSkillRule(kFighterWithAllSkills, 0, false);
   EXPECT_EQ(return_val, RandomizeRulesReturnCodes::kForbiddenStateChange);
 }
 

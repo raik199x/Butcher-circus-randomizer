@@ -1,58 +1,65 @@
 #include "squad_normal_widget.hpp"
-#include "asset_manager.hpp"
 
-SquadNormalWidget::SquadNormalWidget(const Fighter &fighter, const bool mirroring_required, const uint8_t position) {
-  this->setLayout(&this->main_layout);
+SquadNormalWidget::SquadNormalWidget(const Fighter &fighter, const uint8_t position, const bool mirrored)
+    : SquadAbstractWidget(fighter) {
+  this->setFighterPosition(position);
+  this->resizePixmapInitLayouts();
+  mirrored ? this->mirroredLayoutItems() : this->layoutItems();
+}
 
-  // init fighter image
-  QPixmap fighter_pixmap = QPixmap(kQtAssetHeroesWithSpellsIndex + fighter.name + kQtAssetHeroPrefix + fighter.name +
-                                   kQtAssetImageTypePostfix);
-  if (mirroring_required) {
-    fighter_pixmap = fighter_pixmap.transformed(QTransform().scale(-1, 1));
+void SquadNormalWidget::setFighterPosition(const uint8_t position) {
+  for (size_t iter = 0; iter < this->fighter_position_labels.size(); iter++) {
+    this->fighter_position_labels[iter].setPixmap(position - 1 == iter ? QPixmap(kQtAssetPositionFullCircle)
+                                                                       : QPixmap(kQtAssetPositionEmptyCircle));
   }
-  this->fighter_label.setPixmap(fighter_pixmap);
+}
 
-  // init skill images
-  for (int64_t skills_iter = 0; skills_iter < this->skill_label.size(); skills_iter++) {
-    QPixmap skill_pixmap = QPixmap(kQtAssetHeroesWithSpellsIndex + fighter.name + "/" + fighter.skills[skills_iter] +
-                                   kQtAssetImageTypePostfix);
-    this->skill_label[skills_iter].setPixmap(skill_pixmap);
-    this->skills_layout.addWidget(&this->skill_label[skills_iter]);
+void SquadNormalWidget::resizePixmapInitLayouts() {
+  this->setLayout(&this->main_layout);
+  this->fighter_label.setPixmap(this->fighter_label.pixmap().scaled(this->kFighterImageSize));
+
+  // init skills layout
+  for (auto &skill_label : this->skill_labels) {
+    skill_label.setPixmap(skill_label.pixmap().scaled(this->kSkillImageSize));
+    // skill_label.setMinimumSize(this->kSkillImageSize);
+    skills_layout.addWidget(&skill_label);
   }
 
   // init trinkets
-  for (size_t trinket_iter = 0; trinket_iter < fighter.trinkets.size(); trinket_iter++) {
-    QPixmap trinket_pixmap = QPixmap(kQtAssetTrinketIndex + fighter.trinkets[trinket_iter] + kQtAssetImageTypePostfix);
-    this->trinket_labels[trinket_iter].setPixmap(trinket_pixmap);
-    this->trinkets_layout.addWidget(&this->trinket_labels[trinket_iter]);
+  for (auto &trinket_label : this->trinket_labels) {
+    trinket_label.setPixmap(trinket_label.pixmap().scaled(this->kTrinketSize));
+    // trinket_label.setMinimumSize(this->trinket_size);
+    this->trinkets_layout.addWidget(&trinket_label);
   }
 
   // init position
-  int start     = mirroring_required ? kRequiredNumberOfFighters - 1 : 0;
-  int end       = mirroring_required ? -1 : kRequiredNumberOfFighters;
-  int increment = mirroring_required ? -1 : 1;
-  for (; start != end; start += increment) {
-    QPixmap circle = position - 1 == start ? QPixmap(kQtAssetPositionFullCircle) : QPixmap(kQtAssetPositionEmptyCircle);
-    this->fighter_position_labels[start].setPixmap(circle);
-    this->position_layout.addWidget(&this->fighter_position_labels[start]);
+  for (auto &position_label : this->fighter_position_labels) {
+    position_layout.addWidget(&position_label);
   }
-
-  // Finalizing
-  this->main_layout.addLayout(&this->trinkets_layout);
-
-  if (mirroring_required) {
-    this->hero_with_pos_layout.addLayout(&this->position_layout);
-    this->hero_with_pos_layout.addWidget(&this->fighter_label);
-
-  } else {
-    this->hero_with_pos_layout.addWidget(&this->fighter_label);
-    this->hero_with_pos_layout.addLayout(&this->position_layout);
-  }
-
-  this->skills_hero_pos_layout.addLayout(&this->hero_with_pos_layout);
-  this->skills_hero_pos_layout.addLayout(&this->skills_layout);
-
-  this->main_layout.addLayout(&this->skills_hero_pos_layout);
 }
 
-SquadNormalWidget::~SquadNormalWidget() = default;
+void SquadNormalWidget::layoutItems() {
+  main_layout.addLayout(&trinkets_layout);
+
+  hero_with_pos_layout.addWidget(&this->fighter_label);
+  hero_with_pos_layout.addLayout(&position_layout);
+
+  skills_hero_pos_layout.addLayout(&hero_with_pos_layout);
+  skills_hero_pos_layout.addLayout(&skills_layout);
+
+  main_layout.addLayout(&skills_hero_pos_layout);
+}
+
+void SquadNormalWidget::mirroredLayoutItems() {
+  this->fighter_label.setPixmap(this->fighter_label.pixmap().transformed(this->mirroring));
+
+  hero_with_pos_layout.addLayout(&position_layout);
+  hero_with_pos_layout.addWidget(&this->fighter_label);
+
+  skills_hero_pos_layout.addLayout(&hero_with_pos_layout);
+  skills_hero_pos_layout.addLayout(&skills_layout);
+
+  main_layout.addLayout(&skills_hero_pos_layout);
+
+  main_layout.addLayout(&trinkets_layout);
+}
