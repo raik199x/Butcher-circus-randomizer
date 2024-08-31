@@ -4,21 +4,12 @@
 #include <QMainWindow>
 #include <QRadioButton>
 #include <QCheckBox>
-#include <qboxlayout.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
 #include <QPushButton>
-#include <qradiobutton.h>
-#include <qspinbox.h>
+#include <QSpinBox>
 
 #include "random.h"
 #include "randomize_rules.hpp"
 #include "random_master.hpp"
-
-namespace Ui {
-class MainWindow;
-}
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -72,11 +63,17 @@ private:
 
   QVBoxLayout *layout;
 
-  QVBoxLayout *leftSide;
-  QVBoxLayout *rightSide;
+  std::unique_ptr<QSpacerItem> spacing_between_players;
+  const QSize                  spacing_normal      = QSize(400, 1);
+  const QSize                  spacing_competitive = QSize(200, 1);
 
-  void            ClearLayout(QLayout *layout);
-  static QWidget *getFighterWidget(uint8_t mode, const Fighter &fighter, uint8_t position, bool mirrored);
+  std::array<QVBoxLayout *, 2> player_layouts;
+
+  void clearLayout(QLayout *layout);
+
+  static QGridLayout *getCompetitiveTeamLayout(const squad &fighters, bool mirrored);
+  static QVBoxLayout *getNormalTeamLayout(const squad &fighters, bool mirrored);
+  static QLayout     *getTeamLayout(uint8_t mode, const squad &fighters, bool mirrored);
 
   //! \note Tricky prng
   Random::Tricky<uint> *prng;

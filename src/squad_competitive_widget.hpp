@@ -29,7 +29,7 @@ private:
   QGridLayout skills_layout;
   QVBoxLayout hero_with_pos_layout;
   // Sizes
-  const QSize kFighterImageSize = QSize(50, 50);
-  const QSize kSkillImageSize   = QSize(40, 40);
-  const QSize kTrinketImageSize = QSize(40, 70);
+  const QSize kFighterImageSize = QSize(55, 55);
+  const QSize kSkillImageSize   = QSize(45, 45);
+  const QSize kTrinketImageSize = QSize(40, 90);
 };

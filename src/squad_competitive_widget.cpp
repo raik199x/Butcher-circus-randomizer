@@ -2,9 +2,6 @@
 
 SquadCompetitiveWidget::SquadCompetitiveWidget(const Fighter &fighter, uint8_t position, const bool mirrored)
     : SquadAbstractWidget(fighter) {
-  if (mirrored) {
-    position = kRequiredNumberOfFighters + 1 - position;
-  }
   this->fighter_pos.setText("Pos " + QString::number(position));
   this->resizePixmapInitLayouts();
   mirrored ? this->mirroredLayoutItems() : this->layoutItems();

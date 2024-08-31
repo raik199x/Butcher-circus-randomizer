@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
 
   this->playVoice = true;
   // Setting up own made ui
-  // this->setFixedSize(QSize(1192, 700));
+  this->setMinimumSize(QSize(1300, 850));
   this->ui->setStyleSheet("color: #FFFFFF;");
 
   this->players_randomize_rules[kLeftPlayer]  = std::make_shared<RandomizeRules>();
@@ -60,8 +60,9 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   this->sameTeamLevel = new QCheckBox("Same Team Level");
   this->muteAncestor  = new QCheckBox("Mute Ancestor");
 
-  this->leftSide  = new QVBoxLayout();
-  this->rightSide = new QVBoxLayout();
+  for (auto &iter : this->player_layouts) {
+    iter = new QVBoxLayout();
+  }
 
   // connecting signals
   connect(this->RandomSettings[0], SIGNAL(clicked()), this, SLOT(on_RandomSettings1_clicked()));
@@ -106,14 +107,14 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   auto *top_window = new QHBoxLayout();
   top_window->addWidget(this->RandomSettings[0]);
   top_window->addLayout(level_setter1);
-  top_window->addSpacerItem(new QSpacerItem(400, 1));
+  top_window->addSpacerItem(new QSpacerItem(100, 1));
 
   auto *top_center_buttons = new QVBoxLayout();
   top_center_buttons->addWidget(this->doRandom);
   top_center_buttons->addWidget(this->screenShot);
   top_window->addLayout(top_center_buttons);
 
-  top_window->addSpacerItem(new QSpacerItem(400, 1));
+  top_window->addSpacerItem(new QSpacerItem(100, 1));
   top_window->addLayout(level_setter2);
   top_window->addWidget(this->RandomSettings[1]);
 
@@ -126,16 +127,19 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   radio_settings->addWidget(this->radio3t);
 
   auto *middle = new QHBoxLayout();
-  middle->addSpacerItem(new QSpacerItem(500, 1));
+  middle->addSpacerItem(new QSpacerItem(525, 1));
   middle->addLayout(check_settings);
   middle->addLayout(radio_settings);
-  middle->addSpacerItem(new QSpacerItem(500, 1));
+  middle->addSpacerItem(new QSpacerItem(475, 1));
 
+  this->spacing_between_players =
+      std::make_unique<QSpacerItem>(this->spacing_normal.width(), this->spacing_normal.height());
   auto *bottom = new QHBoxLayout();
-  this->leftSide->addSpacerItem(new QSpacerItem(1, 600)); // for placing ui parts in the top of screen
-  bottom->addLayout(this->leftSide);
-  bottom->addSpacerItem(new QSpacerItem(300, 1));
-  bottom->addLayout(this->rightSide);
+  this->player_layouts[kLeftPlayer]->addSpacerItem(
+      new QSpacerItem(1, 700)); // for placing ui parts in the top of screen
+  bottom->addLayout(this->player_layouts[kLeftPlayer]);
+  bottom->addSpacerItem(this->spacing_between_players.get());
+  bottom->addLayout(this->player_layouts[kRightPlayer]);
 
   this->layout = new QVBoxLayout(this->ui);
   this->layout->addLayout(top_window);
@@ -153,32 +157,55 @@ MainWindow::~MainWindow() {
  *
  * @param layout this->leftSide or this->rightSide
  */
-void MainWindow::ClearLayout(QLayout *layout) {
+void MainWindow::clearLayout(QLayout *layout) {
   QLayoutItem *item;
   while ((item = layout->takeAt(0)) != nullptr) {
     if (QWidget *widget = item->widget()) {
       delete widget;
-    } else if (QLayout *sublayout = item->layout()) {
-      ClearLayout(sublayout);
+    } else if (QLayout *sub_layout = item->layout()) {
+      clearLayout(sub_layout);
     }
     delete item;
   }
 }
 
-QWidget *MainWindow::getFighterWidget(const uint8_t mode, const Fighter &fighter, const uint8_t position,
-                                      bool mirrored) {
-  switch (mode) {
-  case MainWindow::kStandardModeAmountOfTeams:
-    return new SquadNormalWidget(fighter, position, mirrored);
-  case MainWindow::kCompetitiveModeAmountOfTeams:
-    return new SquadCompetitiveWidget(fighter, position, mirrored);
+QVBoxLayout *MainWindow::getNormalTeamLayout(const squad &fighters, bool mirrored) {
+  auto *result_layout = new QVBoxLayout;
+  for (size_t squad_iter = 0; squad_iter < fighters.size(); squad_iter++) {
+    result_layout->addWidget(new SquadNormalWidget(fighters[squad_iter], squad_iter + 1, mirrored));
   }
+
+  return result_layout;
+}
+
+QGridLayout *MainWindow::getCompetitiveTeamLayout(const squad &fighters, bool mirrored) {
+  auto *result_layout = new QGridLayout;
+  for (uint8_t row = 0; row < kRequiredNumberOfFighters / 2; row++) {
+    for (uint8_t column = 0; column < kRequiredNumberOfFighters / 2; column++) {
+      const uint8_t fighter_index = row * (kRequiredNumberOfFighters / 2) + column;
+      result_layout->addWidget(new SquadCompetitiveWidget(fighters[fighter_index], fighter_index + 1, mirrored), row,
+                               column);
+    }
+  }
+
+  return result_layout;
+}
+
+QLayout *MainWindow::getTeamLayout(const uint8_t mode, const squad &fighters, bool mirrored) {
+  switch (mode) {
+  case MainWindow::kCompetitiveModeAmountOfTeams:
+    return MainWindow::getCompetitiveTeamLayout(fighters, mirrored);
+  case MainWindow::kStandardModeAmountOfTeams:
+    return MainWindow::getNormalTeamLayout(fighters, mirrored);
+  }
+
   return nullptr;
 }
 
 void MainWindow::on_doRandom_clicked() {
-  ClearLayout(this->leftSide);
-  ClearLayout(this->rightSide);
+  for (auto &iter : this->player_layouts) {
+    clearLayout(iter);
+  }
 
   size_t amount_of_teams_to_generate = 0;
   if (this->radio3t->isChecked()) {
@@ -193,15 +220,12 @@ void MainWindow::on_doRandom_clicked() {
     squad generated_squad = RandomMaster::getFullRandomizedSquad(this->players_randomize_rules[current_player],
                                                                  this->level[current_player]->value());
 
-    for (size_t squad_iter = 0; squad_iter < generated_squad.size(); squad_iter++) {
-      if (current_player == MainWindow::kLeftPlayer) {
-        // TODO(alexander): rewrite function so no need in +1
-        this->leftSide->addWidget(MainWindow::getFighterWidget(amount_of_teams_to_generate, generated_squad[squad_iter],
-                                                               squad_iter + 1, false));
-      } else {
-        this->rightSide->addWidget(MainWindow::getFighterWidget(amount_of_teams_to_generate,
-                                                                generated_squad[squad_iter], squad_iter + 1, true));
-      }
+    this->player_layouts[current_player]->addLayout(
+        MainWindow::getTeamLayout(amount_of_teams_to_generate, generated_squad, static_cast<bool>(current_player)));
+
+    // TODO(alexander): need to find better approach
+    if (iter_generate_team < amount_of_teams_to_generate - 2) {
+      this->player_layouts[current_player]->addSpacerItem(new QSpacerItem(1, 40));
     }
   }
 
@@ -273,9 +297,17 @@ void MainWindow::on_screenShot_clicked() {
 }
 
 void MainWindow::on_radio_clicked() {
-  ClearLayout(this->leftSide);
-  ClearLayout(this->rightSide);
-  this->leftSide->addSpacerItem(new QSpacerItem(1, 600));
+  for (auto &iter : this->player_layouts) {
+    clearLayout(iter);
+  }
+  this->player_layouts[kLeftPlayer]->addSpacerItem(
+      new QSpacerItem(1, 700)); // for placing ui parts in the top of screen
+
+  if (this->radio3t->isChecked()) {
+    this->spacing_between_players->changeSize(this->spacing_competitive.width(), this->spacing_competitive.height());
+  } else {
+    this->spacing_between_players->changeSize(this->spacing_normal.width(), this->spacing_normal.height());
+  }
 }
 
 void MainWindow::on_muteAncestor_clicked() {
