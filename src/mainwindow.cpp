@@ -24,6 +24,7 @@
 #include "centralwidget.h"
 #include "heroselection.h"
 #include "random_master.hpp"
+#include "squad_competitive_widget.hpp"
 #include "squad_normal_widget.hpp"
 
 MainWindow::MainWindow(QWidget * /*parent*/) {
@@ -35,7 +36,7 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
 
   this->playVoice = true;
   // Setting up own made ui
-  this->setFixedSize(QSize(1192, 700));
+  // this->setFixedSize(QSize(1192, 700));
   this->ui->setStyleSheet("color: #FFFFFF;");
 
   this->players_randomize_rules[kLeftPlayer]  = std::make_shared<RandomizeRules>();
@@ -164,6 +165,17 @@ void MainWindow::ClearLayout(QLayout *layout) {
   }
 }
 
+QWidget *MainWindow::getFighterWidget(const uint8_t mode, const Fighter &fighter, const uint8_t position,
+                                      bool mirrored) {
+  switch (mode) {
+  case MainWindow::kStandardModeAmountOfTeams:
+    return new SquadNormalWidget(fighter, position, mirrored);
+  case MainWindow::kCompetitiveModeAmountOfTeams:
+    return new SquadCompetitiveWidget(fighter, position, mirrored);
+  }
+  return nullptr;
+}
+
 void MainWindow::on_doRandom_clicked() {
   ClearLayout(this->leftSide);
   ClearLayout(this->rightSide);
@@ -184,9 +196,11 @@ void MainWindow::on_doRandom_clicked() {
     for (size_t squad_iter = 0; squad_iter < generated_squad.size(); squad_iter++) {
       if (current_player == MainWindow::kLeftPlayer) {
         // TODO(alexander): rewrite function so no need in +1
-        this->leftSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], squad_iter + 1, false));
+        this->leftSide->addWidget(MainWindow::getFighterWidget(amount_of_teams_to_generate, generated_squad[squad_iter],
+                                                               squad_iter + 1, false));
       } else {
-        this->rightSide->addWidget(new SquadNormalWidget(generated_squad[squad_iter], squad_iter + 1, true));
+        this->rightSide->addWidget(MainWindow::getFighterWidget(amount_of_teams_to_generate,
+                                                                generated_squad[squad_iter], squad_iter + 1, true));
       }
     }
   }

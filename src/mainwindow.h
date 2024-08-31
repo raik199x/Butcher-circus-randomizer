@@ -75,9 +75,8 @@ private:
   QVBoxLayout *leftSide;
   QVBoxLayout *rightSide;
 
-  void ClearLayout(QLayout *layout);
-
-  static std::string getFileNameBasedOnPlayer(uint8_t player);
+  void            ClearLayout(QLayout *layout);
+  static QWidget *getFighterWidget(uint8_t mode, const Fighter &fighter, uint8_t position, bool mirrored);
 
   //! \note Tricky prng
   Random::Tricky<uint> *prng;
