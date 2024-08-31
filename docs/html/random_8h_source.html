@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -75,73 +75,89 @@ $(function() {
 <a href="random_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>details {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structdetails_1_1is__uniform__int.html">   15</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structdetails_1_1is__uniform__int.html">is_uniform_int</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value =</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            std::is_same&lt;T, short&gt;::value ||</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            std::is_same&lt;T, int&gt;::value ||</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            std::is_same&lt;T, long&gt;::value ||</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            std::is_same&lt;T, long long&gt;::value ||</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            std::is_same&lt;T, unsigned short&gt;::value ||</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            std::is_same&lt;T, unsigned int&gt;::value ||</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            std::is_same&lt;T, unsigned long&gt;::value ||</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            std::is_same&lt;T, unsigned long long&gt;::value;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structdetails_1_1is__uniform__real.html">   29</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structdetails_1_1is__uniform__real.html">is_uniform_real</a> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value =</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            std::is_same&lt;T, float&gt;::value ||</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            std::is_same&lt;T, double&gt;::value ||</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            std::is_same&lt;T, long double&gt;::value;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <span class="comment">// namespace details</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classRandom.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="classRandom.html">Random</a> {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">using</span> IntDist = std::uniform_int_distribution&lt;T&gt;;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">using</span> RealDist = std::uniform_real_distribution&lt;T&gt;;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">static</span> <span class="keyword">typename</span> std::enable_if&lt;details::is_uniform_int&lt;T&gt;::value, T&gt;::type get(T from = std::numeric_limits&lt;T&gt;::min(), T to = std::numeric_limits&lt;T&gt;::max()) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span> (from &gt; to)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            std::swap(from, to);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        IntDist&lt;T&gt; dist{from, to};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> dist(instance().engine());</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> <span class="keyword">typename</span> std::enable_if&lt;details::is_uniform_real&lt;T&gt;::value, T&gt;::type get(T from = std::numeric_limits&lt;T&gt;::min(), T to = std::numeric_limits&lt;T&gt;::max()) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">if</span> (from &gt; to)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            std::swap(from, to);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        RealDist&lt;T&gt; dist{from, to};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> dist(instance().engine());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::mt19937 &amp;engine() { <span class="keywordflow">return</span> m_mt; }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">static</span> <a class="code" href="classRandom.html">Random</a> &amp;instance() {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">static</span> <a class="code" href="classRandom.html">Random</a> inst;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> inst;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::random_device m_rd; <span class="comment">// Random Number Generator</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::mt19937 m_mt;      <span class="comment">// Standard random number generator</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classRandom.html">Random</a>() : m_mt(m_rd()) {}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ~<a class="code" href="classRandom.html">Random</a>() {}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="classRandom.html">Random</a>(<span class="keyword">const</span> <a class="code" href="classRandom.html">Random</a> &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="classRandom.html">Random</a> &amp;operator=(<span class="keyword">const</span> <a class="code" href="classRandom.html">Random</a> &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="ttc" id="aclassRandom_html"><div class="ttname"><a href="classRandom.html">Random</a></div><div class="ttdef"><b>Definition:</b> random.h:37</div></div>
-<div class="ttc" id="astructdetails_1_1is__uniform__int_html"><div class="ttname"><a href="structdetails_1_1is__uniform__int.html">details::is_uniform_int</a></div><div class="ttdoc">True if type T is applicable by a std::uniform_int_distribution.</div><div class="ttdef"><b>Definition:</b> random.h:15</div></div>
-<div class="ttc" id="astructdetails_1_1is__uniform__real_html"><div class="ttname"><a href="structdetails_1_1is__uniform__real.html">details::is_uniform_real</a></div><div class="ttdoc">True if type T is applicable by a std::uniform_real_distribution.</div><div class="ttdef"><b>Definition:</b> random.h:29</div></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespaceRandom.html">   12</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceRandom_1_1Uniform.html">Random::Uniform</a> {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespaceRandom_1_1Uniform.html#a1642edbce5dbf43b6b99f7e24f7383d6">   22</a></span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespaceRandom_1_1Uniform.html#a1642edbce5dbf43b6b99f7e24f7383d6">real</a>(<span class="keyword">const</span> T min, <span class="keyword">const</span> T max) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  static_assert(std::is_floating_point_v&lt;T&gt;, <span class="stringliteral">&quot;Uniform::real only works with floating point types&quot;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  std::random_device rdev;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordflow">return</span> std::uniform_real_distribution&lt;T&gt;(std::min(min, max), std::max(min, max))(rdev);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespaceRandom_1_1Uniform.html#a97ba73c7e2e80efd5a7fad461d15c971">   37</a></span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespaceRandom_1_1Uniform.html#a97ba73c7e2e80efd5a7fad461d15c971">integral</a>(<span class="keyword">const</span> T min, <span class="keyword">const</span> T max) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  static_assert(std::is_integral_v&lt;T&gt;, <span class="stringliteral">&quot;Uniform::integral only works with integral types&quot;</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::random_device rdev;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">return</span> std::uniform_int_distribution&lt;T&gt;(std::min(min, max), std::max(min, max))(rdev);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace Random::Uniform</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceRandom.html">Random</a> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, const <span class="keywordtype">size_t</span> BARRIER = 1LU&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">class </span>Tricky;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, const <span class="keywordtype">size_t</span> BARRIER&gt;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html">   62</a></span>&#160;<span class="keyword">class </span><a class="code" href="classRandom_1_1Tricky.html">Random::Tricky</a> {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  static_assert(std::is_integral_v&lt;T&gt;, <span class="stringliteral">&quot;Tricky PRNG only works with integral types&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html#a55cd85860c2a7168a3504d8a56c63af0">   69</a></span>&#160;  <a class="code" href="classRandom_1_1Tricky.html#a55cd85860c2a7168a3504d8a56c63af0">Tricky</a>(<span class="keyword">const</span> T <a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>, <span class="keyword">const</span> T <a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>) : <a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>(std::<a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>(<a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>, <a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>)), <a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>(std::<a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>(<a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>, <a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>)) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>.resize(<a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a> - <a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a> + 1LU);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;chance : <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      chance = BARRIER + 1LU;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html#a95cbfb26c022c93ca6090aa2f922e4f3">   79</a></span>&#160;  T <a class="code" href="classRandom_1_1Tricky.html#a95cbfb26c022c93ca6090aa2f922e4f3">operator()</a>() {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> sum = std::accumulate(<a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>.begin(), <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>.end(), 0LU);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keyword">auto</span> random = Uniform::integral&lt;size_t&gt;(0LU, sum - 1LU);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordtype">size_t</span> index = <a class="code" href="classRandom_1_1Tricky.html#aea56bff79b75d102c5ead92e097e0766">index_of</a>(random);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="comment">// If the number was chosen BARRIER times ago, then skip it</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>[index] &lt;= BARRIER) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="comment">// Increment all chances</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp;chance : <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        ++chance;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="comment">// Set to zero the chance of the number that was chosen</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>[index] = 0LU;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="comment">// Return the number</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a> + index;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">  104</a></span>&#160;  T <a class="code" href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">min</a>, <a class="code" href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">max</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">  106</a></span>&#160;  std::vector&lt;size_t&gt; <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="classRandom_1_1Tricky.html#aea56bff79b75d102c5ead92e097e0766">  109</a></span>&#160;  <span class="keywordtype">size_t</span> <a class="code" href="classRandom_1_1Tricky.html#aea56bff79b75d102c5ead92e097e0766">index_of</a>(<span class="keywordtype">size_t</span> random) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">size_t</span> index = 0LU;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> chance : <a class="code" href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">chances</a>) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <span class="keywordflow">if</span> (random &lt; chance) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      }</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      random -= chance;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      ++index;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">return</span> index;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html"><div class="ttname"><a href="classRandom_1_1Tricky.html">Random::Tricky</a></div><div class="ttdef"><b>Definition:</b> random.h:62</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_a117140a694eef6b496dcb9cad7124b0a"><div class="ttname"><a href="classRandom_1_1Tricky.html#a117140a694eef6b496dcb9cad7124b0a">Random::Tricky::max</a></div><div class="ttdeci">T max</div><div class="ttdef"><b>Definition:</b> random.h:104</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_a506edab25c4f998ef988e1dfb1139ccc"><div class="ttname"><a href="classRandom_1_1Tricky.html#a506edab25c4f998ef988e1dfb1139ccc">Random::Tricky::chances</a></div><div class="ttdeci">std::vector&lt; size_t &gt; chances</div><div class="ttdef"><b>Definition:</b> random.h:106</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_a55cd85860c2a7168a3504d8a56c63af0"><div class="ttname"><a href="classRandom_1_1Tricky.html#a55cd85860c2a7168a3504d8a56c63af0">Random::Tricky::Tricky</a></div><div class="ttdeci">Tricky(const T min, const T max)</div><div class="ttdoc">Protection from invalid template parameters.</div><div class="ttdef"><b>Definition:</b> random.h:69</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_a95cbfb26c022c93ca6090aa2f922e4f3"><div class="ttname"><a href="classRandom_1_1Tricky.html#a95cbfb26c022c93ca6090aa2f922e4f3">Random::Tricky::operator()</a></div><div class="ttdeci">T operator()()</div><div class="ttdoc">Tricky PRNG operator, aka &quot;generate a random number&quot;.</div><div class="ttdef"><b>Definition:</b> random.h:79</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_abe4cc8e5eaf64344b3071aab321a4d2e"><div class="ttname"><a href="classRandom_1_1Tricky.html#abe4cc8e5eaf64344b3071aab321a4d2e">Random::Tricky::min</a></div><div class="ttdeci">T min</div><div class="ttdef"><b>Definition:</b> random.h:104</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html_aea56bff79b75d102c5ead92e097e0766"><div class="ttname"><a href="classRandom_1_1Tricky.html#aea56bff79b75d102c5ead92e097e0766">Random::Tricky::index_of</a></div><div class="ttdeci">size_t index_of(size_t random)</div><div class="ttdoc">Returns the index of the number in chances vector that corresponds to the given random number.</div><div class="ttdef"><b>Definition:</b> random.h:109</div></div>
+<div class="ttc" id="anamespaceRandom_1_1Uniform_html"><div class="ttname"><a href="namespaceRandom_1_1Uniform.html">Random::Uniform</a></div><div class="ttdef"><b>Definition:</b> random.h:12</div></div>
+<div class="ttc" id="anamespaceRandom_1_1Uniform_html_a1642edbce5dbf43b6b99f7e24f7383d6"><div class="ttname"><a href="namespaceRandom_1_1Uniform.html#a1642edbce5dbf43b6b99f7e24f7383d6">Random::Uniform::real</a></div><div class="ttdeci">T real(const T min, const T max)</div><div class="ttdoc">Generates a random integer in the range (min, max)</div><div class="ttdef"><b>Definition:</b> random.h:22</div></div>
+<div class="ttc" id="anamespaceRandom_1_1Uniform_html_a97ba73c7e2e80efd5a7fad461d15c971"><div class="ttname"><a href="namespaceRandom_1_1Uniform.html#a97ba73c7e2e80efd5a7fad461d15c971">Random::Uniform::integral</a></div><div class="ttdeci">T integral(const T min, const T max)</div><div class="ttdoc">Generates a random real number in the range [min, max].</div><div class="ttdef"><b>Definition:</b> random.h:37</div></div>
+<div class="ttc" id="anamespaceRandom_html"><div class="ttname"><a href="namespaceRandom.html">Random</a></div><div class="ttdef"><b>Definition:</b> random.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

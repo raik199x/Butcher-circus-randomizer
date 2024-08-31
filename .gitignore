@@ -6,3 +6,7 @@ build
 CMakeLists.txt.*
 userSettings.json
 BCR*
+env.cmake
+
+vcpkg_installed/
+CMakeUserPresets.json

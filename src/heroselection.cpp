@@ -1,155 +1,137 @@
-#include <filesystem>
+#include <cstddef>
 
 #include <QBoxLayout>
 #include <QMessageBox>
+#include <QScrollArea>
 
-#include "../forms/ui_heroselection.h"
-
-#include "../include/heroselection.h"
-#include "../include/filemanip.h"
-#include "../include/config.h"
-
-/**
- * @file heroselection.cpp
- * @brief Implementation of HeroSelection class
- * 
- * @author raik
- */
+#include "heroselection.h"
+#include "config.h"
 
 /**
  * @brief Construct a new Hero Selection:: Hero Selection object
- * 
- * @param parent 
- * @param numTeam 
+ *
+ * @param parent
+ * @param numTeam
  */
-HeroSelection::HeroSelection(QWidget* const parent, uint8_t numTeam) : QDialog(parent), ui(new Ui::HeroSelection) {
-	ui->setupUi(this);
+HeroSelection::HeroSelection(QWidget *const parent, std::shared_ptr<RandomizeRules> player_rules) : QDialog(parent) {
+  this->setWindowTitle("Random settings");
+  this->setStyleSheet("background-color: #323232");
 
-	this->setFixedSize(1065, 342);
-	this->setWindowTitle("Random settings");
-	this->setStyleSheet("background-color: #323232");
+  this->rules = std::move(player_rules);
 
-	this->fileName = "BCR_T" + std::to_string((uint16_t)numTeam + 1) + ".txt";
-	// we should analyze how many heroes accessible for random
-	if (!std::filesystem::exists(this->fileName)) {
-		if (!recreate(this->fileName)) // if file does not exist and cannot be created
-			std::terminate();
-		this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
-	} else { // checking how many heroes enabled
-		this->AccessibleHeroes = 0;
-		std::ifstream file(this->fileName);
-		if (!file) {
-			QMessageBox::critical(this, "Cannot open file", "For some reason BCR cannot open file BCR_T(1,2,...)");
-			std::terminate();
-		}
-		for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
-			std::string line;
-			file >> line;
-			if (line[line.find(":") + 1] == '1')
-				this->AccessibleHeroes++;
-			int spellsAvailable = 0; // also checking that hero can random 4 spells
-			for (unsigned int j = line.find(":") + 2; j < line.size(); j++)
-				if (line[j] == '1')
-					spellsAvailable++;
-			if (spellsAvailable < 4) {
-				this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
-				QMessageBox::warning(this, "Random settings analyze", "One of heroes had less than 4 skills for randomizing, file will be recreated");
-				recreate(this->fileName);
-				break;
-			}
-		}
-		if (this->AccessibleHeroes < 4) {
-			QMessageBox::warning(this, "Random settings analyze", "Less than 4 heroes where set for randomizing, file will be recreated");
-			recreate(this->fileName);
-			this->AccessibleHeroes = NUMBER_OF_FIGHTERS;
-		}
-	}
+  // Init Window
+  auto *main_v_layout = new QVBoxLayout(this);
+  auto *scroll_area   = new QScrollArea();
+  main_v_layout->addWidget(scroll_area);
 
-	this->buttons = new QPushButton** [NUMBER_OF_FIGHTERS];
-	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
-		this->buttons[i] = new QPushButton* [8]; // 7 spells + hero
+  auto *widget_with_buttons = new QWidget();
+  auto *layout_for_buttons  = new QVBoxLayout(widget_with_buttons);
 
-	// initializing
-	QWidget *wgtMain = new QWidget();
-	QVBoxLayout *vboxMain = new QVBoxLayout(wgtMain);
-	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++) {
-		QWidget *wgtSub = new QWidget();
-		QHBoxLayout *hBoxSub = new QHBoxLayout(wgtSub);
-		for (int j = 0; j < 8; j++) {
-			this->buttons[i][j] = new QPushButton();
-			buttons[i][j]->setFixedSize(QSize(75, 80));
-			hBoxSub->addWidget(buttons[i][j]);
-			connect(this->buttons[i][j], SIGNAL(clicked()), this, SLOT(ButtonClicked()));
-		}
-		vboxMain->addWidget(wgtSub);
-	}
-	// updating ui
-	for (int i = 0; i < NUMBER_OF_FIGHTERS; i++)
-		updateUiLine(i + 1);
-	this->ui->heroes->setWidget(wgtMain);
+  for (auto &button_line : this->buttons_grid) {
+    auto *h_box_sub = new QHBoxLayout();
+
+    for (auto &button : button_line) {
+      button = std::make_unique<QPushButton>(new QPushButton);
+      button->setFixedSize(HeroSelection::kIconSize);
+      h_box_sub->addWidget(button.get());
+      h_box_sub->addSpacerItem(new QSpacerItem(HeroSelection::kSpacingBetweenIcons, 0));
+
+      connect(button.get(), SIGNAL(clicked()), this, SLOT(buttonClicked()));
+    }
+
+    layout_for_buttons->addLayout(h_box_sub);
+    layout_for_buttons->addSpacerItem(new QSpacerItem(0, HeroSelection::kSpacingBetweenIcons));
+  }
+  scroll_area->setWidget(widget_with_buttons);
+
+  // updating ui
+  for (uint8_t index_of_fighter = 0; index_of_fighter < kTotalNumberOfFighters; index_of_fighter++) {
+    this->updateUiLine(index_of_fighter);
+  }
+
+  // Calculating preferred size for window
+  // +1 since does not show one button without it
+  const size_t window_width = (HeroSelection::kAmountOfButtonsForEachFighter + 1) * HeroSelection::kIconSize.width() +
+                              (HeroSelection::kAmountOfButtonsForEachFighter + 1) * HeroSelection::kSpacingBetweenIcons;
+  // +4 to show 3 line
+  const size_t window_height = static_cast<uint64_t>(HeroSelection::kIconSize.height()) * 4;
+  this->resize(window_width, window_height);
 }
 
-bool HeroSelection::updateUiLine(const int line) {
-	//! \todo Check  line's borders (for out of range values)
-	std::ifstream file(this->fileName);
-	if (!file)
-		return false;
-	// getting statistic line
-	std::string lines;
-	for (int i = 0; i < line; i++)
-		getline(file, lines);
-	file.close();
+bool HeroSelection::updateUiLine(const uint8_t index_of_fighter) {
+  if (index_of_fighter >= kTotalNumberOfFighters) {
+    return false;
+  }
 
-	// analysing and changing
-	size_t pos = lines.find(":");
-	pos++;
-	std::string color;
-	lines[pos] == '0' ? color = "Red;" : color = "Green;";
-	std::string style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" + fighters[line - 1] + "/hero_" + fighters[line - 1] + ")"; // changing hero frame
-	buttons[line - 1][0]->setStyleSheet(QString::fromStdString(style));
-	pos++;
-	for (unsigned int i = pos; i < pos + 7; i++) { // 7 since hero was checked before
-		lines[i] == '0' ? color = "Red;" : color = "Green;";
-		style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" + fighters[line - 1] + "/" + std::to_string(i - pos + 1) + ".png)";
-		buttons[line - 1][i - pos + 1]->setStyleSheet(QString::fromStdString(style));
-	}
-	return true;
+  GetterFighterResult getter_result = this->rules->getFighter(kFighters[index_of_fighter]);
+  if (getter_result.code != RandomizeRulesReturnCodes::kNoError) {
+    return false;
+  }
+
+  // analyzing and changing
+  QString color = getter_result.fighter.is_participates ? this->kColorEnabled : this->kColorDisabled;
+  QString style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
+                  kFighters[index_of_fighter] + "/hero_" + kFighters[index_of_fighter] + ")"; // changing hero frame
+  buttons_grid[index_of_fighter][kHeroStatusSwitcherButtonIndex]->setStyleSheet(style);
+
+  uint8_t button_index = kHeroStatusSwitcherButtonIndex + 1;
+  for (size_t iter_skills_state = 0; iter_skills_state < getter_result.fighter.skills.size(); iter_skills_state++) {
+    color = getter_result.fighter.skills[iter_skills_state] ? kColorEnabled : kColorDisabled;
+    style = "background-color: " + color + " background-image: url(:/heroes/heroes+spells/" +
+            kFighters[index_of_fighter] + "/" + QString::number(iter_skills_state + 1) + ".png)";
+    buttons_grid[index_of_fighter][button_index++]->setStyleSheet(style);
+  }
+
+  return true;
 }
 
-void HeroSelection::ButtonClicked(void) {
-	using namespace Errors;
-	QPushButton *button = (QPushButton *)sender();
-	for (int x = 0; x < NUMBER_OF_FIGHTERS; x++)
-		for (int c = 0; c < 8; c++)
-			if (this->buttons[x][c] == button) {
-				switch (changeLine(this->fileName, fighters[x], c, this->AccessibleHeroes)) {
-				case ChangeLine::HeroRemoved:
-					this->AccessibleHeroes--;
-					break;
-				case ChangeLine::HeroAdded:
-					this->AccessibleHeroes++;
-					break;
-				case ChangeLine::NoFile:
-					QMessageBox::critical(this, "File open error", "Could not open file BCR_T(1,2)");
-					std::terminate();
-					break;
-				case ChangeLine::TooFewHeroes:
-					QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 heroes for randomizing");
-					break;
-				case ChangeLine::TooFewSpells:
-					QMessageBox::warning(this, "Random settings analyze", "You are trying to set less than 4 spells for hero");
-					break;
-				case ChangeLine::HeroForbidden:
-					QMessageBox::warning(this, "Random settings analyze", "B.r.u.h.");
-					break;
-				case ChangeLine::SkillRemoved: default:
-					break;
-				}
-				updateUiLine(x + 1);
-				return;
-			}
+void HeroSelection::buttonClicked() {
+  auto   *button                     = (QPushButton *)sender();
+  uint8_t searched_number_of_fighter = UINT8_MAX;
+  uint8_t searched_number_of_button  = UINT8_MAX;
+  for (int number_of_fighter = 0; number_of_fighter < kTotalNumberOfFighters; number_of_fighter++) {
+    for (int fighter_button = 0; fighter_button < HeroSelection::kAmountOfButtonsForEachFighter; fighter_button++) {
+
+      if (this->buttons_grid[number_of_fighter][fighter_button].get() == button) {
+        searched_number_of_fighter = number_of_fighter;
+        searched_number_of_button  = fighter_button;
+        break;
+      }
+    }
+
+    // if already found
+    if (searched_number_of_fighter != UINT8_MAX) {
+      break;
+    }
+  }
+
+  RandomizeRulesReturnCodes result_code = RandomizeRulesReturnCodes::kDefaultValue;
+  if (searched_number_of_button == kHeroStatusSwitcherButtonIndex) {
+    result_code = this->rules->reverseFighterRule(kFighters[searched_number_of_fighter]);
+  } else {
+    result_code = this->rules->reverseSkillRule(kFighters[searched_number_of_fighter], searched_number_of_button - 1);
+  }
+
+  switch (result_code) {
+  case RandomizeRulesReturnCodes::kTooFewHeroes:
+    QMessageBox::warning(this, "Random settings analyze",
+                         "You are trying to set less than " + QString::number(kRequiredNumberOfFighters) +
+                             " heroes for randomizing");
+    break;
+  case RandomizeRulesReturnCodes::kTooFewSpells:
+    QMessageBox::warning(this, "Random settings analyze",
+                         "You are trying to set less than " + QString::number(kRequiredSkillsForFighter) +
+                             " spells for hero");
+    break;
+  case RandomizeRulesReturnCodes::kForbiddenStateChange:
+    QMessageBox::warning(this, "Random settings analyze", QString(kFighterWithAllSkills) + " has all abilities");
+    break;
+  case RandomizeRulesReturnCodes::kNoHero: /*fallthrough*/
+  default:
+    break;
+  }
+  this->updateUiLine(searched_number_of_fighter);
 }
 
-HeroSelection::~HeroSelection(void) {
-	delete ui;
+HeroSelection::~HeroSelection() {
 }

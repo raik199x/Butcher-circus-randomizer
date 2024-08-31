@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['heroselection_30',['HeroSelection',['../classHeroSelection.html',1,'']]]
+  ['centralwidget_179',['CentralWidget',['../classCentralWidget.html',1,'']]]
 ];

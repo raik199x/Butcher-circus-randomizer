@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -66,6 +66,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pri-slots">Private Slots</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -74,6 +75,8 @@ $(function() {
 <div class="title">HeroSelection Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="heroselection_8h_source.html">heroselection.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for HeroSelection:</div>
 <div class="dyncontent">
@@ -88,47 +91,54 @@ Collaboration diagram for HeroSelection:</div>
 <div class="dyncontent">
 <div class="center"><img src="classHeroSelection__coll__graph.png" border="0" usemap="#aHeroSelection_coll__map" alt="Collaboration graph"/></div>
 <map name="aHeroSelection_coll__map" id="aHeroSelection_coll__map">
-<area shape="rect" title=" " alt="" coords="31,95,135,121"/>
-<area shape="rect" title=" " alt="" coords="5,5,75,32"/>
-<area shape="rect" title=" " alt="" coords="99,5,154,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,109,107"/>
+<area shape="rect" title=" " alt="" coords="23,5,92,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af3635556e1eddb57cf62e8615035b41d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#af3635556e1eddb57cf62e8615035b41d">HeroSelection</a> (QWidget *const parent=nullptr, uint8_t numTeam=0)</td></tr>
-<tr class="memdesc:af3635556e1eddb57cf62e8615035b41d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Hero Selection:: Hero Selection object.  <a href="classHeroSelection.html#af3635556e1eddb57cf62e8615035b41d">More...</a><br /></td></tr>
-<tr class="separator:af3635556e1eddb57cf62e8615035b41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab604f0b1c1cf52cfd844e5ed9fcf5d0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#ab604f0b1c1cf52cfd844e5ed9fcf5d0c">HeroSelection</a> (QWidget *parent, std::shared_ptr&lt; <a class="el" href="classRandomizeRules.html">RandomizeRules</a> &gt; player_rules)</td></tr>
+<tr class="memdesc:ab604f0b1c1cf52cfd844e5ed9fcf5d0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Hero Selection:: Hero Selection object.  <a href="classHeroSelection.html#ab604f0b1c1cf52cfd844e5ed9fcf5d0c">More...</a><br /></td></tr>
+<tr class="separator:ab604f0b1c1cf52cfd844e5ed9fcf5d0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaddaf0bfc9d535445068161d83f607af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#aaddaf0bfc9d535445068161d83f607af">~HeroSelection</a> () override</td></tr>
+<tr class="separator:aaddaf0bfc9d535445068161d83f607af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a6c4f14ad378177c364259e3010972941"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">kAmountOfButtonsForEachFighter</a> = <a class="el" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a> + 1</td></tr>
+<tr class="separator:a6c4f14ad378177c364259e3010972941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d8bac96cd769befb9ca201f446d4315"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a4d8bac96cd769befb9ca201f446d4315">kHeroStatusSwitcherButtonIndex</a> = 0</td></tr>
+<tr class="separator:a4d8bac96cd769befb9ca201f446d4315"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89465d8e44d7563e0407eb6b624ad800"><td class="memItemLeft" align="right" valign="top">static constexpr QSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a89465d8e44d7563e0407eb6b624ad800">kIconSize</a> = QSize(75, 80)</td></tr>
+<tr class="separator:a89465d8e44d7563e0407eb6b624ad800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24730d71b7e3feab27d97840e195aea7"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a24730d71b7e3feab27d97840e195aea7">kSpacingBetweenIcons</a> = 10</td></tr>
+<tr class="separator:a24730d71b7e3feab27d97840e195aea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-slots"></a>
 Private Slots</h2></td></tr>
-<tr class="memitem:a1ec9bcb35d154482aeeeed477c0f4d71"><td class="memItemLeft" align="right" valign="top"><a id="a1ec9bcb35d154482aeeeed477c0f4d71"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ButtonClicked</b> (void)</td></tr>
-<tr class="separator:a1ec9bcb35d154482aeeeed477c0f4d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb6dc13c6e9d94a773d0a940509c9c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#adcb6dc13c6e9d94a773d0a940509c9c1">buttonClicked</a> ()</td></tr>
+<tr class="separator:adcb6dc13c6e9d94a773d0a940509c9c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:ae62ed17ab1ca9c773654fd521093109f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#ae62ed17ab1ca9c773654fd521093109f">updateUiLine</a> (const int line)</td></tr>
-<tr class="separator:ae62ed17ab1ca9c773654fd521093109f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa59b01bccde96c83b3621f482fa423e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#aa59b01bccde96c83b3621f482fa423e8">updateUiLine</a> (uint8_t index_of_fighter)</td></tr>
+<tr class="separator:aa59b01bccde96c83b3621f482fa423e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a4c49ba888f9894172cee2a11b86db150"><td class="memItemLeft" align="right" valign="top"><a id="a4c49ba888f9894172cee2a11b86db150"></a>
-QPushButton ***&#160;</td><td class="memItemRight" valign="bottom"><b>buttons</b></td></tr>
-<tr class="separator:a4c49ba888f9894172cee2a11b86db150"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac248861cca930354fffaa99fdb627ca5"><td class="memItemLeft" align="right" valign="top"><a id="ac248861cca930354fffaa99fdb627ca5"></a>
-Ui::HeroSelection *&#160;</td><td class="memItemRight" valign="bottom"><b>ui</b></td></tr>
-<tr class="separator:ac248861cca930354fffaa99fdb627ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae972d5fa7f04d2204eed526e05290f1b"><td class="memItemLeft" align="right" valign="top"><a id="ae972d5fa7f04d2204eed526e05290f1b"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>fileName</b></td></tr>
-<tr class="separator:ae972d5fa7f04d2204eed526e05290f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb760d9aa9f04e1a25c44ddacfe5b870"><td class="memItemLeft" align="right" valign="top"><a id="adb760d9aa9f04e1a25c44ddacfe5b870"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>AccessibleHeroes</b></td></tr>
-<tr class="separator:adb760d9aa9f04e1a25c44ddacfe5b870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6814beeb572767b922c5930fd3cdb416"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a6814beeb572767b922c5930fd3cdb416">kColorEnabled</a> = &quot;Green;&quot;</td></tr>
+<tr class="separator:a6814beeb572767b922c5930fd3cdb416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ac4241af9ebb3d96dc782f1eb90983"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#ab4ac4241af9ebb3d96dc782f1eb90983">kColorDisabled</a> = &quot;Red;&quot;</td></tr>
+<tr class="separator:ab4ac4241af9ebb3d96dc782f1eb90983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c0524839ade072791c67adc98dedd23"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::array&lt; std::unique_ptr&lt; QPushButton &gt;, <a class="el" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">kAmountOfButtonsForEachFighter</a> &gt;, <a class="el" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#a9c0524839ade072791c67adc98dedd23">buttons_grid</a></td></tr>
+<tr class="separator:a9c0524839ade072791c67adc98dedd23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c8a844271ed1d4fb0a5f4561927024"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classRandomizeRules.html">RandomizeRules</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHeroSelection.html#aa3c8a844271ed1d4fb0a5f4561927024">rules</a></td></tr>
+<tr class="separator:aa3c8a844271ed1d4fb0a5f4561927024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af3635556e1eddb57cf62e8615035b41d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3635556e1eddb57cf62e8615035b41d">&#9670;&nbsp;</a></span>HeroSelection()</h2>
+<a id="ab604f0b1c1cf52cfd844e5ed9fcf5d0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab604f0b1c1cf52cfd844e5ed9fcf5d0c">&#9670;&nbsp;</a></span>HeroSelection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,14 +149,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>AccessibleHeroes</b></
         <tr>
           <td class="memname">HeroSelection::HeroSelection </td>
           <td>(</td>
-          <td class="paramtype">QWidget *const&#160;</td>
-          <td class="paramname"><em>parent</em> = <code>nullptr</code>, </td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>numTeam</em> = <code>0</code>&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classRandomizeRules.html">RandomizeRules</a> &gt;&#160;</td>
+          <td class="paramname"><em>player_rules</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -172,9 +182,59 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>AccessibleHeroes</b></
 
 </div>
 </div>
+<a id="aaddaf0bfc9d535445068161d83f607af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaddaf0bfc9d535445068161d83f607af">&#9670;&nbsp;</a></span>~HeroSelection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HeroSelection::~HeroSelection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae62ed17ab1ca9c773654fd521093109f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae62ed17ab1ca9c773654fd521093109f">&#9670;&nbsp;</a></span>updateUiLine()</h2>
+<a id="adcb6dc13c6e9d94a773d0a940509c9c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb6dc13c6e9d94a773d0a940509c9c1">&#9670;&nbsp;</a></span>buttonClicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void HeroSelection::buttonClicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa59b01bccde96c83b3621f482fa423e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa59b01bccde96c83b3621f482fa423e8">&#9670;&nbsp;</a></span>updateUiLine()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,8 +245,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>AccessibleHeroes</b></
         <tr>
           <td class="memname">bool HeroSelection::updateUiLine </td>
           <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>line</em></td><td>)</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index_of_fighter</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -196,12 +256,188 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>AccessibleHeroes</b></
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Check line's borders (for out of range values) </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9c0524839ade072791c67adc98dedd23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c0524839ade072791c67adc98dedd23">&#9670;&nbsp;</a></span>buttons_grid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt;std::array&lt;std::unique_ptr&lt;QPushButton&gt;, <a class="el" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">kAmountOfButtonsForEachFighter</a>&gt;, <a class="el" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>&gt; HeroSelection::buttons_grid</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c4f14ad378177c364259e3010972941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c4f14ad378177c364259e3010972941">&#9670;&nbsp;</a></span>kAmountOfButtonsForEachFighter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t HeroSelection::kAmountOfButtonsForEachFighter = <a class="el" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a> + 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4ac4241af9ebb3d96dc782f1eb90983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4ac4241af9ebb3d96dc782f1eb90983">&#9670;&nbsp;</a></span>kColorDisabled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QString HeroSelection::kColorDisabled = &quot;Red;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6814beeb572767b922c5930fd3cdb416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6814beeb572767b922c5930fd3cdb416">&#9670;&nbsp;</a></span>kColorEnabled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QString HeroSelection::kColorEnabled = &quot;Green;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d8bac96cd769befb9ca201f446d4315"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d8bac96cd769befb9ca201f446d4315">&#9670;&nbsp;</a></span>kHeroStatusSwitcherButtonIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint8_t HeroSelection::kHeroStatusSwitcherButtonIndex = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89465d8e44d7563e0407eb6b624ad800"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89465d8e44d7563e0407eb6b624ad800">&#9670;&nbsp;</a></span>kIconSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr QSize HeroSelection::kIconSize = QSize(75, 80)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24730d71b7e3feab27d97840e195aea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24730d71b7e3feab27d97840e195aea7">&#9670;&nbsp;</a></span>kSpacingBetweenIcons</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t HeroSelection::kSpacingBetweenIcons = 10</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3c8a844271ed1d4fb0a5f4561927024"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3c8a844271ed1d4fb0a5f4561927024">&#9670;&nbsp;</a></span>rules</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classRandomizeRules.html">RandomizeRules</a>&gt; HeroSelection::rules</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/<a class="el" href="heroselection_8h_source.html">heroselection.h</a></li>
+<li>src/<a class="el" href="heroselection_8h_source.html">heroselection.h</a></li>
 <li>src/<a class="el" href="heroselection_8cpp.html">heroselection.cpp</a></li>
 </ul>
 </div><!-- contents -->

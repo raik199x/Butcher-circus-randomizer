@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Butcher Circus Randomizer: include/mainwindow.h Source File</title>
+<title>Butcher Circus Randomizer: src/mainwindow.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -74,83 +74,127 @@ $(function() {
 <div class="contents">
 <a href="mainwindow_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QHBoxLayout&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QMainWindow&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QRadioButton&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;QCheckBox&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;qboxlayout.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;qcheckbox.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;qlabel.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;qlayout.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;qpushbutton.h&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;qradiobutton.h&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;qspinbox.h&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>Ui {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span><a class="code" href="classMainWindow.html">MainWindow</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QHBoxLayout&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QMainWindow&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QRadioButton&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QCheckBox&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;qboxlayout.h&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;qcheckbox.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;qlabel.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;qlayout.h&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;QPushButton&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;qradiobutton.h&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;qspinbox.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="random_8h.html">random.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="randomize__rules_8hpp.html">randomize_rules.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="random__master_8hpp.html">random_master.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespaceUi.html">   19</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceUi.html">Ui</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">class </span><a class="code" href="classMainWindow.html">MainWindow</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classMainWindow.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMainWindow.html">MainWindow</a> : <span class="keyword">public</span> QMainWindow {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  Q_OBJECT</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classMainWindow.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMainWindow.html">MainWindow</a> : <span class="keyword">public</span> QMainWindow {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#affd28e36d24f66d6f9d1623f04a1eee3">on_doRandom_clicked</a>();</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classMainWindow.html">MainWindow</a>(QWidget *parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ~<a class="code" href="classMainWindow.html">MainWindow</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a06b5de68b7193b8f5e0e68a0aee85cc8">on_level_valueChanged</a>(<span class="keywordtype">int</span> arg1);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#acbb1b2cd68ee08a150d5cfe039d75723">on_sameTeamLevel_clicked</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> on_doRandom_clicked();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> on_level1_valueChanged(<span class="keywordtype">int</span> arg1);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> on_level2_valueChanged(<span class="keywordtype">int</span> arg1);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> on_sameTeamLevel_clicked();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> on_RandomSettings1_clicked();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> on_RandomSettings2_clicked();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> on_screenShot_clicked();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> on_radio1t_clicked();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a5a6a6114000cc8584618f643986cd9c5">on_RandomSettings1_clicked</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a8c448d33b186acbd4a403c85e6eebf0f">on_RandomSettings2_clicked</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a1e814b76821b26a75fe490cb1b213749">on_screenShot_clicked</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a8171a57b0576b526dca1a0db26c68cd9">on_radio_clicked</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#a125d400cbcf6d52aec9a5df3a6b813d2">on_muteAncestor_clicked</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classMainWindow.html#a996c5a2b6f77944776856f08ec30858d">MainWindow</a>(QWidget *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="classMainWindow.html#ae98d00a93bc118200eeef9f9bba1dba7">~MainWindow</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classMainWindow.html#a376c8af90e2c6429fb3ae6faf2c1faf4">   47</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classMainWindow.html#a376c8af90e2c6429fb3ae6faf2c1faf4">kStandardModeAmountOfTeams</a>    = 2;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classMainWindow.html#a6a803749654014f52e1a7feee447e6fd">   48</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classMainWindow.html#a6a803749654014f52e1a7feee447e6fd">kCompetitiveModeAmountOfTeams</a> = 6;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> on_radio3t_clicked();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> on_muteAncestor_clicked();</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classMainWindow.html#a21e1170abb505c4be893b918ca1a2618">   50</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classMainWindow.html#a21e1170abb505c4be893b918ca1a2618">kTotalPlayers</a> = 2;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classMainWindow.html#add89dcf9bdb2a2c873bdc715c5dcf32f">   51</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classMainWindow.html#add89dcf9bdb2a2c873bdc715c5dcf32f">kLeftPlayer</a>   = 0;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classMainWindow.html#a37befec0cb4f622f40ef900dea77bbae">   52</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classMainWindow.html#a37befec0cb4f622f40ef900dea77bbae">kRightPlayer</a>  = 1;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">bool</span> playVoice;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    QWidget *ui;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// Recreating mainwindow.ui</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    QPushButton **RandomSettings;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    QPushButton *screenShot;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    QPushButton *doRandom;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    QCheckBox *sameTeamLevel;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    QCheckBox *muteAncestor;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    QRadioButton *radio1t;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    QRadioButton *radio3t;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    QSpinBox **level;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classMainWindow.html#a0da761af215e58450442ed57ffc2b685">   55</a></span>&#160;  std::array&lt;std::shared_ptr&lt;RandomizeRules&gt;, <a class="code" href="classMainWindow.html#a21e1170abb505c4be893b918ca1a2618">kTotalPlayers</a>&gt; <a class="code" href="classMainWindow.html#a0da761af215e58450442ed57ffc2b685">players_randomize_rules</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classMainWindow.html#ae134362ef1b81f63bab700b722b243bf">   56</a></span>&#160;  <a class="code" href="classRandomMaster.html">RandomMaster</a>                                               <a class="code" href="classMainWindow.html#ae134362ef1b81f63bab700b722b243bf">master_of_random</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classMainWindow.html#a1fa6910b90dba3492bae2392f9798c88">   58</a></span>&#160;  <span class="keywordtype">bool</span>     <a class="code" href="classMainWindow.html#a1fa6910b90dba3492bae2392f9798c88">playVoice</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classMainWindow.html#ae38e118120b34606609fcbb75ed93016">   59</a></span>&#160;  QWidget *<a class="code" href="classMainWindow.html#ae38e118120b34606609fcbb75ed93016">ui</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">// Recreating mainwindow.ui</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classMainWindow.html#a1dde62e3a4f397cd71ea8586cea91c7f">   62</a></span>&#160;  QPushButton **<a class="code" href="classMainWindow.html#a1dde62e3a4f397cd71ea8586cea91c7f">RandomSettings</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classMainWindow.html#aa6f43426adbced1abd167b91fa5d1129">   63</a></span>&#160;  QPushButton  *<a class="code" href="classMainWindow.html#aa6f43426adbced1abd167b91fa5d1129">screenShot</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="classMainWindow.html#a4c228176c561db34927fbad9891cc61d">   64</a></span>&#160;  QPushButton  *<a class="code" href="classMainWindow.html#a4c228176c561db34927fbad9891cc61d">doRandom</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classMainWindow.html#a51260363586e617ac014ad335a5884f4">   66</a></span>&#160;  QCheckBox *<a class="code" href="classMainWindow.html#a51260363586e617ac014ad335a5884f4">sameTeamLevel</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classMainWindow.html#a4b67b58471a8d503703308836213ba03">   67</a></span>&#160;  QCheckBox *<a class="code" href="classMainWindow.html#a4b67b58471a8d503703308836213ba03">muteAncestor</a>;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    QVBoxLayout *layout;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    QVBoxLayout *leftSide;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    QVBoxLayout *rightSide;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> Randomizing(<span class="keywordtype">int</span> numCommand);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    QString *<a class="code" href="classMainWindow.html#ac56930350bab35eee9be49b17c617ef7">GetFighters</a>(<span class="keywordtype">int</span> numCommand);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    QString *<a class="code" href="classMainWindow.html#aaba23bccbf155671ddee445e5a4d95ae">GetSkills</a>(<span class="keywordtype">int</span> numCommand, QString *Fighters);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    QString *<a class="code" href="classMainWindow.html#a7a35e1117039bab133a3c7bc9f558006">GetTrinkets</a>(<span class="keywordtype">int</span> lvl, QString *usedFighters);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#ab90ff86b7e63826647e385001f89e3fa">ClearLayout</a>(QLayout *layout);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
-<div class="ttc" id="aclassMainWindow_html"><div class="ttname"><a href="classMainWindow.html">MainWindow</a></div><div class="ttdef"><b>Definition:</b> mainwindow.h:26</div></div>
-<div class="ttc" id="aclassMainWindow_html_a7a35e1117039bab133a3c7bc9f558006"><div class="ttname"><a href="classMainWindow.html#a7a35e1117039bab133a3c7bc9f558006">MainWindow::GetTrinkets</a></div><div class="ttdeci">QString * GetTrinkets(int lvl, QString *usedFighters)</div><div class="ttdoc">Get the Trinkets for a given player level and used fighters.</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:206</div></div>
-<div class="ttc" id="aclassMainWindow_html_aaba23bccbf155671ddee445e5a4d95ae"><div class="ttname"><a href="classMainWindow.html#aaba23bccbf155671ddee445e5a4d95ae">MainWindow::GetSkills</a></div><div class="ttdeci">QString * GetSkills(int numCommand, QString *Fighters)</div><div class="ttdoc">Get already randomized QString of skills.</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:306</div></div>
-<div class="ttc" id="aclassMainWindow_html_ab90ff86b7e63826647e385001f89e3fa"><div class="ttname"><a href="classMainWindow.html#ab90ff86b7e63826647e385001f89e3fa">MainWindow::ClearLayout</a></div><div class="ttdeci">void ClearLayout(QLayout *layout)</div><div class="ttdoc">Clears the layout items, but does not deletes layout itself.</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:162</div></div>
-<div class="ttc" id="aclassMainWindow_html_ac56930350bab35eee9be49b17c617ef7"><div class="ttname"><a href="classMainWindow.html#ac56930350bab35eee9be49b17c617ef7">MainWindow::GetFighters</a></div><div class="ttdeci">QString * GetFighters(int numCommand)</div><div class="ttdoc">Get the Fighters.</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:277</div></div>
-<div class="ttc" id="aconfig_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">File for global configuration and constants.</div></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classMainWindow.html#af389bf9dad727851bf5ee8eb543a9d61">   69</a></span>&#160;  QRadioButton *<a class="code" href="classMainWindow.html#af389bf9dad727851bf5ee8eb543a9d61">radio1t</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classMainWindow.html#ac3254e6a75b2bca42bd0e41f2a0f554f">   70</a></span>&#160;  QRadioButton *<a class="code" href="classMainWindow.html#ac3254e6a75b2bca42bd0e41f2a0f554f">radio3t</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classMainWindow.html#a6c755ae53c2832e80b2c74f17b1bfdf6">   71</a></span>&#160;  QSpinBox    **<a class="code" href="classMainWindow.html#a6c755ae53c2832e80b2c74f17b1bfdf6">level</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classMainWindow.html#a80f08e92412c47b1479adaa2cdaf71fa">   73</a></span>&#160;  QVBoxLayout *<a class="code" href="classMainWindow.html#a80f08e92412c47b1479adaa2cdaf71fa">layout</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classMainWindow.html#aede6b5081a956c24c5c6d2b73323c584">   75</a></span>&#160;  QVBoxLayout *<a class="code" href="classMainWindow.html#aede6b5081a956c24c5c6d2b73323c584">leftSide</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classMainWindow.html#ae815eabe94c47f426c7428cfce844686">   76</a></span>&#160;  QVBoxLayout *<a class="code" href="classMainWindow.html#ae815eabe94c47f426c7428cfce844686">rightSide</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMainWindow.html#ab90ff86b7e63826647e385001f89e3fa">ClearLayout</a>(QLayout *<a class="code" href="classMainWindow.html#a80f08e92412c47b1479adaa2cdaf71fa">layout</a>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classMainWindow.html#a7cfc7e4f0aa1ddcb9365c20744c84e44">   80</a></span>&#160;  <span class="keyword">static</span> std::string <a class="code" href="classMainWindow.html#a7cfc7e4f0aa1ddcb9365c20744c84e44">getFileNameBasedOnPlayer</a>(uint8_t player);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="classMainWindow.html#a3599fda294e7680ae49de5dc540e9bac">   83</a></span>&#160;  <a class="code" href="classRandom_1_1Tricky.html">Random::Tricky&lt;uint&gt;</a> *<a class="code" href="classMainWindow.html#a3599fda294e7680ae49de5dc540e9bac">prng</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="ttc" id="aclassMainWindow_html"><div class="ttname"><a href="classMainWindow.html">MainWindow</a></div><div class="ttdef"><b>Definition:</b> mainwindow.h:23</div></div>
+<div class="ttc" id="aclassMainWindow_html_a06b5de68b7193b8f5e0e68a0aee85cc8"><div class="ttname"><a href="classMainWindow.html#a06b5de68b7193b8f5e0e68a0aee85cc8">MainWindow::on_level_valueChanged</a></div><div class="ttdeci">void on_level_valueChanged(int arg1)</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:208</div></div>
+<div class="ttc" id="aclassMainWindow_html_a0da761af215e58450442ed57ffc2b685"><div class="ttname"><a href="classMainWindow.html#a0da761af215e58450442ed57ffc2b685">MainWindow::players_randomize_rules</a></div><div class="ttdeci">std::array&lt; std::shared_ptr&lt; RandomizeRules &gt;, kTotalPlayers &gt; players_randomize_rules</div><div class="ttdef"><b>Definition:</b> mainwindow.h:55</div></div>
+<div class="ttc" id="aclassMainWindow_html_a125d400cbcf6d52aec9a5df3a6b813d2"><div class="ttname"><a href="classMainWindow.html#a125d400cbcf6d52aec9a5df3a6b813d2">MainWindow::on_muteAncestor_clicked</a></div><div class="ttdeci">void on_muteAncestor_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:264</div></div>
+<div class="ttc" id="aclassMainWindow_html_a1dde62e3a4f397cd71ea8586cea91c7f"><div class="ttname"><a href="classMainWindow.html#a1dde62e3a4f397cd71ea8586cea91c7f">MainWindow::RandomSettings</a></div><div class="ttdeci">QPushButton ** RandomSettings</div><div class="ttdef"><b>Definition:</b> mainwindow.h:62</div></div>
+<div class="ttc" id="aclassMainWindow_html_a1e814b76821b26a75fe490cb1b213749"><div class="ttname"><a href="classMainWindow.html#a1e814b76821b26a75fe490cb1b213749">MainWindow::on_screenShot_clicked</a></div><div class="ttdeci">void on_screenShot_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:233</div></div>
+<div class="ttc" id="aclassMainWindow_html_a1fa6910b90dba3492bae2392f9798c88"><div class="ttname"><a href="classMainWindow.html#a1fa6910b90dba3492bae2392f9798c88">MainWindow::playVoice</a></div><div class="ttdeci">bool playVoice</div><div class="ttdef"><b>Definition:</b> mainwindow.h:58</div></div>
+<div class="ttc" id="aclassMainWindow_html_a21e1170abb505c4be893b918ca1a2618"><div class="ttname"><a href="classMainWindow.html#a21e1170abb505c4be893b918ca1a2618">MainWindow::kTotalPlayers</a></div><div class="ttdeci">static constexpr uint8_t kTotalPlayers</div><div class="ttdef"><b>Definition:</b> mainwindow.h:50</div></div>
+<div class="ttc" id="aclassMainWindow_html_a3599fda294e7680ae49de5dc540e9bac"><div class="ttname"><a href="classMainWindow.html#a3599fda294e7680ae49de5dc540e9bac">MainWindow::prng</a></div><div class="ttdeci">Random::Tricky&lt; uint &gt; * prng</div><div class="ttdef"><b>Definition:</b> mainwindow.h:83</div></div>
+<div class="ttc" id="aclassMainWindow_html_a376c8af90e2c6429fb3ae6faf2c1faf4"><div class="ttname"><a href="classMainWindow.html#a376c8af90e2c6429fb3ae6faf2c1faf4">MainWindow::kStandardModeAmountOfTeams</a></div><div class="ttdeci">static constexpr uint8_t kStandardModeAmountOfTeams</div><div class="ttdef"><b>Definition:</b> mainwindow.h:47</div></div>
+<div class="ttc" id="aclassMainWindow_html_a37befec0cb4f622f40ef900dea77bbae"><div class="ttname"><a href="classMainWindow.html#a37befec0cb4f622f40ef900dea77bbae">MainWindow::kRightPlayer</a></div><div class="ttdeci">static constexpr uint8_t kRightPlayer</div><div class="ttdef"><b>Definition:</b> mainwindow.h:52</div></div>
+<div class="ttc" id="aclassMainWindow_html_a4b67b58471a8d503703308836213ba03"><div class="ttname"><a href="classMainWindow.html#a4b67b58471a8d503703308836213ba03">MainWindow::muteAncestor</a></div><div class="ttdeci">QCheckBox * muteAncestor</div><div class="ttdef"><b>Definition:</b> mainwindow.h:67</div></div>
+<div class="ttc" id="aclassMainWindow_html_a4c228176c561db34927fbad9891cc61d"><div class="ttname"><a href="classMainWindow.html#a4c228176c561db34927fbad9891cc61d">MainWindow::doRandom</a></div><div class="ttdeci">QPushButton * doRandom</div><div class="ttdef"><b>Definition:</b> mainwindow.h:64</div></div>
+<div class="ttc" id="aclassMainWindow_html_a51260363586e617ac014ad335a5884f4"><div class="ttname"><a href="classMainWindow.html#a51260363586e617ac014ad335a5884f4">MainWindow::sameTeamLevel</a></div><div class="ttdeci">QCheckBox * sameTeamLevel</div><div class="ttdef"><b>Definition:</b> mainwindow.h:66</div></div>
+<div class="ttc" id="aclassMainWindow_html_a5a6a6114000cc8584618f643986cd9c5"><div class="ttname"><a href="classMainWindow.html#a5a6a6114000cc8584618f643986cd9c5">MainWindow::on_RandomSettings1_clicked</a></div><div class="ttdeci">void on_RandomSettings1_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:221</div></div>
+<div class="ttc" id="aclassMainWindow_html_a6a803749654014f52e1a7feee447e6fd"><div class="ttname"><a href="classMainWindow.html#a6a803749654014f52e1a7feee447e6fd">MainWindow::kCompetitiveModeAmountOfTeams</a></div><div class="ttdeci">static constexpr uint8_t kCompetitiveModeAmountOfTeams</div><div class="ttdef"><b>Definition:</b> mainwindow.h:48</div></div>
+<div class="ttc" id="aclassMainWindow_html_a6c755ae53c2832e80b2c74f17b1bfdf6"><div class="ttname"><a href="classMainWindow.html#a6c755ae53c2832e80b2c74f17b1bfdf6">MainWindow::level</a></div><div class="ttdeci">QSpinBox ** level</div><div class="ttdef"><b>Definition:</b> mainwindow.h:71</div></div>
+<div class="ttc" id="aclassMainWindow_html_a7cfc7e4f0aa1ddcb9365c20744c84e44"><div class="ttname"><a href="classMainWindow.html#a7cfc7e4f0aa1ddcb9365c20744c84e44">MainWindow::getFileNameBasedOnPlayer</a></div><div class="ttdeci">static std::string getFileNameBasedOnPlayer(uint8_t player)</div></div>
+<div class="ttc" id="aclassMainWindow_html_a80f08e92412c47b1479adaa2cdaf71fa"><div class="ttname"><a href="classMainWindow.html#a80f08e92412c47b1479adaa2cdaf71fa">MainWindow::layout</a></div><div class="ttdeci">QVBoxLayout * layout</div><div class="ttdef"><b>Definition:</b> mainwindow.h:73</div></div>
+<div class="ttc" id="aclassMainWindow_html_a8171a57b0576b526dca1a0db26c68cd9"><div class="ttname"><a href="classMainWindow.html#a8171a57b0576b526dca1a0db26c68cd9">MainWindow::on_radio_clicked</a></div><div class="ttdeci">void on_radio_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:258</div></div>
+<div class="ttc" id="aclassMainWindow_html_a8c448d33b186acbd4a403c85e6eebf0f"><div class="ttname"><a href="classMainWindow.html#a8c448d33b186acbd4a403c85e6eebf0f">MainWindow::on_RandomSettings2_clicked</a></div><div class="ttdeci">void on_RandomSettings2_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:227</div></div>
+<div class="ttc" id="aclassMainWindow_html_a996c5a2b6f77944776856f08ec30858d"><div class="ttname"><a href="classMainWindow.html#a996c5a2b6f77944776856f08ec30858d">MainWindow::MainWindow</a></div><div class="ttdeci">MainWindow(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:29</div></div>
+<div class="ttc" id="aclassMainWindow_html_aa6f43426adbced1abd167b91fa5d1129"><div class="ttname"><a href="classMainWindow.html#aa6f43426adbced1abd167b91fa5d1129">MainWindow::screenShot</a></div><div class="ttdeci">QPushButton * screenShot</div><div class="ttdef"><b>Definition:</b> mainwindow.h:63</div></div>
+<div class="ttc" id="aclassMainWindow_html_ab90ff86b7e63826647e385001f89e3fa"><div class="ttname"><a href="classMainWindow.html#ab90ff86b7e63826647e385001f89e3fa">MainWindow::ClearLayout</a></div><div class="ttdeci">void ClearLayout(QLayout *layout)</div><div class="ttdoc">Clears the layout items, but does not deletes layout itself.</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:153</div></div>
+<div class="ttc" id="aclassMainWindow_html_ac3254e6a75b2bca42bd0e41f2a0f554f"><div class="ttname"><a href="classMainWindow.html#ac3254e6a75b2bca42bd0e41f2a0f554f">MainWindow::radio3t</a></div><div class="ttdeci">QRadioButton * radio3t</div><div class="ttdef"><b>Definition:</b> mainwindow.h:70</div></div>
+<div class="ttc" id="aclassMainWindow_html_acbb1b2cd68ee08a150d5cfe039d75723"><div class="ttname"><a href="classMainWindow.html#acbb1b2cd68ee08a150d5cfe039d75723">MainWindow::on_sameTeamLevel_clicked</a></div><div class="ttdeci">void on_sameTeamLevel_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:215</div></div>
+<div class="ttc" id="aclassMainWindow_html_add89dcf9bdb2a2c873bdc715c5dcf32f"><div class="ttname"><a href="classMainWindow.html#add89dcf9bdb2a2c873bdc715c5dcf32f">MainWindow::kLeftPlayer</a></div><div class="ttdeci">static constexpr uint8_t kLeftPlayer</div><div class="ttdef"><b>Definition:</b> mainwindow.h:51</div></div>
+<div class="ttc" id="aclassMainWindow_html_ae134362ef1b81f63bab700b722b243bf"><div class="ttname"><a href="classMainWindow.html#ae134362ef1b81f63bab700b722b243bf">MainWindow::master_of_random</a></div><div class="ttdeci">RandomMaster master_of_random</div><div class="ttdef"><b>Definition:</b> mainwindow.h:56</div></div>
+<div class="ttc" id="aclassMainWindow_html_ae38e118120b34606609fcbb75ed93016"><div class="ttname"><a href="classMainWindow.html#ae38e118120b34606609fcbb75ed93016">MainWindow::ui</a></div><div class="ttdeci">QWidget * ui</div><div class="ttdef"><b>Definition:</b> mainwindow.h:59</div></div>
+<div class="ttc" id="aclassMainWindow_html_ae815eabe94c47f426c7428cfce844686"><div class="ttname"><a href="classMainWindow.html#ae815eabe94c47f426c7428cfce844686">MainWindow::rightSide</a></div><div class="ttdeci">QVBoxLayout * rightSide</div><div class="ttdef"><b>Definition:</b> mainwindow.h:76</div></div>
+<div class="ttc" id="aclassMainWindow_html_ae98d00a93bc118200eeef9f9bba1dba7"><div class="ttname"><a href="classMainWindow.html#ae98d00a93bc118200eeef9f9bba1dba7">MainWindow::~MainWindow</a></div><div class="ttdeci">~MainWindow()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:143</div></div>
+<div class="ttc" id="aclassMainWindow_html_aede6b5081a956c24c5c6d2b73323c584"><div class="ttname"><a href="classMainWindow.html#aede6b5081a956c24c5c6d2b73323c584">MainWindow::leftSide</a></div><div class="ttdeci">QVBoxLayout * leftSide</div><div class="ttdef"><b>Definition:</b> mainwindow.h:75</div></div>
+<div class="ttc" id="aclassMainWindow_html_af389bf9dad727851bf5ee8eb543a9d61"><div class="ttname"><a href="classMainWindow.html#af389bf9dad727851bf5ee8eb543a9d61">MainWindow::radio1t</a></div><div class="ttdeci">QRadioButton * radio1t</div><div class="ttdef"><b>Definition:</b> mainwindow.h:69</div></div>
+<div class="ttc" id="aclassMainWindow_html_affd28e36d24f66d6f9d1623f04a1eee3"><div class="ttname"><a href="classMainWindow.html#affd28e36d24f66d6f9d1623f04a1eee3">MainWindow::on_doRandom_clicked</a></div><div class="ttdeci">void on_doRandom_clicked()</div><div class="ttdef"><b>Definition:</b> mainwindow.cpp:165</div></div>
+<div class="ttc" id="aclassRandomMaster_html"><div class="ttname"><a href="classRandomMaster.html">RandomMaster</a></div><div class="ttdef"><b>Definition:</b> random_master.hpp:17</div></div>
+<div class="ttc" id="aclassRandom_1_1Tricky_html"><div class="ttname"><a href="classRandom_1_1Tricky.html">Random::Tricky&lt; uint &gt;</a></div></div>
+<div class="ttc" id="anamespaceUi_html"><div class="ttname"><a href="namespaceUi.html">Ui</a></div><div class="ttdef"><b>Definition:</b> mainwindow.h:19</div></div>
+<div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">File for generating random numbers.</div></div>
+<div class="ttc" id="arandom__master_8hpp_html"><div class="ttname"><a href="random__master_8hpp.html">random_master.hpp</a></div></div>
+<div class="ttc" id="arandomize__rules_8hpp_html"><div class="ttname"><a href="randomize__rules_8hpp.html">randomize_rules.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -77,16 +77,19 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classCentralWidget.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classCentralWidget.html">CentralWidget</a> : <span class="keyword">public</span> QWidget {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classCentralWidget.html">CentralWidget</a>(QWidget *parent = <span class="keyword">nullptr</span>) : QWidget(parent) {}</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> paintEvent(QPaintEvent *event)<span class="keyword"> override </span>{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        QPainter painter(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        QPixmap pixmap(<span class="stringliteral">&quot;:/banner/main_menu.png&quot;</span>);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        painter.drawPixmap(rect(), pixmap);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classCentralWidget.html#a82f55060a35c33b384b924488c3a515a">   14</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classCentralWidget.html#a82f55060a35c33b384b924488c3a515a">CentralWidget</a>(QWidget *parent = <span class="keyword">nullptr</span>) : QWidget(parent) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classCentralWidget.html#a581fc98160d0d3fad55a87c8f1b50f09">   18</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classCentralWidget.html#a581fc98160d0d3fad55a87c8f1b50f09">paintEvent</a>(QPaintEvent * <span class="comment">/*event*/</span>)<span class="keyword"> override </span>{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    QPainter painter(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    QPixmap  pixmap(<span class="stringliteral">&quot;:/banner/main_menu.png&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    painter.drawPixmap(rect(), pixmap);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
 <div class="ttc" id="aclassCentralWidget_html"><div class="ttname"><a href="classCentralWidget.html">CentralWidget</a></div><div class="ttdef"><b>Definition:</b> centralwidget.h:12</div></div>
+<div class="ttc" id="aclassCentralWidget_html_a581fc98160d0d3fad55a87c8f1b50f09"><div class="ttname"><a href="classCentralWidget.html#a581fc98160d0d3fad55a87c8f1b50f09">CentralWidget::paintEvent</a></div><div class="ttdeci">void paintEvent(QPaintEvent *) override</div><div class="ttdef"><b>Definition:</b> centralwidget.h:18</div></div>
+<div class="ttc" id="aclassCentralWidget_html_a82f55060a35c33b384b924488c3a515a"><div class="ttname"><a href="classCentralWidget.html#a82f55060a35c33b384b924488c3a515a">CentralWidget::CentralWidget</a></div><div class="ttdeci">CentralWidget(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> centralwidget.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

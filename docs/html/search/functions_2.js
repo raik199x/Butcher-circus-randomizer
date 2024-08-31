@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['generateteam_49',['GenerateTeam',['../mainwindow_8cpp.html#a0261e13d77a184179912bbe2c8307647',1,'mainwindow.cpp']]],
-  ['getfighters_50',['GetFighters',['../classMainWindow.html#ac56930350bab35eee9be49b17c617ef7',1,'MainWindow']]],
-  ['getpossibleheroes_51',['getPossibleHeroes',['../filemanip_8h.html#a59eeedec5ebc4798e70aa01be018545e',1,'getPossibleHeroes(const std::string &amp;fileName, const bool suppress=false):&#160;filemanip.cpp'],['../filemanip_8cpp.html#a67e879491bf3d28bcfac278add5fc813',1,'getPossibleHeroes(const std::string &amp;fileName, const bool suppress):&#160;filemanip.cpp']]],
-  ['getskills_52',['GetSkills',['../classMainWindow.html#aaba23bccbf155671ddee445e5a4d95ae',1,'MainWindow']]],
-  ['gettrinkets_53',['GetTrinkets',['../classMainWindow.html#a7a35e1117039bab133a3c7bc9f558006',1,'MainWindow']]]
+  ['canreduceparticipants_216',['canReduceParticipants',['../classRandomizeRules.html#a95a63aa2e55e0dcebb0796c5aebfad84',1,'RandomizeRules']]],
+  ['canreduceskills_217',['canReduceSkills',['../classRandomizeRules.html#a0ca9fec993ea8401e29932cad4af696f',1,'RandomizeRules']]],
+  ['centralwidget_218',['CentralWidget',['../classCentralWidget.html#a82f55060a35c33b384b924488c3a515a',1,'CentralWidget']]],
+  ['clearlayout_219',['ClearLayout',['../classMainWindow.html#ab90ff86b7e63826647e385001f89e3fa',1,'MainWindow']]],
+  ['createsquadwidget_220',['createSquadWidget',['../classSquadAbstractFactory.html#ad7eb8ab5c22a77897205570694e22847',1,'SquadAbstractFactory']]]
 ];

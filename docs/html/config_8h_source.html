@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -74,32 +74,25 @@ $(function() {
 <div class="contents">
 <a href="config_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using</span> std::string;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// Number of fighters available for selection</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;constexpr <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">size_t</span> NUMBER_OF_FIGHTERS = 18;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// The crowd of fighters</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">const</span> fighters[NUMBER_OF_FIGHTERS] = { <span class="stringliteral">&quot;abomination&quot;</span>,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                                                   <span class="stringliteral">&quot;antiquarian&quot;</span>,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                                                   <span class="stringliteral">&quot;bounty_hunter&quot;</span>,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                   <span class="stringliteral">&quot;crusader&quot;</span>,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                                                   <span class="stringliteral">&quot;arbalest&quot;</span>,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                   <span class="stringliteral">&quot;flagellant&quot;</span>,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                   <span class="stringliteral">&quot;grave_robber&quot;</span>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                                   <span class="stringliteral">&quot;hellion&quot;</span>,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                                   <span class="stringliteral">&quot;highwayman&quot;</span>,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                   <span class="stringliteral">&quot;houndmaster&quot;</span>,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                   <span class="stringliteral">&quot;jester&quot;</span>,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                                   <span class="stringliteral">&quot;leper&quot;</span>,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                                   <span class="stringliteral">&quot;man_at_arms&quot;</span>,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                                   <span class="stringliteral">&quot;musketeer&quot;</span>,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                   <span class="stringliteral">&quot;occultist&quot;</span>,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                                   <span class="stringliteral">&quot;plague_doctor&quot;</span>,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                                                   <span class="stringliteral">&quot;shieldbreaker&quot;</span>,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                                   <span class="stringliteral">&quot;vestal&quot;</span> };</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">    5</a></span>&#160;constexpr uint8_t <a class="code" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>      = 18;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">    6</a></span>&#160;constexpr uint8_t <a class="code" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a>         = 7;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">    7</a></span>&#160;constexpr uint8_t <a class="code" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a>   = 4;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="config_8h.html#a9830596dd3d3afc8b940062816c1a8be">    8</a></span>&#160;constexpr uint8_t <a class="code" href="config_8h.html#a9830596dd3d3afc8b940062816c1a8be">kRequiredSkillsForFighter</a>   = 4;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="config_8h.html#ac07545fefc5b701f796c035047fd43ea">    9</a></span>&#160;constexpr uint8_t <a class="code" href="config_8h.html#ac07545fefc5b701f796c035047fd43ea">kMaxTrinketAmountForFighter</a> = 2;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// The crowd of fighters</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="config_8h.html#a4cec6b5ab2dd9eecb4694b17e8f4feae">   12</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span> *<span class="keyword">const</span> <a class="code" href="config_8h.html#a4cec6b5ab2dd9eecb4694b17e8f4feae">kFighters</a>[<a class="code" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>] = {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="stringliteral">&quot;abomination&quot;</span>,  <span class="stringliteral">&quot;antiquarian&quot;</span>, <span class="stringliteral">&quot;bounty_hunter&quot;</span>, <span class="stringliteral">&quot;crusader&quot;</span>,      <span class="stringliteral">&quot;arbalest&quot;</span>,      <span class="stringliteral">&quot;flagellant&quot;</span>,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="stringliteral">&quot;grave_robber&quot;</span>, <span class="stringliteral">&quot;hellion&quot;</span>,     <span class="stringliteral">&quot;highwayman&quot;</span>,    <span class="stringliteral">&quot;houndmaster&quot;</span>,   <span class="stringliteral">&quot;jester&quot;</span>,        <span class="stringliteral">&quot;leper&quot;</span>,</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="stringliteral">&quot;man_at_arms&quot;</span>,  <span class="stringliteral">&quot;musketeer&quot;</span>,   <span class="stringliteral">&quot;occultist&quot;</span>,     <span class="stringliteral">&quot;plague_doctor&quot;</span>, <span class="stringliteral">&quot;shieldbreaker&quot;</span>, <span class="stringliteral">&quot;vestal&quot;</span>};</div>
+<div class="ttc" id="aconfig_8h_html_a399b85ac890c11ceeac47ddd36f8f79d"><div class="ttname"><a href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a></div><div class="ttdeci">constexpr uint8_t kTotalNumberOfFighters</div><div class="ttdef"><b>Definition:</b> config.h:5</div></div>
+<div class="ttc" id="aconfig_8h_html_a4cec6b5ab2dd9eecb4694b17e8f4feae"><div class="ttname"><a href="config_8h.html#a4cec6b5ab2dd9eecb4694b17e8f4feae">kFighters</a></div><div class="ttdeci">const char *const kFighters[kTotalNumberOfFighters]</div><div class="ttdef"><b>Definition:</b> config.h:12</div></div>
+<div class="ttc" id="aconfig_8h_html_a5a70e58163b517bbcbb6b71b8989c853"><div class="ttname"><a href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a></div><div class="ttdeci">constexpr uint8_t kRequiredNumberOfFighters</div><div class="ttdef"><b>Definition:</b> config.h:7</div></div>
+<div class="ttc" id="aconfig_8h_html_a9830596dd3d3afc8b940062816c1a8be"><div class="ttname"><a href="config_8h.html#a9830596dd3d3afc8b940062816c1a8be">kRequiredSkillsForFighter</a></div><div class="ttdeci">constexpr uint8_t kRequiredSkillsForFighter</div><div class="ttdef"><b>Definition:</b> config.h:8</div></div>
+<div class="ttc" id="aconfig_8h_html_ac07545fefc5b701f796c035047fd43ea"><div class="ttname"><a href="config_8h.html#ac07545fefc5b701f796c035047fd43ea">kMaxTrinketAmountForFighter</a></div><div class="ttdeci">constexpr uint8_t kMaxTrinketAmountForFighter</div><div class="ttdef"><b>Definition:</b> config.h:9</div></div>
+<div class="ttc" id="aconfig_8h_html_ac6f6a1518a10da8530100e8a40770787"><div class="ttname"><a href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a></div><div class="ttdeci">constexpr uint8_t kTotalFighterSpells</div><div class="ttdef"><b>Definition:</b> config.h:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

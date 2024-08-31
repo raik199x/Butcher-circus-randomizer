@@ -1,5 +1,13 @@
-<map id="include/heroselection.h" name="include/heroselection.h">
-<area shape="rect" id="node1" title="header file for HeroSelection class" alt="" coords="17,5,172,32"/>
+<map id="src/heroselection.h" name="src/heroselection.h">
+<area shape="rect" id="node1" title=" " alt="" coords="138,5,270,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,75,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="99,80,199,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="223,80,297,107"/>
+<area shape="rect" id="node5" href="$randomize__rules_8hpp.html" title=" " alt="" coords="321,80,463,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="214,155,269,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="293,155,344,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="369,155,415,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="440,155,499,181"/>
+<area shape="rect" id="node10" href="$config_8h.html" title=" " alt="" coords="523,155,591,181"/>
+<area shape="rect" id="node11" title=" " alt="" coords="527,229,588,256"/>
 </map>

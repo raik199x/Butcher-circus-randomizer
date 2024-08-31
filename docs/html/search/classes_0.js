@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['centralwidget_29',['CentralWidget',['../classCentralWidget.html',1,'']]]
+  ['assetmanagersingletone_178',['AssetManagerSingletone',['../classAssetManagerSingletone.html',1,'']]]
 ];

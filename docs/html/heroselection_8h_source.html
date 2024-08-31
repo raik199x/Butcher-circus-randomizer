@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Butcher Circus Randomizer: include/heroselection.h Source File</title>
+<title>Butcher Circus Randomizer: src/heroselection.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="preview_icon.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Butcher Circus Randomizer
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Randomizer for Darkest Dungeon Butcher Circus DLC</div>
   </td>
@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -76,32 +76,51 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QDialog&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QPushButton&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>Ui {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">class </span><a class="code" href="classHeroSelection.html">HeroSelection</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classHeroSelection.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHeroSelection.html">HeroSelection</a> : <span class="keyword">public</span> QDialog {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classHeroSelection.html#af3635556e1eddb57cf62e8615035b41d">HeroSelection</a>(QWidget* <span class="keyword">const</span> parent = <span class="keyword">nullptr</span>, uint8_t numTeam = 0);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    ~<a class="code" href="classHeroSelection.html">HeroSelection</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QWidget&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="randomize__rules_8hpp.html">randomize_rules.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classHeroSelection.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="classHeroSelection.html">HeroSelection</a> : <span class="keyword">public</span> QDialog {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  Q_OBJECT</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classHeroSelection.html#adcb6dc13c6e9d94a773d0a940509c9c1">buttonClicked</a>();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keyword">explicit</span> <a class="code" href="classHeroSelection.html#ab604f0b1c1cf52cfd844e5ed9fcf5d0c">HeroSelection</a>(QWidget *parent, std::shared_ptr&lt;RandomizeRules&gt; player_rules);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="classHeroSelection.html#aaddaf0bfc9d535445068161d83f607af">~HeroSelection</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">   19</a></span>&#160;  <span class="keyword">static</span> constexpr <span class="keywordtype">size_t</span>  <a class="code" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">kAmountOfButtonsForEachFighter</a> = <a class="code" href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a> + 1; <span class="comment">// hero</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a4d8bac96cd769befb9ca201f446d4315">   20</a></span>&#160;  <span class="keyword">static</span> constexpr uint8_t <a class="code" href="classHeroSelection.html#a4d8bac96cd769befb9ca201f446d4315">kHeroStatusSwitcherButtonIndex</a> = 0;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a89465d8e44d7563e0407eb6b624ad800">   21</a></span>&#160;  <span class="keyword">static</span> constexpr QSize   <a class="code" href="classHeroSelection.html#a89465d8e44d7563e0407eb6b624ad800">kIconSize</a>                      = QSize(75, 80);</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a24730d71b7e3feab27d97840e195aea7">   22</a></span>&#160;  <span class="keyword">static</span> constexpr <span class="keywordtype">size_t</span>  <a class="code" href="classHeroSelection.html#a24730d71b7e3feab27d97840e195aea7">kSpacingBetweenIcons</a>           = 10;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    QPushButton ***buttons;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    Ui::HeroSelection *ui;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::string fileName;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> AccessibleHeroes;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classHeroSelection.html#ae62ed17ab1ca9c773654fd521093109f">updateUiLine</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> line);</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a6814beeb572767b922c5930fd3cdb416">   25</a></span>&#160;  <span class="keyword">const</span> QString <a class="code" href="classHeroSelection.html#a6814beeb572767b922c5930fd3cdb416">kColorEnabled</a>  = <span class="stringliteral">&quot;Green;&quot;</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classHeroSelection.html#ab4ac4241af9ebb3d96dc782f1eb90983">   26</a></span>&#160;  <span class="keyword">const</span> QString <a class="code" href="classHeroSelection.html#ab4ac4241af9ebb3d96dc782f1eb90983">kColorDisabled</a> = <span class="stringliteral">&quot;Red;&quot;</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  std::array&lt;std::array&lt;std::unique_ptr&lt;QPushButton&gt;, <a class="code" href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">kAmountOfButtonsForEachFighter</a>&gt;, <a class="code" href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a>&gt;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classHeroSelection.html#a9c0524839ade072791c67adc98dedd23">   29</a></span>&#160;                                  <a class="code" href="classHeroSelection.html#a9c0524839ade072791c67adc98dedd23">buttons_grid</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classHeroSelection.html#aa3c8a844271ed1d4fb0a5f4561927024">   30</a></span>&#160;  std::shared_ptr&lt;RandomizeRules&gt; <a class="code" href="classHeroSelection.html#aa3c8a844271ed1d4fb0a5f4561927024">rules</a>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> ButtonClicked(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="ttc" id="aclassHeroSelection_html"><div class="ttname"><a href="classHeroSelection.html">HeroSelection</a></div><div class="ttdef"><b>Definition:</b> heroselection.h:17</div></div>
-<div class="ttc" id="aclassHeroSelection_html_ae62ed17ab1ca9c773654fd521093109f"><div class="ttname"><a href="classHeroSelection.html#ae62ed17ab1ca9c773654fd521093109f">HeroSelection::updateUiLine</a></div><div class="ttdeci">bool updateUiLine(const int line)</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:92</div></div>
-<div class="ttc" id="aclassHeroSelection_html_af3635556e1eddb57cf62e8615035b41d"><div class="ttname"><a href="classHeroSelection.html#af3635556e1eddb57cf62e8615035b41d">HeroSelection::HeroSelection</a></div><div class="ttdeci">HeroSelection(QWidget *const parent=nullptr, uint8_t numTeam=0)</div><div class="ttdoc">Construct a new Hero Selection:: Hero Selection object.</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:25</div></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classHeroSelection.html#aa59b01bccde96c83b3621f482fa423e8">updateUiLine</a>(uint8_t index_of_fighter);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="ttc" id="aclassHeroSelection_html"><div class="ttname"><a href="classHeroSelection.html">HeroSelection</a></div><div class="ttdef"><b>Definition:</b> heroselection.h:9</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a24730d71b7e3feab27d97840e195aea7"><div class="ttname"><a href="classHeroSelection.html#a24730d71b7e3feab27d97840e195aea7">HeroSelection::kSpacingBetweenIcons</a></div><div class="ttdeci">static constexpr size_t kSpacingBetweenIcons</div><div class="ttdef"><b>Definition:</b> heroselection.h:22</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a4d8bac96cd769befb9ca201f446d4315"><div class="ttname"><a href="classHeroSelection.html#a4d8bac96cd769befb9ca201f446d4315">HeroSelection::kHeroStatusSwitcherButtonIndex</a></div><div class="ttdeci">static constexpr uint8_t kHeroStatusSwitcherButtonIndex</div><div class="ttdef"><b>Definition:</b> heroselection.h:20</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a6814beeb572767b922c5930fd3cdb416"><div class="ttname"><a href="classHeroSelection.html#a6814beeb572767b922c5930fd3cdb416">HeroSelection::kColorEnabled</a></div><div class="ttdeci">const QString kColorEnabled</div><div class="ttdef"><b>Definition:</b> heroselection.h:25</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a6c4f14ad378177c364259e3010972941"><div class="ttname"><a href="classHeroSelection.html#a6c4f14ad378177c364259e3010972941">HeroSelection::kAmountOfButtonsForEachFighter</a></div><div class="ttdeci">static constexpr size_t kAmountOfButtonsForEachFighter</div><div class="ttdef"><b>Definition:</b> heroselection.h:19</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a89465d8e44d7563e0407eb6b624ad800"><div class="ttname"><a href="classHeroSelection.html#a89465d8e44d7563e0407eb6b624ad800">HeroSelection::kIconSize</a></div><div class="ttdeci">static constexpr QSize kIconSize</div><div class="ttdef"><b>Definition:</b> heroselection.h:21</div></div>
+<div class="ttc" id="aclassHeroSelection_html_a9c0524839ade072791c67adc98dedd23"><div class="ttname"><a href="classHeroSelection.html#a9c0524839ade072791c67adc98dedd23">HeroSelection::buttons_grid</a></div><div class="ttdeci">std::array&lt; std::array&lt; std::unique_ptr&lt; QPushButton &gt;, kAmountOfButtonsForEachFighter &gt;, kTotalNumberOfFighters &gt; buttons_grid</div><div class="ttdef"><b>Definition:</b> heroselection.h:29</div></div>
+<div class="ttc" id="aclassHeroSelection_html_aa3c8a844271ed1d4fb0a5f4561927024"><div class="ttname"><a href="classHeroSelection.html#aa3c8a844271ed1d4fb0a5f4561927024">HeroSelection::rules</a></div><div class="ttdeci">std::shared_ptr&lt; RandomizeRules &gt; rules</div><div class="ttdef"><b>Definition:</b> heroselection.h:30</div></div>
+<div class="ttc" id="aclassHeroSelection_html_aa59b01bccde96c83b3621f482fa423e8"><div class="ttname"><a href="classHeroSelection.html#aa59b01bccde96c83b3621f482fa423e8">HeroSelection::updateUiLine</a></div><div class="ttdeci">bool updateUiLine(uint8_t index_of_fighter)</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:61</div></div>
+<div class="ttc" id="aclassHeroSelection_html_aaddaf0bfc9d535445068161d83f607af"><div class="ttname"><a href="classHeroSelection.html#aaddaf0bfc9d535445068161d83f607af">HeroSelection::~HeroSelection</a></div><div class="ttdeci">~HeroSelection() override</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:137</div></div>
+<div class="ttc" id="aclassHeroSelection_html_ab4ac4241af9ebb3d96dc782f1eb90983"><div class="ttname"><a href="classHeroSelection.html#ab4ac4241af9ebb3d96dc782f1eb90983">HeroSelection::kColorDisabled</a></div><div class="ttdeci">const QString kColorDisabled</div><div class="ttdef"><b>Definition:</b> heroselection.h:26</div></div>
+<div class="ttc" id="aclassHeroSelection_html_ab604f0b1c1cf52cfd844e5ed9fcf5d0c"><div class="ttname"><a href="classHeroSelection.html#ab604f0b1c1cf52cfd844e5ed9fcf5d0c">HeroSelection::HeroSelection</a></div><div class="ttdeci">HeroSelection(QWidget *parent, std::shared_ptr&lt; RandomizeRules &gt; player_rules)</div><div class="ttdoc">Construct a new Hero Selection:: Hero Selection object.</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:16</div></div>
+<div class="ttc" id="aclassHeroSelection_html_adcb6dc13c6e9d94a773d0a940509c9c1"><div class="ttname"><a href="classHeroSelection.html#adcb6dc13c6e9d94a773d0a940509c9c1">HeroSelection::buttonClicked</a></div><div class="ttdeci">void buttonClicked()</div><div class="ttdef"><b>Definition:</b> heroselection.cpp:88</div></div>
+<div class="ttc" id="aconfig_8h_html_a399b85ac890c11ceeac47ddd36f8f79d"><div class="ttname"><a href="config_8h.html#a399b85ac890c11ceeac47ddd36f8f79d">kTotalNumberOfFighters</a></div><div class="ttdeci">constexpr uint8_t kTotalNumberOfFighters</div><div class="ttdef"><b>Definition:</b> config.h:5</div></div>
+<div class="ttc" id="aconfig_8h_html_ac6f6a1518a10da8530100e8a40770787"><div class="ttname"><a href="config_8h.html#ac6f6a1518a10da8530100e8a40770787">kTotalFighterSpells</a></div><div class="ttdeci">constexpr uint8_t kTotalFighterSpells</div><div class="ttdef"><b>Definition:</b> config.h:6</div></div>
+<div class="ttc" id="arandomize__rules_8hpp_html"><div class="ttname"><a href="randomize__rules_8hpp.html">randomize_rules.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
