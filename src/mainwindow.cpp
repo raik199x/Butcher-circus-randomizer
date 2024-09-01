@@ -1,22 +1,14 @@
 #include <QAudioOutput>
 #include <QClipboard>
-#include <QDebug>
 #include <QFile>
 #include <QGuiApplication>
 #include <QMediaPlayer>
 #include <QMessageBox>
-#include <QPixmap>
 #include <QScreen>
-#include <QSpacerItem>
 #include <QTimer>
-#include <QVBoxLayout>
-#include <QBitmap>
-#include <QBoxLayout>
 #include <QDialog>
-#include <QLabel>
 #include <QLayoutItem>
 #include <QObject>
-#include <QRadioButton>
 
 #include <cstddef>
 
@@ -28,129 +20,114 @@
 #include "squad_normal_widget.hpp"
 
 MainWindow::MainWindow(QWidget * /*parent*/) {
-  //! \note Create tricky prng
-  this->prng = new Random::Tricky<uint>(1U, 10U);
+  this->prng = std::make_unique<Random::Tricky<uint>>(1U, kTotalAncestorReplicas);
 
-  this->ui = new CentralWidget(this);
-  setCentralWidget(ui);
+  this->ui = std::make_unique<CentralWidget>(this);
+  setCentralWidget(ui.get());
 
   this->playVoice = true;
-  // Setting up own made ui
-  this->setMinimumSize(QSize(1300, 850));
+  this->setMinimumSize(this->minimum_window_size);
   this->ui->setStyleSheet("color: #FFFFFF;");
 
   this->players_randomize_rules[kLeftPlayer]  = std::make_shared<RandomizeRules>();
   this->players_randomize_rules[kRightPlayer] = std::make_shared<RandomizeRules>();
 
-  // allocating widgets
-  this->RandomSettings    = new QPushButton *[2];
-  this->RandomSettings[0] = new QPushButton("Random Settings T1");
-  this->RandomSettings[1] = new QPushButton("Random Settings T2");
+  this->doRandom   = new QPushButton("Randomize", this);
+  this->screenShot = new QPushButton("Screenshot", this);
 
-  this->level    = new QSpinBox *[2];
-  this->level[0] = new QSpinBox();
-  this->level[1] = new QSpinBox();
+  this->radio1t.setText("1 Team");
+  this->radio3t.setText("3 Teams");
 
-  this->doRandom   = new QPushButton("Randomize");
-  this->screenShot = new QPushButton("Screenshot");
-
-  this->radio1t = new QRadioButton("1 Team");
-  this->radio3t = new QRadioButton("3 Teams");
-
-  this->sameTeamLevel = new QCheckBox("Same Team Level");
-  this->muteAncestor  = new QCheckBox("Mute Ancestor");
+  this->sameTeamLevel.setText("Same Team Level");
+  this->muteAncestor.setText("Mute Ancestor");
 
   for (auto &iter : this->player_layouts) {
     iter = new QVBoxLayout();
   }
 
   // connecting signals
-  connect(this->RandomSettings[0], SIGNAL(clicked()), this, SLOT(on_RandomSettings1_clicked()));
-  connect(this->RandomSettings[1], SIGNAL(clicked()), this, SLOT(on_RandomSettings2_clicked()));
-  connect(this->doRandom, SIGNAL(clicked()), this, SLOT(on_doRandom_clicked()));
-  connect(this->screenShot, SIGNAL(clicked()), this, SLOT(on_screenShot_clicked()));
-  connect(this->radio1t, SIGNAL(clicked()), this, SLOT(on_radio_clicked()));
-  connect(this->radio3t, SIGNAL(clicked()), this, SLOT(on_radio_clicked()));
-  connect(this->level[0], SIGNAL(valueChanged(int)), this, SLOT(on_level_valueChanged(int)));
-  connect(this->level[1], SIGNAL(valueChanged(int)), this, SLOT(on_level_valueChanged(int)));
-  connect(this->sameTeamLevel, SIGNAL(clicked()), this, SLOT(on_sameTeamLevel_clicked()));
-  connect(this->muteAncestor, SIGNAL(clicked()), this, SLOT(on_muteAncestor_clicked()));
+  connect(&this->random_settings[kLeftPlayer], SIGNAL(clicked()), this, SLOT(onRandomSettings1Clicked()));
+  connect(&this->random_settings[kRightPlayer], SIGNAL(clicked()), this, SLOT(onRandomSettings2Clicked()));
+  connect(this->doRandom, SIGNAL(clicked()), this, SLOT(onDoRandomClicked()));
+  connect(this->screenShot, SIGNAL(clicked()), this, SLOT(onScreenShotClicked()));
+  connect(&this->radio1t, SIGNAL(clicked()), this, SLOT(onRadioClicked()));
+  connect(&this->radio3t, SIGNAL(clicked()), this, SLOT(onRadioClicked()));
+  connect(&this->sameTeamLevel, SIGNAL(clicked()), this, SLOT(onSameTeamLevelClicked()));
+  connect(&this->muteAncestor, SIGNAL(clicked()), this, SLOT(onMuteAncestorClicked()));
+  for (auto &iter : this->level) {
+    iter.setStyleSheet("background-color: #242424; background-image: none;");
+    iter.setMinimum(0);
+    iter.setMaximum(kMaximumAccountLevel);
+    connect(&iter, SIGNAL(valueChanged(int)), this, SLOT(onLevelValueChanged(int)));
+  }
 
   // Designing ui
-  this->RandomSettings[kLeftPlayer]->setStyleSheet("background-color: #3F3F3F;");
-  this->RandomSettings[kLeftPlayer]->setFixedHeight(50);
-  this->RandomSettings[kRightPlayer]->setStyleSheet("background-color: #3F3F3F; background-image: none;");
-  this->RandomSettings[kRightPlayer]->setFixedHeight(50);
+  for (size_t iter = 0; iter < this->random_settings.size(); iter++) {
+    constexpr uint8_t kButtonHeight = 50;
+    this->random_settings[iter].setText("Random Settings T" + QString::number(iter + 1));
+    this->random_settings[iter].setStyleSheet("background-color: #3F3F3F;");
+    this->random_settings[iter].setFixedHeight(kButtonHeight);
+  }
 
   this->doRandom->setStyleSheet("background-color: #3F3F3F; background-image: none;");
-  // this->doRandom->setFixedHeight(50);
   this->screenShot->setStyleSheet("background-color: #3F3F3F; background-image: none;");
-  this->radio1t->setChecked(true);
-
-  this->level[kLeftPlayer]->setStyleSheet("background-color: #242424; background-image: none;");
-  this->level[kLeftPlayer]->setMinimum(0);
-  this->level[kLeftPlayer]->setMaximum(kMaximumAccountLevel);
-
-  this->level[kRightPlayer]->setStyleSheet("background-color: #242424; background-image: none;");
-  this->level[kRightPlayer]->setMinimum(0);
-  this->level[kRightPlayer]->setMaximum(kMaximumAccountLevel);
+  this->radio1t.setChecked(true);
 
   // Managing layouts
   auto *level_setter1 = new QVBoxLayout();
   level_setter1->addWidget(new QLabel("Level"));
-  level_setter1->addWidget(this->level[0]);
+  level_setter1->addWidget(&this->level[kLeftPlayer]);
 
   auto *level_setter2 = new QVBoxLayout();
   level_setter2->addWidget(new QLabel("Level"));
-  level_setter2->addWidget(this->level[1]);
+  level_setter2->addWidget(&this->level[kRightPlayer]);
 
-  auto *top_window = new QHBoxLayout();
-  top_window->addWidget(this->RandomSettings[0]);
+  constexpr unsigned kTopWindowMenuSpacer = 100;
+  auto              *top_window           = new QHBoxLayout();
+  top_window->addWidget(&this->random_settings[kLeftPlayer]);
   top_window->addLayout(level_setter1);
-  top_window->addSpacerItem(new QSpacerItem(100, 1));
+  top_window->addSpacerItem(new QSpacerItem(kTopWindowMenuSpacer, 1));
 
   auto *top_center_buttons = new QVBoxLayout();
   top_center_buttons->addWidget(this->doRandom);
   top_center_buttons->addWidget(this->screenShot);
   top_window->addLayout(top_center_buttons);
 
-  top_window->addSpacerItem(new QSpacerItem(100, 1));
+  top_window->addSpacerItem(new QSpacerItem(kTopWindowMenuSpacer, 1));
   top_window->addLayout(level_setter2);
-  top_window->addWidget(this->RandomSettings[1]);
+  top_window->addWidget(&this->random_settings[kRightPlayer]);
 
   auto *check_settings = new QVBoxLayout();
-  check_settings->addWidget(this->sameTeamLevel);
-  check_settings->addWidget(this->muteAncestor);
+  check_settings->addWidget(&this->sameTeamLevel);
+  check_settings->addWidget(&this->muteAncestor);
 
   auto *radio_settings = new QVBoxLayout();
-  radio_settings->addWidget(this->radio1t);
-  radio_settings->addWidget(this->radio3t);
+  radio_settings->addWidget(&this->radio1t);
+  radio_settings->addWidget(&this->radio3t);
 
-  auto *middle = new QHBoxLayout();
-  middle->addSpacerItem(new QSpacerItem(525, 1));
+  auto              *middle           = new QHBoxLayout();
+  constexpr unsigned kLeftMenuSpacer  = 525;
+  constexpr unsigned kRightMenuSpacer = 475;
+  middle->addSpacerItem(new QSpacerItem(kLeftMenuSpacer, 1));
   middle->addLayout(check_settings);
   middle->addLayout(radio_settings);
-  middle->addSpacerItem(new QSpacerItem(475, 1));
+  middle->addSpacerItem(new QSpacerItem(kRightMenuSpacer, 1));
 
-  this->spacing_between_players =
-      std::make_unique<QSpacerItem>(this->spacing_normal.width(), this->spacing_normal.height());
   auto *bottom = new QHBoxLayout();
   this->player_layouts[kLeftPlayer]->addSpacerItem(
-      new QSpacerItem(1, 700)); // for placing ui parts in the top of screen
+      new QSpacerItem(this->menu_to_top_spacing.width(),
+                      this->menu_to_top_spacing.height())); // for placing ui parts in the top of screen
   bottom->addLayout(this->player_layouts[kLeftPlayer]);
-  bottom->addSpacerItem(this->spacing_between_players.get());
+  bottom->addSpacerItem(this->spacing_between_players);
   bottom->addLayout(this->player_layouts[kRightPlayer]);
 
-  this->layout = new QVBoxLayout(this->ui);
+  this->layout = std::make_unique<QVBoxLayout>(this->ui.get());
   this->layout->addLayout(top_window);
   this->layout->addLayout(middle);
   this->layout->addLayout(bottom);
 }
 
-MainWindow::~MainWindow() {
-  delete this->ui;
-  delete this->prng;
-}
+MainWindow::~MainWindow() = default;
 
 /**
  * @brief Clears the layout items, but does not deletes layout itself
@@ -160,9 +137,10 @@ MainWindow::~MainWindow() {
 void MainWindow::clearLayout(QLayout *layout) {
   QLayoutItem *item;
   while ((item = layout->takeAt(0)) != nullptr) {
-    if (QWidget *widget = item->widget()) {
-      delete widget;
-    } else if (QLayout *sub_layout = item->layout()) {
+    QWidget *widget = item->widget();
+    delete widget;
+
+    if (QLayout *sub_layout = item->layout(); sub_layout != nullptr) {
       clearLayout(sub_layout);
     }
     delete item;
@@ -202,13 +180,13 @@ QLayout *MainWindow::getTeamLayout(const uint8_t mode, const squad &fighters, bo
   return nullptr;
 }
 
-void MainWindow::on_doRandom_clicked() {
+void MainWindow::onDoRandomClicked() {
   for (auto &iter : this->player_layouts) {
     clearLayout(iter);
   }
 
   size_t amount_of_teams_to_generate = 0;
-  if (this->radio3t->isChecked()) {
+  if (this->radio3t.isChecked()) {
     amount_of_teams_to_generate = MainWindow::kCompetitiveModeAmountOfTeams;
   } else {
     amount_of_teams_to_generate = MainWindow::kStandardModeAmountOfTeams;
@@ -218,21 +196,22 @@ void MainWindow::on_doRandom_clicked() {
     uint8_t current_player = iter_generate_team % 2 == 0 ? MainWindow::kLeftPlayer : MainWindow::kRightPlayer;
 
     squad generated_squad = RandomMaster::getFullRandomizedSquad(this->players_randomize_rules[current_player],
-                                                                 this->level[current_player]->value());
+                                                                 this->level[current_player].value());
 
     this->player_layouts[current_player]->addLayout(
         MainWindow::getTeamLayout(amount_of_teams_to_generate, generated_squad, static_cast<bool>(current_player)));
 
     // TODO(alexander): need to find better approach
     if (iter_generate_team < amount_of_teams_to_generate - 2) {
-      this->player_layouts[current_player]->addSpacerItem(new QSpacerItem(1, 40));
+      constexpr uint8_t kCompetitiveTeamSpacer = 40;
+      this->player_layouts[current_player]->addSpacerItem(new QSpacerItem(1, kCompetitiveTeamSpacer));
     }
   }
 
   // TODO(alexander): make do not repeat one replica two times in a row
-  if (!this->muteAncestor->isChecked() && this->playVoice) {
-    std::unique_ptr<QMediaPlayer> media_player = std::make_unique<QMediaPlayer>(new QMediaPlayer);
-    std::unique_ptr<QAudioOutput> audio_output = std::make_unique<QAudioOutput>(new QAudioOutput);
+  if (!this->muteAncestor.isChecked() && this->playVoice) {
+    std::unique_ptr<QMediaPlayer> media_player = std::make_unique<QMediaPlayer>();
+    std::unique_ptr<QAudioOutput> audio_output = std::make_unique<QAudioOutput>();
     media_player->setAudioOutput(audio_output.get());
 
     //! \note Use Tricky PRNG to generate random number
@@ -241,37 +220,37 @@ void MainWindow::on_doRandom_clicked() {
     audio_output->setVolume(kAudioVolume);
     media_player->play();
     this->playVoice = false;
-  } else if (!this->muteAncestor->isChecked()) {
+  } else if (!this->muteAncestor.isChecked()) {
     this->playVoice = true;
   }
 }
 
-void MainWindow::on_level_valueChanged(int arg1) {
-  if (this->sameTeamLevel->isChecked()) {
-    this->level[kLeftPlayer]->setValue(arg1);
-    this->level[kRightPlayer]->setValue(arg1);
+void MainWindow::onLevelValueChanged(int arg1) {
+  if (this->sameTeamLevel.isChecked()) {
+    this->level[kLeftPlayer].setValue(arg1);
+    this->level[kRightPlayer].setValue(arg1);
   }
 }
 
-void MainWindow::on_sameTeamLevel_clicked() {
-  if (this->sameTeamLevel->isChecked()) {
-    this->level[kRightPlayer]->setValue(this->level[kLeftPlayer]->value());
+void MainWindow::onSameTeamLevelClicked() {
+  if (this->sameTeamLevel.isChecked()) {
+    this->level[kRightPlayer].setValue(this->level[kLeftPlayer].value());
   }
 }
 
-void MainWindow::on_RandomSettings1_clicked() {
+void MainWindow::onRandomSettings1Clicked() {
   HeroSelection win(this, this->players_randomize_rules[kLeftPlayer]);
   win.setModal(true);
   win.exec();
 }
 
-void MainWindow::on_RandomSettings2_clicked() {
+void MainWindow::onRandomSettings2Clicked() {
   HeroSelection win(this, this->players_randomize_rules[kRightPlayer]);
   win.setModal(true);
   win.exec();
 }
 
-void MainWindow::on_screenShot_clicked() {
+void MainWindow::onScreenShotClicked() {
   QPixmap     screenshot = this->grab(); // take screenshot
   QClipboard *clipboard  = QGuiApplication::clipboard();
   clipboard->setPixmap(screenshot);
@@ -291,25 +270,27 @@ void MainWindow::on_screenShot_clicked() {
   dialog->setWindowTitle("Saved to clipboard");
   dialog->setModal(true);
 
-  QTimer::singleShot(1500, [=]() { dialog->accept(); }); // Clean up dialog after1 seconds
+  constexpr unsigned kShowTime = 1500;
+  QTimer::singleShot(kShowTime, [=]() { dialog->accept(); }); // Clean up dialog after1 seconds
 
   dialog->show();
 }
 
-void MainWindow::on_radio_clicked() {
+void MainWindow::onRadioClicked() {
   for (auto &iter : this->player_layouts) {
     clearLayout(iter);
   }
   this->player_layouts[kLeftPlayer]->addSpacerItem(
-      new QSpacerItem(1, 700)); // for placing ui parts in the top of screen
+      new QSpacerItem(this->menu_to_top_spacing.width(),
+                      this->menu_to_top_spacing.height())); // for placing ui parts in the top of screen
 
-  if (this->radio3t->isChecked()) {
+  if (this->radio3t.isChecked()) {
     this->spacing_between_players->changeSize(this->spacing_competitive.width(), this->spacing_competitive.height());
   } else {
     this->spacing_between_players->changeSize(this->spacing_normal.width(), this->spacing_normal.height());
   }
 }
 
-void MainWindow::on_muteAncestor_clicked() {
-  this->playVoice = !this->muteAncestor->isChecked();
+void MainWindow::onMuteAncestorClicked() {
+  this->playVoice = !this->muteAncestor.isChecked();
 }

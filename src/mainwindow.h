@@ -15,21 +15,21 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
 private slots:
-  void on_doRandom_clicked();
+  void onDoRandomClicked();
 
-  void on_level_valueChanged(int arg1);
+  void onLevelValueChanged(int arg1);
 
-  void on_sameTeamLevel_clicked();
+  void onSameTeamLevelClicked();
 
-  void on_RandomSettings1_clicked();
+  void onRandomSettings1Clicked();
 
-  void on_RandomSettings2_clicked();
+  void onRandomSettings2Clicked();
 
-  void on_screenShot_clicked();
+  void onScreenShotClicked();
 
-  void on_radio_clicked();
+  void onRadioClicked();
 
-  void on_muteAncestor_clicked();
+  void onMuteAncestorClicked();
 
 public:
   explicit MainWindow(QWidget *parent = nullptr);
@@ -46,29 +46,33 @@ private:
   std::array<std::shared_ptr<RandomizeRules>, kTotalPlayers> players_randomize_rules;
   RandomMaster                                               master_of_random;
 
-  bool     playVoice;
-  QWidget *ui;
+  bool                     playVoice;
+  std::unique_ptr<QWidget> ui;
 
-  // Recreating mainwindow.ui
-  QPushButton **RandomSettings;
-  QPushButton  *screenShot;
-  QPushButton  *doRandom;
+  const QSize minimum_window_size = QSize(1300, 850);
+  const QSize menu_to_top_spacing = QSize(1, 800);
 
-  QCheckBox *sameTeamLevel;
-  QCheckBox *muteAncestor;
+  std::array<QPushButton, kTotalPlayers> random_settings;
+  QPushButton                           *screenShot;
+  QPushButton                           *doRandom;
 
-  QRadioButton *radio1t;
-  QRadioButton *radio3t;
-  QSpinBox    **level;
+  QCheckBox sameTeamLevel;
+  QCheckBox muteAncestor;
 
-  QVBoxLayout *layout;
+  QRadioButton                        radio1t;
+  QRadioButton                        radio3t;
+  std::array<QSpinBox, kTotalPlayers> level;
 
-  std::unique_ptr<QSpacerItem> spacing_between_players;
-  const QSize                  spacing_normal      = QSize(400, 1);
-  const QSize                  spacing_competitive = QSize(200, 1);
+  std::unique_ptr<QVBoxLayout> layout;
+
+  const QSize spacing_normal      = QSize(400, 1);
+  const QSize spacing_competitive = QSize(200, 1);
+  // Changing pointer bellow to smart pointer cause seg fault on program exit
+  QSpacerItem *spacing_between_players = new QSpacerItem(this->spacing_normal.width(), this->spacing_normal.height());
 
   std::array<QVBoxLayout *, 2> player_layouts;
 
+  // Methods
   void clearLayout(QLayout *layout);
 
   static QGridLayout *getCompetitiveTeamLayout(const squad &fighters, bool mirrored);
@@ -76,5 +80,5 @@ private:
   static QLayout     *getTeamLayout(uint8_t mode, const squad &fighters, bool mirrored);
 
   //! \note Tricky prng
-  Random::Tricky<uint> *prng;
+  std::unique_ptr<Random::Tricky<uint>> prng;
 };

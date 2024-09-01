@@ -16,14 +16,15 @@ struct TrinketInfo {
   uint8_t level_restriction;
 };
 
-const QString kQtAssetPositionEmptyCircle   = ":/Position/circles/emptyCircle.png";
-const QString kQtAssetPositionFullCircle    = ":/Position/circles/fullCircle.png";
-const QString kQtAssetTrinketIndex          = ":/trinkets/trinkets/";
-const QString kQtAssetTrinketList           = kQtAssetTrinketIndex + "list.txt";
-const QString kQtAssetHeroesWithSpellsIndex = ":/heroes/heroes+spells/";
-const QString kQtAssetNAImage               = ":/banner/heroes+spells/NA.png";
-const QString kQtAssetHeroPrefix            = "/hero_";
-const QString kQtAssetImageTypePostfix      = ".png";
+constexpr uint8_t kTotalAncestorReplicas        = 10;
+const QString     kQtAssetPositionEmptyCircle   = ":/Position/circles/emptyCircle.png";
+const QString     kQtAssetPositionFullCircle    = ":/Position/circles/fullCircle.png";
+const QString     kQtAssetTrinketIndex          = ":/trinkets/trinkets/";
+const QString     kQtAssetTrinketList           = kQtAssetTrinketIndex + "list.txt";
+const QString     kQtAssetHeroesWithSpellsIndex = ":/heroes/heroes+spells/";
+const QString     kQtAssetNAImage               = ":/banner/heroes+spells/NA.png";
+const QString     kQtAssetHeroPrefix            = "/hero_";
+const QString     kQtAssetImageTypePostfix      = ".png";
 
 class AssetManagerSingletone {
 public:

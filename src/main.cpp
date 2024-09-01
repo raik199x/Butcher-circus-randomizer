@@ -21,24 +21,24 @@
  * \return int return code
  */
 int main(int argc, char *argv[]) {
-  QApplication a(argc, argv);
+  QApplication application(argc, argv);
 
   QTranslator       translator;
-  const QStringList uiLanguages = QLocale::system().uiLanguages();
-  for (const QString &locale : uiLanguages) {
-    const QString baseName = "Butcher_Circus_Randomizer_" + QLocale(locale).name();
-    if (translator.load(":/i18n/" + baseName)) {
-      a.installTranslator(&translator);
+  const QStringList ui_languages = QLocale::system().uiLanguages();
+  for (const QString &locale : ui_languages) {
+    const QString base_name = "Butcher_Circus_Randomizer_" + QLocale(locale).name();
+    if (translator.load(":/i18n/" + base_name)) {
+      QApplication::installTranslator(&translator);
       break;
     }
   }
-  MainWindow w;
 
-  QScreen *screen         = QGuiApplication::primaryScreen();
-  QRect    screenGeometry = screen->geometry();
-  int      x              = (screenGeometry.width() - w.width()) / 2;
-  int      y              = (screenGeometry.height() - w.height()) / 2;
-  w.move(x, y);
-  w.show();
-  return a.exec();
+  MainWindow window;
+  QScreen   *screen          = QGuiApplication::primaryScreen();
+  QRect      screen_geometry = screen->geometry();
+  int        x_cord          = (screen_geometry.width() - window.width()) / 2;
+  int        y_cord          = (screen_geometry.height() - window.height()) / 2;
+  window.move(x_cord, y_cord);
+  window.show();
+  return QApplication::exec();
 }
