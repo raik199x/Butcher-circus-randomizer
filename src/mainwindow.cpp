@@ -1,14 +1,13 @@
-#include <QAudioOutput>
 #include <QClipboard>
 #include <QFile>
 #include <QGuiApplication>
-#include <QMediaPlayer>
 #include <QMessageBox>
 #include <QScreen>
 #include <QTimer>
 #include <QDialog>
 #include <QLayoutItem>
 #include <QObject>
+#include <QAudioOutput>
 
 #include <cstddef>
 
@@ -26,6 +25,8 @@ MainWindow::MainWindow(QWidget * /*parent*/) {
   setCentralWidget(ui.get());
 
   this->playVoice = true;
+  this->media_player->setAudioOutput(this->audio_output.get());
+
   this->setMinimumSize(this->minimum_window_size);
   this->ui->setStyleSheet("color: #FFFFFF;");
 
@@ -210,9 +211,6 @@ void MainWindow::onDoRandomClicked() {
 
   // TODO(alexander): make do not repeat one replica two times in a row
   if (!this->muteAncestor.isChecked() && this->playVoice) {
-    std::unique_ptr<QMediaPlayer> media_player = std::make_unique<QMediaPlayer>();
-    std::unique_ptr<QAudioOutput> audio_output = std::make_unique<QAudioOutput>();
-    media_player->setAudioOutput(audio_output.get());
 
     //! \note Use Tricky PRNG to generate random number
     constexpr float kAudioVolume = 0.4; //! Hardcoded

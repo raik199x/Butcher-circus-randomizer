@@ -6,6 +6,8 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 #include "random.h"
 #include "randomize_rules.hpp"
@@ -81,4 +83,8 @@ private:
 
   //! \note Tricky prng
   std::unique_ptr<Random::Tricky<uint>> prng;
+
+  // Media
+  std::unique_ptr<QMediaPlayer> media_player = std::make_unique<QMediaPlayer>();
+  std::unique_ptr<QAudioOutput> audio_output = std::make_unique<QAudioOutput>();
 };
