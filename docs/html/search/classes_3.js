@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getterfighterresult_182',['GetterFighterResult',['../structGetterFighterResult.html',1,'']]],
-  ['getterskillsresult_183',['GetterSkillsResult',['../structGetterSkillsResult.html',1,'']]]
+  ['getterfighterresult_204',['GetterFighterResult',['../structGetterFighterResult.html',1,'']]],
+  ['getterskillsresult_205',['GetterSkillsResult',['../structGetterSkillsResult.html',1,'']]]
 ];

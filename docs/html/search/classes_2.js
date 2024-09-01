@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['fighter_180',['Fighter',['../structFighter.html',1,'']]],
-  ['fighterrandomizerules_181',['FighterRandomizeRules',['../structFighterRandomizeRules.html',1,'']]]
+  ['fighter_201',['Fighter',['../structFighter.html',1,'']]],
+  ['fighterpixmaps_202',['FighterPixmaps',['../structFighterPixmaps.html',1,'']]],
+  ['fighterrandomizerules_203',['FighterRandomizeRules',['../structFighterRandomizeRules.html',1,'']]]
 ];

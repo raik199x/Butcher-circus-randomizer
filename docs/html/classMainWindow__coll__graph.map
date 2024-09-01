@@ -1,6 +1,5 @@
 <map id="MainWindow" name="MainWindow">
-<area shape="rect" id="node1" title=" " alt="" coords="143,95,241,121"/>
+<area shape="rect" id="node1" title=" " alt="" coords="77,95,174,121"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,112,32"/>
 <area shape="rect" id="node3" href="$classRandomMaster.html" title=" " alt="" coords="137,5,247,32"/>
-<area shape="rect" id="node4" href="$classRandom_1_1Tricky.html" title=" " alt="" coords="272,5,432,32"/>
 </map>
