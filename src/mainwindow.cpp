@@ -267,11 +267,14 @@ void MainWindow::onScreenShotClicked() {
                       screenshot_label->pixmap().height());
   dialog->setWindowTitle("Saved to clipboard");
   dialog->setModal(true);
+  dialog->show();
 
   constexpr unsigned kShowTime = 1500;
-  QTimer::singleShot(kShowTime, [=]() { dialog->accept(); }); // Clean up dialog after1 seconds
-
-  dialog->show();
+  QTimer::singleShot(kShowTime, [=]() {
+    dialog->accept();
+    delete screenshot_label;
+    delete dialog;
+  }); // Clean up dialog after1 seconds
 }
 
 void MainWindow::onRadioClicked() {
