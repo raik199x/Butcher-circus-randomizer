@@ -114,14 +114,19 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:abe766adeaf10498735c3f2b0c23187e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSquadAbstractWidget.html#abe766adeaf10498735c3f2b0c23187e3">setSkillsToNA</a> ()</td></tr>
+<tr class="memdesc:abe766adeaf10498735c3f2b0c23187e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets all skills to "Not Announced" image.  <a href="classSquadAbstractWidget.html#abe766adeaf10498735c3f2b0c23187e3">More...</a><br /></td></tr>
 <tr class="separator:abe766adeaf10498735c3f2b0c23187e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12dd190ac1464736d4235ad475a49bf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSquadAbstractWidget.html#a12dd190ac1464736d4235ad475a49bf4">setFighterImage</a> (const QString &amp;fighter_name)</td></tr>
+<tr class="memdesc:a12dd190ac1464736d4235ad475a49bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inits fighter pixmap.  <a href="classSquadAbstractWidget.html#a12dd190ac1464736d4235ad475a49bf4">More...</a><br /></td></tr>
 <tr class="separator:a12dd190ac1464736d4235ad475a49bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55399f98372b8a0382cac10adedfcb9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSquadAbstractWidget.html#a55399f98372b8a0382cac10adedfcb9c">setSkillsImages</a> (const QString &amp;fighter_name, const QString &amp;skills)</td></tr>
+<tr class="memdesc:a55399f98372b8a0382cac10adedfcb9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inits skills pixmap.  <a href="classSquadAbstractWidget.html#a55399f98372b8a0382cac10adedfcb9c">More...</a><br /></td></tr>
 <tr class="separator:a55399f98372b8a0382cac10adedfcb9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64842e0584306bed9b8f2d706f4cca1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSquadAbstractWidget.html#ae64842e0584306bed9b8f2d706f4cca1">setTrinketsImages</a> (const std::array&lt; QString, <a class="el" href="config_8h.html#ac07545fefc5b701f796c035047fd43ea">kMaxTrinketAmountForFighter</a> &gt; &amp;trinkets)</td></tr>
+<tr class="memdesc:ae64842e0584306bed9b8f2d706f4cca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inits pixmaps for trinkets.  <a href="classSquadAbstractWidget.html#ae64842e0584306bed9b8f2d706f4cca1">More...</a><br /></td></tr>
 <tr class="separator:ae64842e0584306bed9b8f2d706f4cca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0e8b1778e3e2bd7d1e9374bb47be4cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSquadAbstractWidget.html#af0e8b1778e3e2bd7d1e9374bb47be4cb">setFighter</a> (const <a class="el" href="structFighter.html">Fighter</a> &amp;fighter)</td></tr>
+<tr class="memdesc:af0e8b1778e3e2bd7d1e9374bb47be4cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to perform all operations required to init pixmaps for fighter.  <a href="classSquadAbstractWidget.html#af0e8b1778e3e2bd7d1e9374bb47be4cb">More...</a><br /></td></tr>
 <tr class="separator:af0e8b1778e3e2bd7d1e9374bb47be4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -316,6 +321,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Helper function to perform all operations required to init pixmaps for fighter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fighter</td><td>struct containing all info about fighter </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a12dd190ac1464736d4235ad475a49bf4"></a>
@@ -341,6 +354,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Inits fighter pixmap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fighter_name</td><td>name that is used to find image in assets. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -378,6 +399,15 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Inits skills pixmap. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fighter_name</td><td>fighter that is stored in assets with his skills images </td></tr>
+    <tr><td class="paramname">skills</td><td>line containing numbers of skills </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="abe766adeaf10498735c3f2b0c23187e3"></a>
@@ -402,6 +432,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Sets all skills to "Not Announced" image. </p>
 
 </div>
 </div>
@@ -428,6 +460,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Inits pixmaps for trinkets. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trinkets</td><td>Names of trinkets that stored in assets </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

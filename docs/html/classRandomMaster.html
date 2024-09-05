@@ -94,6 +94,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a41b0dfdc730b66eefe4c0fc50b4df736"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="structTrinketInfo.html">TrinketInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#a41b0dfdc730b66eefe4c0fc50b4df736">parseLevelRestriction</a> (const std::vector&lt; <a class="el" href="structTrinketInfo.html">TrinketInfo</a> &gt; &amp;trinkets, uint8_t lvl)</td></tr>
+<tr class="memdesc:a41b0dfdc730b66eefe4c0fc50b4df736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses asset trinket entrees to remove trinkets that not suitable by level.  <a href="classRandomMaster.html#a41b0dfdc730b66eefe4c0fc50b4df736">More...</a><br /></td></tr>
 <tr class="separator:a41b0dfdc730b66eefe4c0fc50b4df736"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfad457fc7423a2f24b43e731ab52fba"><td class="memItemLeft" align="right" valign="top">static std::array&lt; <a class="el" href="structFighterRandomizeRules.html">FighterRandomizeRules</a>, <a class="el" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#adfad457fc7423a2f24b43e731ab52fba">getFighters</a> (const std::shared_ptr&lt; <a class="el" href="classRandomizeRules.html">RandomizeRules</a> &gt; &amp;rules)</td></tr>
 <tr class="memdesc:adfad457fc7423a2f24b43e731ab52fba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get array of randomly selected fighters.  <a href="classRandomMaster.html#adfad457fc7423a2f24b43e731ab52fba">More...</a><br /></td></tr>
@@ -102,12 +103,16 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3edc03af25324f5cbe479ae8bb0ce4ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get already randomized QString of skills.  <a href="classRandomMaster.html#a3edc03af25324f5cbe479ae8bb0ce4ce">More...</a><br /></td></tr>
 <tr class="separator:a3edc03af25324f5cbe479ae8bb0ce4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6051d864b0456e7f5954d7aa24ec030"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#ad6051d864b0456e7f5954d7aa24ec030">getAndEquipTrinkets</a> (uint8_t lvl, <a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a> fighters)</td></tr>
+<tr class="memdesc:ad6051d864b0456e7f5954d7aa24ec030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Randomize and sets trinket to fighters.  <a href="classRandomMaster.html#ad6051d864b0456e7f5954d7aa24ec030">More...</a><br /></td></tr>
 <tr class="separator:ad6051d864b0456e7f5954d7aa24ec030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d02f2a70de21cbd41d6d0267f9d1745"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#a7d02f2a70de21cbd41d6d0267f9d1745">equipFighters</a> (<a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a> fighters, const std::array&lt; <a class="el" href="structFighterRandomizeRules.html">FighterRandomizeRules</a>, <a class="el" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a> &gt; &amp;fighters_rules)</td></tr>
+<tr class="memdesc:a7d02f2a70de21cbd41d6d0267f9d1745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets randomized fighters into squad.  <a href="classRandomMaster.html#a7d02f2a70de21cbd41d6d0267f9d1745">More...</a><br /></td></tr>
 <tr class="separator:a7d02f2a70de21cbd41d6d0267f9d1745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14597805d193cac84516205dfbbf9824"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#a14597805d193cac84516205dfbbf9824">equipSKills</a> (<a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a> fighters, const std::array&lt; QString, <a class="el" href="config_8h.html#a5a70e58163b517bbcbb6b71b8989c853">kRequiredNumberOfFighters</a> &gt; &amp;skills)</td></tr>
+<tr class="memdesc:a14597805d193cac84516205dfbbf9824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets skills for randomized squad.  <a href="classRandomMaster.html#a14597805d193cac84516205dfbbf9824">More...</a><br /></td></tr>
 <tr class="separator:a14597805d193cac84516205dfbbf9824"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75f2faca0b922f01c16bec05f5f39146"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="random__master_8hpp.html#a0056a6ceefb817549d675d751c6f4b0e">squad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRandomMaster.html#a75f2faca0b922f01c16bec05f5f39146">getFullRandomizedSquad</a> (const std::shared_ptr&lt; <a class="el" href="classRandomizeRules.html">RandomizeRules</a> &gt; &amp;rules, uint8_t lvl)</td></tr>
+<tr class="memdesc:a75f2faca0b922f01c16bec05f5f39146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to perform all required calls to get fully equipped randomized team.  <a href="classRandomMaster.html#a75f2faca0b922f01c16bec05f5f39146">More...</a><br /></td></tr>
 <tr class="separator:a75f2faca0b922f01c16bec05f5f39146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -253,6 +258,16 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets randomized fighters into squad. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fighters</td><td>squad of fighters </td></tr>
+    <tr><td class="paramname">fighters_rules</td><td>randomized fighters, that stored in <a class="el" href="structFighterRandomizeRules.html">FighterRandomizeRules</a> struct </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>squad squad with setted fighters </dd></dl>
+
 </div>
 </div>
 <a id="a14597805d193cac84516205dfbbf9824"></a>
@@ -289,6 +304,16 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets skills for randomized squad. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fighters</td><td>randomized fighters </td></tr>
+    <tr><td class="paramname">skills</td><td>randomized skills </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>squad squad with setted skills </dd></dl>
+
 </div>
 </div>
 <a id="ad6051d864b0456e7f5954d7aa24ec030"></a>
@@ -324,6 +349,16 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Randomize and sets trinket to fighters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lvl</td><td>Current account level </td></tr>
+    <tr><td class="paramname">fighters</td><td>already randomized fighters </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>squad modified squad which now has equipped trinkets </dd></dl>
 
 </div>
 </div>
@@ -395,6 +430,16 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Helper function to perform all required calls to get fully equipped randomized team. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rules</td><td>randomize rules for current player </td></tr>
+    <tr><td class="paramname">lvl</td><td>account level </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>squad fully equipped randomized team. </dd></dl>
 
 </div>
 </div>
@@ -518,6 +563,16 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Parses asset trinket entrees to remove trinkets that not suitable by level. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trinkets</td><td>list of trinkets </td></tr>
+    <tr><td class="paramname">lvl</td><td>player level </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;TrinketInfo&gt; vector containing trinkets that only suitable for current level. </dd></dl>
 
 </div>
 </div>

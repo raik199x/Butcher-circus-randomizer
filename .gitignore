@@ -2,6 +2,7 @@ Butcher_Circus_Randomizer.pro.*
 *.yml
 .vscode
 build
+build_win
 .cache
 CMakeLists.txt.*
 userSettings.json

@@ -89,8 +89,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a60026928f222b5ecbcf4bdb0751f68d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAssetManagerSingletone.html#a60026928f222b5ecbcf4bdb0751f68d2">isTrinketsParsed</a> () const</td></tr>
 <tr class="separator:a60026928f222b5ecbcf4bdb0751f68d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d40234fc6840fcee674369a9b1115ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAssetManagerSingletone.html#a0d40234fc6840fcee674369a9b1115ee">loadTrinkets</a> (const QString &amp;path_to_file)</td></tr>
+<tr class="memdesc:a0d40234fc6840fcee674369a9b1115ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads entrees from asset file into memory.  <a href="classAssetManagerSingletone.html#a0d40234fc6840fcee674369a9b1115ee">More...</a><br /></td></tr>
 <tr class="separator:a0d40234fc6840fcee674369a9b1115ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a244b5df4d6595ea58d68c0decb8e169a"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAssetManagerSingletone.html#a244b5df4d6595ea58d68c0decb8e169a">parseTrinketHeroLimit</a> (const QString &amp;line)</td></tr>
+<tr class="memdesc:a244b5df4d6595ea58d68c0decb8e169a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse line from asset file with trinkets restrictions and returns restriction.  <a href="classAssetManagerSingletone.html#a244b5df4d6595ea58d68c0decb8e169a">More...</a><br /></td></tr>
 <tr class="separator:a244b5df4d6595ea58d68c0decb8e169a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -98,6 +100,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad60eb0a7ea36a61d165b8e6daf51bb06"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classAssetManagerSingletone.html">AssetManagerSingletone</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAssetManagerSingletone.html#ad60eb0a7ea36a61d165b8e6daf51bb06">getInstance</a> ()</td></tr>
 <tr class="separator:ad60eb0a7ea36a61d165b8e6daf51bb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af044ed977f04131a9c7a6d705c6181f9"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAssetManagerSingletone.html#af044ed977f04131a9c7a6d705c6181f9">parseTrinketName</a> (const QString &amp;line)</td></tr>
+<tr class="memdesc:af044ed977f04131a9c7a6d705c6181f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse line from asset file with trinkets restrictions and returns name of trinket.  <a href="classAssetManagerSingletone.html#af044ed977f04131a9c7a6d705c6181f9">More...</a><br /></td></tr>
 <tr class="separator:af044ed977f04131a9c7a6d705c6181f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -270,6 +273,17 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Loads entrees from asset file into memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path_to_file</td><td>path to asset file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true If file was successfully read </dd>
+<dd>
+false otherwise </dd></dl>
+
 </div>
 </div>
 <a id="a3847476ec99e62f5a927958e84f4d2b3"></a>
@@ -314,6 +328,16 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Parse line from asset file with trinkets restrictions and returns restriction. </p>
+<dl class="section note"><dt>Note</dt><dd>name[restriction] -&gt; restriction</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Line from asset file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>QString restriction setted on trinket </dd></dl>
+
 </div>
 </div>
 <a id="af044ed977f04131a9c7a6d705c6181f9"></a>
@@ -339,6 +363,16 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Parse line from asset file with trinkets restrictions and returns name of trinket. </p>
+<dl class="section note"><dt>Note</dt><dd>name[restriction] -&gt; name</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Line from asset file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>QString Trinket name </dd></dl>
 
 </div>
 </div>

@@ -148,6 +148,13 @@ void MainWindow::clearLayout(QLayout *layout) {
   }
 }
 
+/**
+ * @brief Return layout containing whole squad based on NormalTeam widget
+ *
+ * @param fighters randomized squad of fighter
+ * @param mirrored should widgets be mirrored?
+ * @return QVBoxLayout* pointer to a new created layout
+ */
 QVBoxLayout *MainWindow::getNormalTeamLayout(const squad &fighters, bool mirrored) {
   auto *result_layout = new QVBoxLayout;
   for (size_t squad_iter = 0; squad_iter < fighters.size(); squad_iter++) {
@@ -157,6 +164,13 @@ QVBoxLayout *MainWindow::getNormalTeamLayout(const squad &fighters, bool mirrore
   return result_layout;
 }
 
+/**
+ * @brief Return layout containing whole squad based on CompetitiveTeam widget
+ *
+ * @param fighters randomized squad of fighter
+ * @param mirrored should widgets be mirrored?
+ * @return QGridLayout* pointer to a new created layout
+ */
 QGridLayout *MainWindow::getCompetitiveTeamLayout(const squad &fighters, bool mirrored) {
   auto *result_layout = new QGridLayout;
   for (uint8_t row = 0; row < kRequiredNumberOfFighters / 2; row++) {
@@ -170,6 +184,14 @@ QGridLayout *MainWindow::getCompetitiveTeamLayout(const squad &fighters, bool mi
   return result_layout;
 }
 
+/**
+ * @brief Returns team layout. Determines which team widget to use using mode.
+ *
+ * @param mode Decides which team widget should be used
+ * @param fighters squad of randomized fighters
+ * @param mirrored Should widget me mirrored?
+ * @return QLayout* Team layout containing fighters
+ */
 QLayout *MainWindow::getTeamLayout(const uint8_t mode, const squad &fighters, bool mirrored) {
   switch (mode) {
   case MainWindow::kCompetitiveModeAmountOfTeams:
@@ -181,6 +203,10 @@ QLayout *MainWindow::getTeamLayout(const uint8_t mode, const squad &fighters, bo
   return nullptr;
 }
 
+/**
+ * @brief Slot that call s randomization function and show result to a user.
+ *
+ */
 void MainWindow::onDoRandomClicked() {
   for (auto &iter : this->player_layouts) {
     clearLayout(iter);
@@ -223,6 +249,11 @@ void MainWindow::onDoRandomClicked() {
   }
 }
 
+/**
+ * @brief Level value change handler
+ *
+ * @param arg1 new level value
+ */
 void MainWindow::onLevelValueChanged(int arg1) {
   if (this->sameTeamLevel.isChecked()) {
     this->level[kLeftPlayer].setValue(arg1);
@@ -230,24 +261,43 @@ void MainWindow::onLevelValueChanged(int arg1) {
   }
 }
 
+/**
+ * @brief Handler for same team level checkbox
+ *
+ */
 void MainWindow::onSameTeamLevelClicked() {
   if (this->sameTeamLevel.isChecked()) {
     this->level[kRightPlayer].setValue(this->level[kLeftPlayer].value());
   }
 }
 
+/**
+ * @brief Handler for calling random setting for team 1
+ *
+ */
 void MainWindow::onRandomSettings1Clicked() {
   HeroSelection win(this, this->players_randomize_rules[kLeftPlayer]);
   win.setModal(true);
   win.exec();
 }
 
+/**
+ * @brief Handler for calling random setting for team 2
+ *
+ */
 void MainWindow::onRandomSettings2Clicked() {
   HeroSelection win(this, this->players_randomize_rules[kRightPlayer]);
   win.setModal(true);
   win.exec();
 }
 
+/**
+ * @brief Handler for button "screenshot" click
+ *
+ * Creates pixmap that contains current state (view) of windows and save it in clipboard.
+ * Also triggers appearing of created screenshot in down right corner.
+ *
+ */
 void MainWindow::onScreenShotClicked() {
   QPixmap     screenshot = this->grab(); // take screenshot
   QClipboard *clipboard  = QGuiApplication::clipboard();
@@ -277,6 +327,10 @@ void MainWindow::onScreenShotClicked() {
   }); // Clean up dialog after1 seconds
 }
 
+/**
+ * @brief Handler for radio buttons
+ *
+ */
 void MainWindow::onRadioClicked() {
   for (auto &iter : this->player_layouts) {
     clearLayout(iter);
@@ -292,6 +346,10 @@ void MainWindow::onRadioClicked() {
   }
 }
 
+/**
+ * @brief Handler for muting ancestor checkbox
+ *
+ */
 void MainWindow::onMuteAncestorClicked() {
   this->playVoice = !this->muteAncestor.isChecked();
 }

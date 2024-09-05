@@ -58,6 +58,13 @@ HeroSelection::HeroSelection(QWidget *const parent, std::shared_ptr<RandomizeRul
   this->resize(window_width, window_height);
 }
 
+/**
+ * @brief Changes ui buttons state based on current randomization option set
+ * 
+ * @param index_of_fighter
+ * @return true If operation was successful 
+ * @return false otherwise
+ */
 bool HeroSelection::updateUiLine(const uint8_t index_of_fighter) {
   if (index_of_fighter >= kTotalNumberOfFighters) {
     return false;
@@ -85,6 +92,10 @@ bool HeroSelection::updateUiLine(const uint8_t index_of_fighter) {
   return true;
 }
 
+/**
+ * @brief Handler for ui button clicks. Changes states if possible
+ * 
+ */
 void HeroSelection::buttonClicked() {
   auto   *button                     = (QPushButton *)sender();
   uint8_t searched_number_of_fighter = UINT8_MAX;

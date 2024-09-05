@@ -67,6 +67,13 @@ RandomMaster::getSkills(const std::array<FighterRandomizeRules, kRequiredNumberO
   return result;
 }
 
+/**
+ * @brief Parses asset trinket entrees to remove trinkets that not suitable by level.
+ *
+ * @param trinkets list of trinkets
+ * @param lvl player level
+ * @return std::vector<TrinketInfo> vector containing trinkets that only suitable for current level.
+ */
 std::vector<TrinketInfo> RandomMaster::parseLevelRestriction(const std::vector<TrinketInfo> &trinkets,
                                                              const uint8_t                   lvl) {
   std::vector<TrinketInfo> result;
@@ -80,6 +87,13 @@ std::vector<TrinketInfo> RandomMaster::parseLevelRestriction(const std::vector<T
   return result;
 }
 
+/**
+ * @brief Randomize and sets trinket to fighters.
+ *
+ * @param lvl Current account level
+ * @param fighters already randomized fighters
+ * @return squad modified squad which now has equipped trinkets
+ */
 squad RandomMaster::getAndEquipTrinkets(const uint8_t lvl, squad fighters) {
   AssetManagerSingletone &manager = AssetManagerSingletone::getInstance();
   if (!manager.isTrinketsParsed()) { // TODO(alexander): manager can return false
@@ -141,6 +155,13 @@ squad RandomMaster::getAndEquipTrinkets(const uint8_t lvl, squad fighters) {
   return fighters;
 }
 
+/**
+ * @brief Sets randomized fighters into squad
+ *
+ * @param fighters squad of fighters
+ * @param fighters_rules randomized fighters, that stored in FighterRandomizeRules struct
+ * @return squad squad with setted fighters
+ */
 squad RandomMaster::equipFighters(squad                                                               fighters,
                                   const std::array<FighterRandomizeRules, kRequiredNumberOfFighters> &fighters_rules) {
   for (uint8_t iter = 0; iter < kRequiredSkillsForFighter; iter++) {
@@ -150,6 +171,13 @@ squad RandomMaster::equipFighters(squad                                         
   return fighters;
 }
 
+/**
+ * @brief Sets skills for randomized squad
+ *
+ * @param fighters randomized fighters
+ * @param skills randomized skills
+ * @return squad squad with setted skills
+ */
 squad RandomMaster::equipSKills(squad fighters, const std::array<QString, kRequiredNumberOfFighters> &skills) {
   for (uint8_t iter = 0; iter < kRequiredSkillsForFighter; iter++) {
     fighters[iter].skills = skills[iter];
@@ -158,6 +186,13 @@ squad RandomMaster::equipSKills(squad fighters, const std::array<QString, kRequi
   return fighters;
 }
 
+/**
+ * @brief Helper function to perform all required calls to get fully equipped randomized team.
+ *
+ * @param rules randomize rules for current player
+ * @param lvl account level
+ * @return squad fully equipped randomized team.
+ */
 squad RandomMaster::getFullRandomizedSquad(const std::shared_ptr<RandomizeRules> &rules, const uint8_t lvl) {
   squad result;
 

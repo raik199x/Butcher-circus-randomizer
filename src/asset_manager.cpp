@@ -22,6 +22,13 @@ bool AssetManagerSingletone::isTrinketsParsed() const {
   return !this->trinkets.empty();
 }
 
+/**
+ * @brief Parse line from asset file with trinkets restrictions and returns name of trinket
+ * @note name[restriction] -> name 
+ * 
+ * @param line Line from asset file 
+ * @return QString Trinket name
+ */
 QString AssetManagerSingletone::parseTrinketName(const QString &line) {
   qint64 open_bracket_pos = line.indexOf('[');
   if (open_bracket_pos == -1) {
@@ -30,6 +37,13 @@ QString AssetManagerSingletone::parseTrinketName(const QString &line) {
   return line.mid(0, open_bracket_pos);
 }
 
+/**
+ * @brief Parse line from asset file with trinkets restrictions and returns restriction
+ * @note name[restriction] -> restriction
+ * 
+ * @param line Line from asset file 
+ * @return QString restriction setted on trinket
+ */
 QString AssetManagerSingletone::parseTrinketHeroLimit(const QString &line) {
   qint64 open_bracket_pos = line.indexOf('[');
   if (open_bracket_pos == -1) {
@@ -40,6 +54,13 @@ QString AssetManagerSingletone::parseTrinketHeroLimit(const QString &line) {
   return line.mid(open_bracket_pos + 1, closing_bracket_pos - open_bracket_pos - 1);
 }
 
+/**
+ * @brief Loads entrees from asset file into memory
+ * 
+ * @param path_to_file path to asset file
+ * @return true If file was successfully read
+ * @return false otherwise
+ */
 bool AssetManagerSingletone::loadTrinkets(const QString &path_to_file) {
   QFile trinket_list(path_to_file);
   if (!trinket_list.open(QIODevice::ReadOnly)) {
