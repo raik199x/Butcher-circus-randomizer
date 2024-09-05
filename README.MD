@@ -1,7 +1,7 @@
 # Butcher circus randomize
 
 <p align="center">
-  <img src="assets/preview_icon.png" alt="Preview icon" width="100"/>
+  <img src="git/preview_icon.png" alt="Preview icon" width="100"/>
 </p>
 
 ## About
@@ -29,7 +29,13 @@ You can use it for fun evening in [darkest dungeon](https://store.steampowered.c
 
 ## Screenshots
 
-![preview](assets/preview.gif)
+![1v1](git/1v1.png)
+
+![3v3](git/3v3.png)
+
+![random settings](git/random_settings.png)
+
+![screenshot pressed](git/screenshot_pressed.png)
 
 ## Thanks
 
