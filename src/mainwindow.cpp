@@ -317,6 +317,14 @@ void MainWindow::onScreenShotClicked() {
                       screenshot_label->pixmap().height());
   dialog->setWindowTitle("Saved to clipboard");
   dialog->setModal(true);
+
+  // Setting windows geometry (win os issue fix)
+  const int dialog_width  = screenshot_label->pixmap().width();
+  const int dialog_height = screenshot_label->pixmap().height();
+  const int x_cord        = screen_geometry.width() - dialog_width - 20;   // offset by 20 pixels from the right edge
+  const int y_cord        = screen_geometry.height() - dialog_height - 20; // offset by 20 pixels from the bottom edge
+  dialog->setGeometry(x_cord, y_cord, dialog_width, dialog_height);
+
   dialog->show();
 
   constexpr unsigned kShowTime = 1500;

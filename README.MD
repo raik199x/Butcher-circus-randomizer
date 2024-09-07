@@ -16,16 +16,20 @@ You can use it for fun evening in [darkest dungeon](https://store.steampowered.c
 
 ### Linux
 
-1. Unarchive *LinuxInstaller.zip*
-2. write ```chmod +x InstallerButcher_Circus_Randomizer.run```
-3. ```./InstallerButcher_Circus_Randomizer.run```
-4. Run through simple installation.
+1. write ```chmod +x CircusRandomizerInstaller```
+2. ```./CircusRandomizerInstaller``` and run through simple installation.
 
 ### Windows
 
-1. Unarchive *WindowsInstaller.zip*
-2. *Optional* if you don't have installed before **vcredist_msvc2019_x64.exe** install it now.
-3. Run *InstallerButcher_Circus_Randomizer.exe* and complete through simple installation.
+1. Run *CircusRandomizerInstaller.exe* and complete through simple installation.
+
+### Building from sources (Linux)
+
+0. To build from sources, you need to install Qt. You should also install vcpkg if you want to build tests.
+1. ```git clone https://github.com/raik199x/Butcher-circus-randomizer```
+2. ```cd Butcher-circus-randomizer```
+3. (optional, tests) ```vcpkg install```
+4. ```cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug/Release```
 
 ## Screenshots
 
